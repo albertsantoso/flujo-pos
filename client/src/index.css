@@ -4,4 +4,10 @@
 
 :root {
 	font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+	height: 100vh;
+}
+
+body,
+#root {
+	height: 100vh;
 }
