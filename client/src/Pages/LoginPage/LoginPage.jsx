@@ -1,4 +1,5 @@
 import FlujoLogo from './../../Assets/flujo.svg'
+import './LoginPage.css'
 
 const LoginPage = () => {
     return (

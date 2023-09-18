@@ -20,10 +20,13 @@ module.exports = (sequelize, DataTypes) => {
     email: DataTypes.STRING,
     password: DataTypes.STRING,
     profile_picture: DataTypes.STRING,
-    status: DataTypes.STRING,
-    role: {
+    status: {
       type: DataTypes.ENUM("Active", "Disabled"),
       defaultValue: "Active"
+    },
+    role: {
+      type: DataTypes.ENUM("Cashier", "Admin"),
+      defaultValue: "Cashier"
     },
     createdAt: {
       allowNull: false,
