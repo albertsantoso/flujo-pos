@@ -9,13 +9,10 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      product_id: {
-        type: Sequelize.INTEGER
-      },
       product_name: {
         type: Sequelize.STRING
       },
-      product_price: {
+      checked_out_product_price: {
         type: Sequelize.INTEGER
       },
       quantity: {
