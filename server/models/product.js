@@ -21,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     product_description: DataTypes.TEXT,
     product_image: DataTypes.STRING,
     product_price: DataTypes.INTEGER,
+    product_discount: DataTypes.INTEGER,
     createdAt: {
       allowNull: false,
       type: DataTypes.DATE,
