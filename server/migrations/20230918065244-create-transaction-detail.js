@@ -9,9 +9,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      product_name: {
-        type: Sequelize.STRING
-      },
       checked_out_product_price: {
         type: Sequelize.INTEGER
       },
