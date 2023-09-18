@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   transaction.init({
     total_amount: DataTypes.INTEGER,
+    total_amount_with_tax: DataTypes.INTEGER,
     createdAt: {
       allowNull: false,
       type: DataTypes.DATE,

@@ -12,6 +12,9 @@ module.exports = {
       total_amount: {
         type: Sequelize.INTEGER
       },
+      total_amount_with_tax: {
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
