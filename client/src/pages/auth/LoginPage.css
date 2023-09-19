@@ -1,3 +1,5 @@
 main.login-page {
 	background-image: url("./../../Assets/background-images/light.png");
+	background-repeat: no-repeat;
+	background-position: center;
 }
