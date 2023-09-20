@@ -1,7 +1,192 @@
 {
-    "user": [
-        {
-            
-        }
-    ]
+	"users": [
+		{
+			"id": 1,
+			"username": "john_doe",
+			"email": "john.doe@example.com",
+			"password": "password123",
+			"status": "active",
+			"role": "Admin"
+		},
+		{
+			"id": 2,
+			"username": "susan_smith",
+			"email": "susan.smith@example.com",
+			"password": "securepass456",
+			"status": "active",
+			"role": "Cashier"
+		},
+		{
+			"id": 3,
+			"username": "alice_jones",
+			"email": "alice.jones@example.com",
+			"password": "secretword789",
+			"status": "disabled",
+			"role": "Cashier"
+		}
+	],
+	"categories": [
+		{
+			"id": 1,
+			"category_name": "burgers"
+		},
+		{
+			"id": 2,
+			"category_name": "fries"
+		},
+		{
+			"id": 3,
+			"category_name": "beverages"
+		},
+		{
+			"id": 4,
+			"category_name": "desserts"
+		},
+		{
+			"id": 5,
+			"category_name": "salads"
+		},
+		{
+			"id": 6,
+			"category_name": "breakfast"
+		},
+		{
+			"id": 7,
+			"category_name": "wraps"
+		},
+		{
+			"id": 8,
+			"category_name": "chicken"
+		},
+		{
+			"id": 9,
+			"category_name": "sides"
+		},
+		{
+			"id": 10,
+			"category_name": "drinks"
+		}
+	],
+	"products": [
+		{
+			"id": 1,
+			"product_name": "Big Mac",
+			"product_description": "Two all-beef patties, special sauce, lettuce, cheese, pickles, onions on a sesame seed bun.",
+			"product_price": 55000,
+			"product_discount": 0,
+			"category_id": 1
+		},
+		{
+			"id": 2,
+			"product_name": "McChicken",
+			"product_description": "A crispy chicken patty topped with lettuce and mayonnaise on a toasted bun.",
+			"product_price": 42000,
+			"product_discount": 0,
+			"category_id": 1
+		},
+		{
+			"id": 3,
+			"product_name": "French Fries",
+			"product_description": "Golden, crispy, and delicious.",
+			"product_price": 25000,
+			"product_discount": 0,
+			"category_id": 2
+		},
+		{
+			"id": 4,
+			"product_name": "Coca-Cola",
+			"product_description": "Classic Coca-Cola served in various sizes.",
+			"product_price": 15000,
+			"product_discount": 0,
+			"category_id": 3
+		},
+		{
+			"id": 5,
+			"product_name": "Apple Pie",
+			"product_description": "A warm, delicious apple pie in a flaky crust.",
+			"product_price": 15000,
+			"product_discount": 3500,
+			"category_id": 4
+		},
+		{
+			"id": 6,
+			"product_name": "Caesar Salad",
+			"product_description": "Crispy romaine lettuce, croutons, and Caesar dressing.",
+			"product_price": 32000,
+			"product_discount": 0,
+			"category_id": 5
+		},
+		{
+			"id": 7,
+			"product_name": "Hotcakes",
+			"product_description": "Fluffy pancakes served with butter and maple syrup.",
+			"product_price": 35000,
+			"product_discount": 0,
+			"category_id": 6
+		},
+		{
+			"id": 8,
+			"product_name": "Grilled Chicken Wrap",
+			"product_description": "Grilled chicken wrapped in a tortilla with lettuce and ranch dressing.",
+			"product_price": 32000,
+			"product_discount": 0,
+			"category_id": 7
+		},
+		{
+			"id": 9,
+			"product_name": "Spicy Chicken Sandwich",
+			"product_description": "A spicy chicken patty with lettuce and mayonnaise on a bun.",
+			"product_price": 33000,
+			"product_discount": 0,
+			"category_id": 8
+		},
+		{
+			"id": 10,
+			"product_name": "Mozzarella Sticks",
+			"product_description": "Crispy mozzarella sticks served with marinara sauce.",
+			"product_price": 28000,
+			"product_discount": 0,
+			"category_id": 9
+		},
+		{
+			"id": 11,
+			"product_name": "Orange Juice",
+			"product_description": "Freshly squeezed orange juice.",
+			"product_price": 20000,
+			"product_discount": 0,
+			"category_id": 10
+		},
+		{
+			"id": 12,
+			"product_name": "Bacon Egg Muffin",
+			"product_description": "A breakfast muffin with bacon, egg, and cheese.",
+			"product_price": 27000,
+			"product_discount": 0,
+			"category_id": 6
+		},
+		{
+			"id": 13,
+			"product_name": "Grilled Chicken Salad",
+			"product_description": "Grilled chicken on a bed of fresh greens with dressing.",
+			"product_price": 38000,
+			"product_discount": 0,
+			"category_id": 5
+		},
+		{
+			"id": 14,
+			"product_name": "Filet-O-Fish",
+			"product_description": "A sandwich with a crispy fish fillet and tartar sauce.",
+			"product_price": 34000,
+			"product_discount": 0,
+			"category_id": 1
+		},
+		{
+			"id": 15,
+			"product_name": "Vanilla Cone",
+			"product_description": "A classic vanilla ice cream cone.",
+			"product_price": 8000,
+			"product_discount": 0,
+			"category_id": 4
+		}
+	]
 }

@@ -22,6 +22,10 @@ module.exports = (sequelize, DataTypes) => {
     product_image: DataTypes.STRING,
     product_price: DataTypes.INTEGER,
     product_discount: DataTypes.INTEGER,
+    status: {
+      type: DataTypes.ENUM("Active", "Deactive"),
+      defaultValue: "Active"
+    },
     createdAt: {
       allowNull: false,
       type: DataTypes.DATE,

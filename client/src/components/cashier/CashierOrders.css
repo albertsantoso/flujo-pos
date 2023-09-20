@@ -1,0 +1,3 @@
+.cashier-orders .orders-list::-webkit-scrollbar {
+	display: none;
+}
