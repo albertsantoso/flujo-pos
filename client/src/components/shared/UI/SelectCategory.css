@@ -1,0 +1,15 @@
+.custom-select {
+	appearance: none; /* Hide the default appearance */
+	background-image: none; /* Remove any background image */
+	padding-right: 20px; /* Add some right padding to make room for a custom arrow if desired */
+}
+
+/* Add a custom arrow if needed */
+.custom-select::after {
+	content: "\25BC"; /* Unicode character for a downward-pointing triangle (chevron) */
+	position: absolute;
+	top: 50%;
+	right: 10px; /* Adjust the right position as needed */
+	transform: translateY(-50%);
+	pointer-events: none; /* Ensure that the arrow doesn't interfere with clicking the select box */
+}

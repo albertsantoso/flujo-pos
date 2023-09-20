@@ -1,0 +1,3 @@
+.cashier-page main::-webkit-scrollbar {
+	display: none;
+}
