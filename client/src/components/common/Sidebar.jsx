@@ -13,7 +13,7 @@ const Sidebar = () => {
                     <div className="sidebar-head mb-10">
                         <div className="sidebar-logo flex justify-center mx-auto py-6 px-4">
                             <Link>
-                                <img src={FlujoLogo} alt="" className='drop-shadow-lg w-[40px]' />
+                                <img src={FlujoLogo} alt="" className='drop-shadow-lg w-[50px]' />
                             </Link>
                         </div>
                     </div>
