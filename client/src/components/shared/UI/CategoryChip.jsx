@@ -9,7 +9,7 @@ const CategoryChip = () => {
                         <PiHamburger size={30} />
                     </div>
                     <div className="category-name">
-                        <span className="font-semibold">Burger</span>
+                        <span className="font-semibold text-lg">Burger</span>
                     </div>
                 </div>
             </div>
