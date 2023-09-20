@@ -17,11 +17,13 @@ const {
     usersRouter,
     productsRouter,
     transactionsRouter,
+    cartsRouter,
 } = require("./routers");
 
 app.use("/users", usersRouter);
 app.use("/products", productsRouter);
 app.use("/transactions", transactionsRouter);
+app.use("/carts", cartsRouter);
 
 app.use((err, req, res, next) => {
     const statusCode = err.status || 500;
