@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import ProductCard from "../shared/UI/ProductCard";
-import axios from "axios";
 import SearchBar from "../shared/UI/SearchBar";
 import SortButton from "../shared/UI/SortButton";
 import SelectCategory from "../shared/UI/SelectCategory";
 import { FaPlus } from "react-icons/fa";
 import { Tooltip, WrapItem } from "@chakra-ui/react";
 import AdminCreateProduct from './AdminCreateProduct'
+import { Instance } from "../../api/instance";
 
 const AdminProducts = () => {
     const [products, setProducts] = useState([])
@@ -14,14 +14,12 @@ const AdminProducts = () => {
 
     const fetchProduct = async () => {
         try {
-            const { data } = await axios.get(`http://localhost:5000/products`)
-
-            console.log(data);
-            setProducts(data)
+            const { data } = await Instance().get(`products/all`);
+            setProducts(data.data);
         } catch (err) {
             console.log(err);
         }
-    }
+    };
 
     useEffect(() => {
         fetchProduct()
