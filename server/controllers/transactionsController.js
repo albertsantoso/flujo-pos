@@ -27,6 +27,8 @@ module.exports = {
                 transaction: t,
             });
 
+            await db.cart.destroy({ where: { userId } });
+
             await t.commit();
             res.status(200).send({
                 isError: false,

@@ -7,6 +7,30 @@ module.exports = {
         try {
             const { productId, quantity, userId } = req.body;
 
+            const checkCart = await db.cart.findOne({
+                where: {
+                    productId,
+                    userId,
+                },
+            });
+
+            if (checkCart?.dataValues.id) {
+                const quantity = checkCart.quantity + 1;
+
+                await db.cart.update(
+                    {
+                        quantity: Number(quantity),
+                    },
+                    { where: { id: checkCart.id } }
+                );
+
+                return res.status(200).send({
+                    isError: false,
+                    message: "Create Cart Success",
+                    data: null,
+                });
+            }
+
             const createCart = await db.cart.create({
                 productId,
                 quantity,
@@ -23,6 +47,21 @@ module.exports = {
         }
     },
     deleteCart: async (req, res, next) => {
+        try {
+            const { id } = req.params;
+
+            const deleteCart = await db.cart.destroy({ where: { id } });
+
+            res.status(200).send({
+                isError: false,
+                message: "Delete Cart Success",
+                data: deleteCart,
+            });
+        } catch (error) {
+            next(error);
+        }
+    },
+    deleteAllCart: async (req, res, next) => {
         try {
             const { userId } = req.params;
 
@@ -93,7 +132,6 @@ module.exports = {
                 });
             }
 
-            console.log(quantity, id);
             const updateCart = await db.cart.update(
                 {
                     quantity: quantity,

@@ -5,9 +5,11 @@ const { Op } = require("sequelize");
 module.exports = {
     getAllProducts: async (req, res, next) => {
         try {
-            const { search, category, sortName, sortPrice } = req.query;
+            const { search, category, orderField, orderDirection, offset } =
+                req.query;
 
             const selectedAttributes = [
+                "id",
                 "product_name",
                 "product_description",
                 "product_image",
@@ -28,38 +30,34 @@ module.exports = {
 
             const orderOptions = [];
 
-            if (sortName) {
-                if (sortName === "asc") {
-                    orderOptions.push(["product_name", "ASC"]);
-                } else if (sortName === "desc") {
-                    orderOptions.push(["product_name", "DESC"]);
-                }
-            }
-            if (sortPrice) {
-                if (sortPrice === "asc") {
-                    orderOptions.push(["product_price", "ASC"]);
-                } else if (sortPrice === "desc") {
-                    orderOptions.push(["product_price", "DESC"]);
-                }
+            if (orderField && orderDirection) {
+                orderOptions.push([orderField, orderDirection]);
             }
 
             const baseQuery = {
                 attributes: selectedAttributes,
                 include: [categoryInclude],
-                where: {
-                    product_name: {
-                        [Op.like]: `%${search}%`,
-                    },
-                },
                 limit: 10,
                 order: orderOptions,
             };
 
-            const gpt = await db.product.findAll(baseQuery);
+            if (search) {
+                baseQuery.where = {
+                    product_name: {
+                        [Op.like]: `%${search}%`,
+                    },
+                };
+            }
+
+            if (offset) {
+                baseQuery.offset = Number(offset);
+            }
+
+            const findProducts = await db.product.findAll(baseQuery);
             res.status(200).send({
                 isError: false,
                 message: "Get data success",
-                data: gpt,
+                data: findProducts,
             });
         } catch (error) {
             next(error);
