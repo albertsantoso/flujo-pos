@@ -5,7 +5,7 @@ import { TbTrashX } from "react-icons/tb";
 import { useDispatch } from "react-redux";
 import { changeQuantity, deleteOrder } from "../../../redux/features/carts";
 
-const OrderCard = ({ dataOrder }) => {
+const ProductCartCard = ({ dataOrder }) => {
 	const dispatch = useDispatch();
 	const { id, quantity, product } = dataOrder;
 
@@ -23,9 +23,9 @@ const OrderCard = ({ dataOrder }) => {
 									{product?.product_name}
 								</div>
 							</div>
-							<div className="cancel-product flex justify-end mb-4">
+							<div className="cancel-product flex justify-end">
 								<button
-									className="bg-primary p-2 rounded-lg"
+									className="bg-primary p-2 rounded-lg w-[36px] h-[36px] flex justify-center items-center"
 									onClick={() => dispatch(deleteOrder(1, id))} //userId
 								>
 									<span>
@@ -34,8 +34,12 @@ const OrderCard = ({ dataOrder }) => {
 								</button>
 							</div>
 							<div className="product-price col-span-5">
-								<div className="font-bold text-primary text-xl mt-4">
-									{product?.product_price}
+								<div className="font-bold text-primary text-[20px] mt-4">
+									{product?.product_price.toLocaleString("id-ID", {
+										style: "currency",
+										currency: "IDR",
+										minimumFractionDigits: 0,
+									})}
 								</div>
 							</div>
 							<div className="quantity-actions flex items-center justify-end">
@@ -47,7 +51,7 @@ const OrderCard = ({ dataOrder }) => {
 										<FaMinus color="#fff" className="drop-shadow-sm" />
 									</span>
 								</button>
-								<span className="mx-4 font-bold">{quantity}</span>
+								<span className="mx-4 font-bold min-w-[19px] text-center">{quantity}</span>
 								<button
 									className="bg-secondary p-2 rounded-lg drop-shadow-md"
 									onClick={() => dispatch(changeQuantity(1, id, "add"))} //userId
@@ -65,4 +69,4 @@ const OrderCard = ({ dataOrder }) => {
 	);
 };
 
-export default OrderCard;
+export default ProductCartCard;
