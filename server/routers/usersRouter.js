@@ -11,10 +11,10 @@ const { verify } = require('./../lib/jwt');
 
 Router.get('/user-list', usersController.allUsers);
 Router.post('/register', validateUserEmail, validateUserPassword, handleValidationErrors, usersController.registerCashier);
-Router.patch("/update", upload, usersController.updateImage);
 Router.post('/login', validateUserPassword, handleValidationErrors, usersController.login);
 Router.post('/recover-password', validateUserEmail, validateUserPassword, handleValidationErrors, usersController.sendPasswordMail);
+Router.patch("/update", upload, usersController.updateImage);
 Router.patch('/change-password/:id', validateUserPassword, handleValidationErrors, verify, usersController.resetPassword);
-Router.patch('/update-role', verify, usersController.updateActive);
+Router.patch('/update-role', verify, usersController.updateStatus);
 
 module.exports = Router;
