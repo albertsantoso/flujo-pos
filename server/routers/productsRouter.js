@@ -7,6 +7,6 @@ const { productsController } = require("../controllers"); // otomatis baca index
 //* Import Middleware
 // kosong
 
-Router.get("/get-all", productsController.getAllProducts);
+Router.get("/all", productsController.getAllProducts);
 
 module.exports = Router; // pake module.exports karena ga ada librarynya, bawaan dari js
