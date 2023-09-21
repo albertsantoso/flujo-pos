@@ -5,7 +5,7 @@ import OrderCard from "./ProductCartCard";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchCartAsync } from "../../../redux/features/carts";
-import CashierAccountBadge from "./CashierAccountBadge";
+import CashierAccountBadge from "./CashierAccountDropdown";
 
 const CashierOrders = ({ handleOpenModal }) => {
 	const carts = useSelector((state) => state.carts.carts);
@@ -20,10 +20,8 @@ const CashierOrders = ({ handleOpenModal }) => {
 			<div className="cashier-orders bg-white shadow-lg h-screen">
 				<div className="orders-container bg-white w-[368px] p-4 h-full">
 					<div className="orders-wrapper flex flex-col h-full">
-						<div className="orders-head mb-6">
-							<div className="cashier-account-badge bg-neutral-50 rounded-xl h-[80px] border-2 flex items-center px-6">
-								<CashierAccountBadge />
-							</div>
+						<div className="orders-head mb-6 z-10">
+							<CashierAccountBadge />
 						</div>
 						<div className="orders-content">
 							<div className="orders-section-title mb-4">
