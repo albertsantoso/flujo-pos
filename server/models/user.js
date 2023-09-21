@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     profile_picture: DataTypes.STRING,
     status: {
       type: DataTypes.ENUM("Active", "Disabled"),
-      defaultValue: "Active"
+      defaultValue: "Disabled"
     },
     role: {
       type: DataTypes.ENUM("Cashier", "Admin"),

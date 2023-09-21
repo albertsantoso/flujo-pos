@@ -6,20 +6,18 @@ const transporter = require('./../helper/transporter');
 const fs = require('fs').promises;
 const Handlebars = require('handlebars')
 
-const {findUsers, findUserId, findUserEmail, passwordUpdate} = require('./../services/userService');
+const {findUsername, findUserId, findUserEmail, findAllUsers, passwordUpdate} = require('./../services/userService');
 
 module.exports = {
     updateImage: async (req, res, next) => {
-        const { id } = req.query;
+        const {id} = req.query;
         try {
             const dataImage = await db.user.findOne({
-                where: { id },
+                where: {id},
             });
-
             const path = req.files.images[0].path;
             await db.user.update({ profile_picture: path }, { where: { id } });
             deleteFiles({ images: [{ path: dataImage.profile_picture }] });
-
             res.status(200).send({
                 isError: false,
                 message: "Update Image Success",
@@ -35,7 +33,7 @@ module.exports = {
         try {
             const {username, password} = req.body;
             if(!username || !password) throw {message: "Provided data is not complete"}
-            const account = await findUsers(username);
+            const account = await findUsername(username);
             if(!account) throw {message: "Account was not found"}
             const hashMatch = await match(password, account.dataValues.password)
             if(!hashMatch) throw {message: "Incorrect password"}
@@ -56,11 +54,7 @@ module.exports = {
             const newPassword = req.body.password;
             if(!newPassword) throw {message: "please enter a password"}
             const hashedPassword = await hash(newPassword);
-
             const account = await findUserId(id);
-
-            console.log(hashedPassword);
-            console.log(account.dataValues.password);
             const hashMatch = await match(newPassword, account.dataValues.password)
             if(hashMatch) throw {message: "The new password cannot be the same as the old one"}
             await passwordUpdate(hashedPassword, id)
@@ -72,7 +66,6 @@ module.exports = {
                 }
             )
         } catch (error) {
-            console.log(error);
             next(error)
         }
     },
@@ -91,7 +84,7 @@ module.exports = {
             await transporter.sendMail(
                 {
                     from: 'flujo-post',
-                    to: 'aryosetyotama27@gmail.com', // ganti email mungkin nanti
+                    to: email,
                     subject: 'password recovery email',
                     html: newTemplate
                 }
@@ -105,6 +98,73 @@ module.exports = {
             )
         } catch (error) {
             next(error)
+        }
+    },
+
+    allUsers: async(req, res, next) => {
+        try {
+            const data = await findAllUsers()
+            res.status(201).send({
+                isError: false,
+                message: "user list fetched",
+                data: data
+            })
+        } catch (error) {
+            next(error)
+        }
+    },
+
+    registerCashier: async(req, res, next) => {
+        try {
+            const {username, email, password} = req.body;
+            if(!username || !email || !password) throw {message: "data provided is incomplete"};
+            const existingUsername = await findUsername();
+            const existingEmail = await findUserEmail();
+            if(existingUsername) throw {message: "username has already been registered"}
+            if(existingEmail) throw {message: "email has already been registered"}
+            const hashedPassword = await hash(password);
+            const account = await db.user.create({username, email, password: hashedPassword}); // ganti ke services
+            const token = createJWT({id: account.dataValues.id, role: account.dataValues.role}, '3h')
+
+            // const readTemplate = await fs.readFile('./public/template.html', 'utf-8');
+            // const compiledTemplate = await Handlebars.compile(readTemplate);
+            // const newTemplate = compiledTemplate({username, token})
+
+            await transporter.send(
+                {
+                    from: 'flujo-post',
+                    to: 'email',
+                    subject: 'Account verification email',
+                    html: newTemplate
+                }
+            )
+
+            res.status(201).send({
+                isError: false,
+                message: "Cashier succesfully registered",
+                data: token
+            })
+        } catch (error) {
+            next(error)
+        }
+    },
+
+    updateActive: async(req, res, next) => {
+        try {
+            const {id} = req.dataToken;
+            if(!id) throw {message: "error, missing an id input"};
+            const account = await findUserId(id);
+            if(!account) throw {message: "account not found"};
+            await db.user.update(
+                {
+                    status: "Disable"
+                },
+                {
+                    where: {id}
+                }
+            )
+        } catch (error) {
+            next(error);
         }
     }
 };

@@ -1,7 +1,7 @@
 const db = require('./../models');
 
 module.exports = {
-    findUsers: async(username) => {
+    findUsername: async(username) => {
         try {
             return await db.user.findOne(
                 {
@@ -36,6 +36,14 @@ module.exports = {
                     where: {email}
                 }
             )
+        } catch (error) {
+            return error
+        }
+    },
+
+    findAllUsers: async() => {
+        try {
+            return await db.user.findAll()
         } catch (error) {
             return error
         }

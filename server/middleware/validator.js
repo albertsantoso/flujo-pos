@@ -16,7 +16,6 @@ const handleValidationErrors = (req, res, next) => {
             { message: error.errors[0].msg}
         )
     }
-
     next()
 }
 
