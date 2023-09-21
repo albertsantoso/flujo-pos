@@ -53,11 +53,15 @@ const CashierProducts = () => {
                                 <CategoryChip />
                             </div>
                             <div className="products">
-                                <div className="product-list grid grid-cols-4 gap-y-4 gap-x-2">
+                                <div className="product-list relative flex flex-wrap -mx-[8px]">
                                     {
                                         products?.map((product) => {
                                             return (
-                                                <ProductCard key={product.id} dataProducts={product} />
+                                                <>
+                                                    <div className="flex px-[8px] pb-[16px]">
+                                                        <ProductCard key={product.id} dataProducts={product} />
+                                                    </div>
+                                                </>
                                             )
                                         })
                                     }
