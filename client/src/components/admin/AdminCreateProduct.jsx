@@ -1,22 +1,31 @@
+/* eslint-disable react/prop-types */
 import { BsFillCloudArrowUpFill } from "react-icons/bs";
+import { AiFillCloseCircle } from 'react-icons/ai'
 
 import './AdminCreateProduct.css'
 
-const AdminCreateProduct = () => {
+const AdminCreateProduct = ({ handleOpenModal }) => {
     return (
         <>
-            <main className="admin-create-product">
-                <div className="admin-create-product-container bg-white p-8 border-2 rounded-xl">
-                    <div className="main-heaading mb-8">
+            <main className="admin-create-product w-[692px] h-full m-auto flex justify-center items-center">
+                <div className="admin-create-product-container w-full bg-white p-8 border-2 rounded-xl">
+                    <div className="main-heaading mb-8 flex justify-between">
                         <div className="heading-title">
                             <h1 className="font-bold text-2xl text-neutral-800">
                                 Create Product
                             </h1>
                         </div>
+                        <div className="close-button">
+                            <button onClick={handleOpenModal}>
+                                <span>
+                                    <AiFillCloseCircle size={30} className="hover:text-red-500" />
+                                </span>
+                            </button>
+                        </div>
                     </div>
                     <div className="main-content">
                         <form>
-                            <div className="form-container flex">
+                            <div className="form-container flex w-full justify-between">
                                 <div className="left-form mr-8 flex flex-col gap-4">
                                     <div className="form-group flex flex-col">
                                         <label htmlFor="name" className="font-medium mb-2">Product name</label>
