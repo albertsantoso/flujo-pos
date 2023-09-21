@@ -4,6 +4,7 @@ import { MdLogout } from 'react-icons/md'
 import { LuSettings } from 'react-icons/lu'
 import { GoHome } from 'react-icons/go'
 import { FiUsers, FiPieChart, FiGrid } from 'react-icons/fi'
+import { Tooltip } from '@chakra-ui/react'
 
 const Sidebar = () => {
     return (
@@ -18,26 +19,34 @@ const Sidebar = () => {
                         </div>
                     </div>
                     <div className="sidebar-menus flex flex-col gap-4 items-center">
-                        <div className="menu bg-primary w-[80px] h-[80px] flex justify-center items-center rounded-[20px] shadow-lg">
-                            <span>
-                                <GoHome size={44} color='white' style={{ strokeWidth: ".5px" }} />
-                            </span>
-                        </div>
-                        <div className="menu bg-primary w-[80px] h-[80px] flex justify-center items-center rounded-[20px] shadow-lg">
-                            <span>
-                                <FiGrid size={40} color='white' />
-                            </span>
-                        </div>
-                        <div className="menu bg-primary w-[80px] h-[80px] flex justify-center items-center rounded-[20px] shadow-lg">
-                            <span>
-                                <FiPieChart size={40} color='white' />
-                            </span>
-                        </div>
-                        <div className="menu bg-primary w-[80px] h-[80px] flex justify-center items-center rounded-[20px] shadow-lg">
-                            <span>
-                                <FiUsers size={40} color='white' />
-                            </span>
-                        </div>
+                        <Tooltip label='Open' color={"white"} placement='right' fontWeight={500} className='bg-secondary bg-opacity-90 px-4 py-2 rounded-lg' openDelay={300}>
+                            <div className="menu bg-primary w-[80px] h-[80px] flex justify-center items-center rounded-[20px] shadow-lg">
+                                <span>
+                                    <GoHome size={44} color='white' style={{ strokeWidth: ".5px" }} />
+                                </span>
+                            </div>
+                        </Tooltip>
+                        <Tooltip label='Open' color={"white"} placement='right' fontWeight={500} className='bg-secondary bg-opacity-90 px-4 py-2 rounded-lg' openDelay={300}>
+                            <div className="menu bg-primary w-[80px] h-[80px] flex justify-center items-center rounded-[20px] shadow-lg">
+                                <span>
+                                    <FiGrid size={40} color='white' />
+                                </span>
+                            </div>
+                        </Tooltip>
+                        <Tooltip label='Open' color={"white"} placement='right' fontWeight={500} className='bg-secondary bg-opacity-90 px-4 py-2 rounded-lg' openDelay={300}>
+                            <div className="menu bg-primary w-[80px] h-[80px] flex justify-center items-center rounded-[20px] shadow-lg">
+                                <span>
+                                    <FiPieChart size={40} color='white' />
+                                </span>
+                            </div>
+                        </Tooltip>
+                        <Tooltip label='Open' color={"white"} placement='right' fontWeight={500} className='bg-secondary bg-opacity-90 px-4 py-2 rounded-lg' openDelay={300}>
+                            <div className="menu bg-primary w-[80px] h-[80px] flex justify-center items-center rounded-[20px] shadow-lg">
+                                <span>
+                                    <FiUsers size={40} color='white' />
+                                </span>
+                            </div>
+                        </Tooltip>
                     </div>
                     <div className="sidebar-foot mt-auto pb-12">
                         <div className="action-buttons flex flex-col gap-10">

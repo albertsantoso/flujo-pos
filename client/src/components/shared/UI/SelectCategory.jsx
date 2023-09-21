@@ -4,7 +4,7 @@ const SelectCategory = () => {
     return (
         <>
             <div>
-                <select className="custom-select font-semibold text-neutral-600 bg-white shadow-md rounded-xl px-4 min-w-[120px] h-[60px] flex items-center justify-center">
+                <select className="custom-select font-semibold text-neutral-600 bg-white border-2 rounded-xl px-4 min-w-[120px] h-[60px] flex items-center justify-center">
                     <option value="">Select Category</option>
                     <option value="burger">Burger</option>
                     <option value="Dogs">Dogs</option>
