@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import BigMac from "./../../assets/product-images/bigmac.png";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import { TbTrashX } from "react-icons/tb";
@@ -7,6 +8,7 @@ import { changeQuantity, deleteOrder } from "../../../redux/features/carts";
 const OrderCard = ({ dataOrder }) => {
 	const dispatch = useDispatch();
 	const { id, quantity, product } = dataOrder;
+
 	return (
 		<>
 			<div className="order-card py-4">
