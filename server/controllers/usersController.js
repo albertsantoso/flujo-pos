@@ -1,12 +1,12 @@
 const db = require("./../models");
-const { deleteFiles } = require("./../helper/deleteFiles");
-const {createJWT} = require('./../lib/jwt');
-const {hash, match} = require('./../helper/hashing');
-const transporter = require('./../helper/transporter');
 const fs = require('fs').promises;
-const Handlebars = require('handlebars')
 
 const {findUsername, findUserId, findUserEmail, findAllUsers, passwordUpdate} = require('./../services/userService');
+const { createJWT } = require('./../lib/jwt');
+const { deleteFiles } = require("./../helper/deleteFiles");
+const { hash, match } = require('./../helper/hashing');
+const transporter = require('./../helper/transporter');
+const handlebars = require('handlebars')
 
 module.exports = {
     updateImage: async (req, res, next) => {
@@ -28,16 +28,15 @@ module.exports = {
             next(error);
         }
     },
-
-    login: async(req, res, next) => {
+    login: async (req, res, next) => {
         try {
             const {username, password} = req.body;
             if(!username || !password) throw {message: "Provided data is not complete"}
             const account = await findUsername(username);
             if(!account) throw {message: "Account was not found"}
             const hashMatch = await match(password, account.dataValues.password)
-            if(!hashMatch) throw {message: "Incorrect password"}
-            const token = await createJWT({id: account.dataValues.id, role: account.dataValues.role}, '365d')            
+            if (!hashMatch) throw { message: "Incorrect password" }
+            const token = await createJWT({ id: account.dataValues.id, role: account.dataValues.role }, '365d')
             res.status(201).send({
                 isError: false,
                 message: "Account was found",
@@ -47,16 +46,15 @@ module.exports = {
             next(error)
         }
     },
-
-    resetPassword: async(req, res, next) => {
+    resetPassword: async (req, res, next) => {
         try {
-            const {id} = req.dataToken;
+            const { id } = req.dataToken;
             const newPassword = req.body.password;
-            if(!newPassword) throw {message: "please enter a password"}
+            if (!newPassword) throw { message: "please enter a password" }
             const hashedPassword = await hash(newPassword);
             const account = await findUserId(id);
             const hashMatch = await match(newPassword, account.dataValues.password)
-            if(hashMatch) throw {message: "The new password cannot be the same as the old one"}
+            if (hashMatch) throw { message: "The new password cannot be the same as the old one" }
             await passwordUpdate(hashedPassword, id)
             res.status(201).send(
                 {
@@ -69,18 +67,17 @@ module.exports = {
             next(error)
         }
     },
-
-    sendPasswordMail: async(req, res, next) => {
+    sendPasswordMail: async (req, res, next) => {
         try {
-            const {email} = req.body;
-            if(!email) throw {message: "Please insert a valid email address"};
+            const { email } = req.body;
+            if (!email) throw { message: "Please insert a valid email address" };
             const account = await findUserEmail(email);
             const id = account.dataValues.id;
-            const token = await createJWT({id: id}, '2h');
+            const token = await createJWT({ id: id }, '2h');
             const username = account.dataValues.username;
             const readTemplate = await fs.readFile('./public/template.html', 'utf-8');
-            const compiledTemplate = await Handlebars.compile(readTemplate);
-            const newTemplate = compiledTemplate({username, token})
+            const compiledTemplate = await handlebars.compile(readTemplate);
+            const newTemplate = compiledTemplate({ username, token })
             await transporter.sendMail(
                 {
                     from: 'flujo-post',

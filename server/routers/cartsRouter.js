@@ -8,7 +8,8 @@ const { cartsController } = require("../controllers"); // otomatis baca index.js
 // kosong
 
 Router.post("/", cartsController.createCart);
-Router.delete("/:userId", cartsController.deleteCart);
+Router.delete("/:id", cartsController.deleteCart);
+Router.delete("/all/:userId", cartsController.deleteAllCart);
 Router.get("/:userId", cartsController.getCart);
 Router.patch("/:id", cartsController.updateCart);
 

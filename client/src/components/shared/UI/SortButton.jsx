@@ -1,4 +1,4 @@
-import { IconButton, Menu, MenuButton, MenuDivider, MenuItemOption, MenuList, MenuOptionGroup } from "@chakra-ui/react"
+import { IconButton, Menu, MenuButton, MenuItemOption, MenuList, MenuOptionGroup } from "@chakra-ui/react"
 import { MdSort } from "react-icons/md"
 
 const SortButton = () => {
@@ -10,24 +10,21 @@ const SortButton = () => {
                     aria-label='Options'
                     icon={<MdSort size={24} color='#737373' />}
                     variant='outline'
-                    className='bg-white shadow-md rounded-xl w-[60px] h-[60px] flex items-center justify-center'
+                    className='bg-white border-2 rounded-xl w-[60px] h-[60px] flex items-center justify-center'
                 />
-                <MenuList className="bg-white shadow-md py-2 rounded-xl" minWidth='160px'>
-                    <MenuOptionGroup title="Alphabet" className="mb-2 px-4 font-medium" type="radio">
+                <MenuList className="bg-white border-2 py-2 rounded-xl" minWidth='180px'>
+                    <MenuOptionGroup title="Sort" className="mb-2 px-4 font-medium" type="radio">
                         <MenuItemOption value="az" className="hover:bg-neutral-100 px-4 py-2" >
                             A-Z
                         </MenuItemOption>
                         <MenuItemOption value="za" className="hover:bg-neutral-100 px-4 py-2" >
                             Z-A
                         </MenuItemOption>
-                    </MenuOptionGroup>
-                    <MenuDivider className="my-2" />
-                    <MenuOptionGroup title="Price" className="mb-2 px-4 font-medium" type="radio">
                         <MenuItemOption value="asc" className="hover:bg-neutral-100 px-4 py-2" >
-                            Ascending
+                            Highest price
                         </MenuItemOption>
                         <MenuItemOption value="desc" className="hover:bg-neutral-100 px-4 py-2" >
-                            Descending
+                            Lowest price
                         </MenuItemOption>
                     </MenuOptionGroup>
                 </MenuList>

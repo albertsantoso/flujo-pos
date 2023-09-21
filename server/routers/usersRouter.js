@@ -2,12 +2,12 @@ const express = require("express");
 const Router = express.Router();
 
 //* Import Controller
-const { usersController } = require("../controllers"); // otomatis baca index.js
+const { usersController } = require("../controllers");
 
 //* Import Middleware
 const upload = require("./../middleware/upload");
-const {validateUserEmail, validateUserPassword, handleValidationErrors} = require('./../middleware/validator');
-const {verify} = require('./../lib/jwt');
+const { validateUserEmail, validateUserPassword, handleValidationErrors } = require('./../middleware/validator');
+const { verify } = require('./../lib/jwt');
 
 Router.get('/user-list', usersController.allUsers);
 Router.post('/register', validateUserEmail, validateUserPassword, handleValidationErrors, usersController.registerCashier);
@@ -17,4 +17,4 @@ Router.post('/recover-password', validateUserEmail, validateUserPassword, handle
 Router.patch('/change-password/:id', validateUserPassword, handleValidationErrors, verify, usersController.resetPassword);
 Router.patch('/update-role', verify, usersController.updateActive);
 
-module.exports = Router; // pake module.exports karena ga ada librarynya, bawaan dari js
+module.exports = Router;
