@@ -16,7 +16,6 @@ module.exports = {
             const token = req.params.id;
             const decodeData = jwt.verify(token, 'abc123')
             req.dataToken = decodeData
-            console.log(req.dataToken);
             next()
         } catch (error) {
             return(error)
