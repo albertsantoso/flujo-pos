@@ -86,6 +86,7 @@ module.exports = {
                     {
                         model: db.product,
                         attributes: [
+                            "id",
                             "product_name",
                             "product_image",
                             "product_price",
