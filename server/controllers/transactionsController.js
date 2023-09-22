@@ -8,7 +8,6 @@ module.exports = {
         try {
             const { total_amount, total_amount_with_tax, userId, products } =
                 req.body;
-
             const createTransaction = await db.transaction.create(
                 { total_amount, total_amount_with_tax, userId },
                 { transaction: t }
@@ -22,7 +21,7 @@ module.exports = {
                     transactionId: createTransaction.id,
                 };
             });
-
+            console.log(data_products);
             await db.transaction_detail.bulkCreate(data_products, {
                 transaction: t,
             });

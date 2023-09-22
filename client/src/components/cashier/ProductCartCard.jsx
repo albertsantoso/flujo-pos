@@ -35,11 +35,14 @@ const ProductCartCard = ({ dataOrder }) => {
 							</div>
 							<div className="product-price col-span-5">
 								<div className="font-bold text-primary text-[20px] mt-4">
-									{product?.product_price.toLocaleString("id-ID", {
-										style: "currency",
-										currency: "IDR",
-										minimumFractionDigits: 0,
-									})}
+									{Number(product?.product_price * quantity).toLocaleString(
+										"id-ID",
+										{
+											style: "currency",
+											currency: "IDR",
+											minimumFractionDigits: 0,
+										},
+									)}
 								</div>
 							</div>
 							<div className="quantity-actions flex items-center justify-end">
@@ -51,7 +54,9 @@ const ProductCartCard = ({ dataOrder }) => {
 										<FaMinus color="#fff" className="drop-shadow-sm" />
 									</span>
 								</button>
-								<span className="mx-4 font-bold min-w-[19px] text-center">{quantity}</span>
+								<span className="mx-4 font-bold min-w-[19px] text-center">
+									{quantity}
+								</span>
 								<button
 									className="bg-secondary p-2 rounded-lg drop-shadow-md"
 									onClick={() => dispatch(changeQuantity(1, id, "add"))} //userId
