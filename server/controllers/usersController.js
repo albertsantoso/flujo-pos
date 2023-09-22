@@ -36,13 +36,14 @@ module.exports = {
             if(!account) throw {message: "Account was not found"}
             const hashMatch = await match(password, account.dataValues.password)
             if (!hashMatch) throw { message: "Incorrect password" }
-            const token = await createJWT({ id: account.dataValues.id, role: account.dataValues.role }, '1d')
+            const token = await createJWT({ id: account.dataValues.id, role: account.dataValues.role, apiKey: "Approved" }, '1d')
             if(account.dataValues.status == 'Disabled') throw {message: "Invalid Login, Account has been disabled, please contact an admin"}
             res.status(201).send({
                 isError: false,
                 message: "Account was found",
                 accessToken: token,
                 data: {
+                    id: account.dataValues.id,
                     username: account.dataValues.username,
                     profile_picture: account.dataValues.profile_picture,
                     role: account.dataValues.role
@@ -115,7 +116,6 @@ module.exports = {
             next(error)
         }
     },
-
     specificUser: async(req, res, next) => {
         try {
             const {id} = req.dataToken
@@ -131,7 +131,6 @@ module.exports = {
             next(error);
         }
     },
-
     registerCashier: async(req, res, next) => {
         try {
             const {username, email, password} = req.body;
@@ -141,7 +140,7 @@ module.exports = {
             if(existingUsername) throw {message: "username has already been registered"}
             if(existingEmail) throw {message: "email has already been registered"}
             const hashedPassword = await hash(password);
-            const account = await db.user.create({username, email, password: hashedPassword}); // ganti ke services
+            const account = await db.user.create({username, email, password: hashedPassword});
             res.status(201).send({
                 isError: false,
                 message: "Cashier succesfully registered",

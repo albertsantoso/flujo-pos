@@ -7,18 +7,25 @@ module.exports = {
                 expiresIn: expiry
             })
         } catch (error) {
-            return(error)
+            next(error)
         }
     },
 
     verify: (req, res, next) => {
         try {
-            const token = req.params.id;
-            const decodeData = jwt.verify(token, 'abc123')
+            const {authorization} = req.headers;
+            if(!authorization) throw {message: "token was not found"}
+            const decodeData = jwt.verify(authorization, 'abc123')
             req.dataToken = decodeData
-            next()
+            if(decodeData.apiKey == "Approved") {
+                next()
+            } else {
+                console.log(error);
+                throw {message: "User is not approved"}
+            }
+            
         } catch (error) {
-            return(error)
+            next(error)
         }
     }
 }

@@ -3,15 +3,25 @@ import FlujoLogo from "./../../Assets/flujo.svg";
 import "./LoginPage.css";
 
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { onLoginAsync } from "../../../redux/features/users";
-import { useDispatch } from "react-redux";
+import { onCheckIsLogin, onLoginAsync } from "../../../redux/features/users";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 	const [passwordVisible, setPasswordVisible] = useState(false);
 	const [input, setInput] = useState("");
 	const [inputPassword, setPassword] = useState("");
-    
+
+    const id = useSelector((state) => state.users.id);
+    console.log(id);
+    useEffect(() => {
+        if(id) {
+            navigate('/')
+        }
+    }, [id])
 	const handleLogin = (e) => {
 		e.preventDefault();
 		console.log(input);

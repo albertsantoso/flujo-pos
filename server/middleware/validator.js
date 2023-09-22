@@ -11,7 +11,6 @@ const validateUserEmail = [
 const handleValidationErrors = (req, res, next) => {
     console.log(req.body);
     const error = validationResult(req)
-    // console.log(error);
     if(!error.isEmpty()) {
         console.log(error.errors[0].msg);
         return res.status(401).send(

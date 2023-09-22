@@ -2,9 +2,20 @@ import { LuSettings } from "react-icons/lu";
 import { MdLogout } from 'react-icons/md'
 import { TbUserEdit } from 'react-icons/tb'
 import DefaultPFP from "./../../assets/default/default_pfp.svg";
-import { Button, Menu, MenuButton, MenuGroup, MenuItem, MenuList } from "@chakra-ui/react";
+import { Button, Menu, MenuButton, MenuGroup, MenuItem, MenuList, useSlider } from "@chakra-ui/react";
+import { useDispatch, useSelector } from "react-redux";
+import { onLogout } from "../../../redux/features/users";
 
 const CashierAccountDropdown = () => {
+    const dispatch = useDispatch();
+    const username = useSelector((state) => state.users.username)
+    const role = useSelector((state) => state.users.role)
+    const email = useSelector((state) => state.users.email)
+
+    const handleLogout = async() => {
+        dispatch(onLogout)
+    }
+
     return (
         <>
             <Menu>
@@ -14,9 +25,9 @@ const CashierAccountDropdown = () => {
                             <img src={DefaultPFP} alt="" />
                         </div>
                         <div className="cashier-account-badge-detail">
-                            <h3 className="text-lg font-semibold">john_doe</h3>
+                            <h3 className="text-lg font-semibold">{username}</h3>
                             <p className="text-sm font-medium text-neutral-600">
-                                Cashier
+                                {role}
                             </p>
                         </div>
                         <MenuButton as={Button} className="ml-auto">
@@ -32,7 +43,7 @@ const CashierAccountDropdown = () => {
                     </div>
                 </div>
                 <MenuList className="bg-neutral-100 border-2 mt-[24px] -mr-[26px] py-2 rounded-lg drop-shadow-md" minWidth={"336px"}>
-                    <MenuGroup title={"johndoe@gmail.com"} className="px-4 py-2 font-semibold">
+                    <MenuGroup title={`${email}`} className="px-4 py-2 font-semibold">
                         <MenuItem className="px-4 py-2 hover:bg-neutral-300">
                             <span className="font-bold flex justify-between w-full">
                                 Profile Settings
@@ -40,7 +51,7 @@ const CashierAccountDropdown = () => {
                             </span>
                         </MenuItem>
                         <MenuItem className="px-4 py-2 hover:bg-neutral-300">
-                            <span className="text-red-500 font-bold flex justify-between w-full">
+                            <span onClick={handleLogout} className="text-red-500 font-bold flex justify-between w-full">
                                 Logout
                                 <MdLogout size={20} />
                             </span>
