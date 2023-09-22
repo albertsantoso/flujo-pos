@@ -36,12 +36,17 @@ module.exports = {
             if(!account) throw {message: "Account was not found"}
             const hashMatch = await match(password, account.dataValues.password)
             if (!hashMatch) throw { message: "Incorrect password" }
-            const token = await createJWT({ id: account.dataValues.id, role: account.dataValues.role }, '365d')
+            const token = await createJWT({ id: account.dataValues.id, role: account.dataValues.role }, '1d')
             if(account.dataValues.status == 'Disabled') throw {message: "Invalid Login, Account has been disabled, please contact an admin"}
             res.status(201).send({
                 isError: false,
                 message: "Account was found",
-                data: token
+                accessToken: token,
+                data: {
+                    username: account.dataValues.username,
+                    profile_picture: account.dataValues.profile_picture,
+                    role: account.dataValues.role
+                }
             })
         } catch (error) {
             next(error)
@@ -110,6 +115,23 @@ module.exports = {
             next(error)
         }
     },
+
+    specificUser: async(req, res, next) => {
+        try {
+            const {id} = req.dataToken
+            const data = await db.user.findOne({
+                where: {id}
+            })
+            res.status(201).send({
+                isError: false,
+                message: "specified user found!",
+                data: data
+            })
+        } catch (error) {
+            next(error);
+        }
+    },
+
     registerCashier: async(req, res, next) => {
         try {
             const {username, email, password} = req.body;
