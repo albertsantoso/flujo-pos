@@ -4,16 +4,24 @@ import "./CashierOrders.css";
 import OrderCard from "./ProductCartCard";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchCartAsync } from "../../../redux/features/carts";
+import { fetchCartAsync, setOrderSummary } from "../../../redux/features/carts";
 import CashierAccountBadge from "./CashierAccountDropdown";
 
 const CashierOrders = ({ handleOpenModal }) => {
 	const carts = useSelector((state) => state.carts.carts);
+	const totalItems = useSelector((state) => state.carts.totalItems);
+	const subtotal = useSelector((state) => state.carts.subtotal);
+	const tax = useSelector((state) => state.carts.tax);
+	const totalAmount = useSelector((state) => state.carts.totalAmount);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
 		dispatch(fetchCartAsync(1)); //userId masukin
 	}, []);
+
+	useEffect(() => {
+		dispatch(setOrderSummary(1)); //userId
+	}, [carts]);
 
 	return (
 		<>
@@ -41,26 +49,37 @@ const CashierOrders = ({ handleOpenModal }) => {
 							<div className="orders-pre-receipt-style relative">
 								<div className="orders-pre-receipt w-full px-8 py-4 absolute flex flex-col gap-3 h-full z-[1]">
 									<div className="total-items flex items-center justify-between">
-										<div className="pre-receipt-item font-medium text-neutral-500">Total items</div>
-										<div className="font-bold">{"<V>"}x</div>
+										<div className="pre-receipt-item font-medium text-neutral-500">
+											Total items
+										</div>
+										<div className="font-bold">{totalItems}x</div>
 									</div>
 									<div className="subtotal flex items-center justify-between">
-										<div className="pre-receipt-item font-medium text-neutral-500">Subtotal</div>
-										<div className="font-bold">Rp. {"<VALUE>"}</div>
+										<div className="pre-receipt-item font-medium text-neutral-500">
+											Subtotal
+										</div>
+										<div className="font-bold">Rp. {subtotal}</div>
 									</div>
 									<div className="tax flex items-center justify-between">
-										<div className="pre-receipt-item font-medium text-neutral-500">Tax</div>
-										<div className="font-bold">Rp. {"<VALUE>"}</div>
+										<div className="pre-receipt-item font-medium text-neutral-500">
+											Tax
+										</div>
+										<div className="font-bold">Rp. {tax}</div>
 									</div>
 									<div className="total-payment flex items-center justify-between mt-auto text-xl">
-										<div className="pre-receipt-item font-medium text-neutral-800">Total</div>
-										<div className="font-bold">Rp. {"<VALUE>"}</div>
+										<div className="pre-receipt-item font-medium text-neutral-800">
+											Total
+										</div>
+										<div className="font-bold">Rp. {totalAmount}</div>
 									</div>
 								</div>
 								<img src={Ticket} alt="" className="w-full drop-shadow-md" />
 							</div>
 							<div className="order-button mt-8">
-								<button className="bg-primary hover:bg-red-400 active:scale-95 shadow-md w-full py-4 rounded-xl duration-150" onClick={handleOpenModal}>
+								<button
+									className="bg-primary hover:bg-red-400 active:scale-95 shadow-md w-full py-4 rounded-xl duration-150"
+									onClick={handleOpenModal}
+								>
 									<span className="font-bold text-white drop-shadow-sm">
 										Continue to payment
 									</span>
