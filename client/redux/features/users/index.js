@@ -28,13 +28,13 @@ export const userSlice = createSlice(
 
 export const onLoginAsync = ({username, password}) => async(dispatch) => {
     try {
-        const data = await axios.post('http://localhost:5000/users/login', {username, password})
-        console.log(data.data.accessToken);
-        localStorage.setItem('accessToken', response.data[0].id)
+        const {data} = await axios.post('http://localhost:5000/users/login', {username, password})
+        console.log(data.data.role);
+        // localStorage.setItem('accessToken', data.accessToken)
         // setTimeout(() => {
-        //     dispatch(setUsername(response.data[0].username))
-        //     dispatch(setProfile_Picture(response.data[0].profile_picture))
-        //     dispatch(setRole(response.data[0].role))
+        //     dispatch(setUsername(data.data.username))
+        //     dispatch(setProfile_Picture(data.data.profile_picture))
+        //     dispatch(setRole(data.data.role))
         // }, 3000)
     } catch (error) {
         console.log(error);
