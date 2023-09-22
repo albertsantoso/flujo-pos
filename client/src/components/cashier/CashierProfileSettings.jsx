@@ -1,54 +1,42 @@
-/* eslint-disable react/prop-types */
-import { BsFillCloudArrowUpFill } from "react-icons/bs";
-import { AiFillCloseCircle } from 'react-icons/ai'
+import { BsFillCloudArrowUpFill } from "react-icons/bs"
+import { Link } from "react-router-dom"
 
-import './AdminCreateProduct.css'
-
-const AdminCreateProduct = ({ handleOpenModal }) => {
+const CashierProfileSettings = () => {
     return (
         <>
-            <main className="admin-create-product w-[692px] h-full m-auto flex justify-center items-center">
-                <div className="admin-create-product-container w-full bg-white p-8 border-2 rounded-xl">
+            <main className="cashier-profile-settings w-[892px] h-full m-auto flex justify-center items-center">
+                <div className="cashier-profile-settings-modal-container w-full bg-white p-8 border-2 rounded-xl">
                     <div className="main-heaading mb-8 flex justify-between">
                         <div className="heading-title">
                             <h1 className="font-bold text-2xl text-neutral-800">
-                                Create Product
+                                Profile Settings
                             </h1>
-                        </div>
-                        <div className="close-button">
-                            <button onClick={handleOpenModal}>
-                                <span>
-                                    <AiFillCloseCircle size={30} className="hover:text-red-500" />
-                                </span>
-                            </button>
                         </div>
                     </div>
                     <div className="main-content">
                         <form>
                             <div className="form-container flex w-full justify-between">
-                                <div className="left-form mr-8 flex flex-col gap-4">
+                                <div className="left-form mr-8 flex flex-col gap-4 w-[520px]">
                                     <div className="form-group flex flex-col">
-                                        <label htmlFor="name" className="font-medium mb-2">Product name</label>
-                                        <input type="text" name="name" id="name" className="w-full border-2 px-4 py-3 font-bold text-neutral-600 rounded-xl placeholder:font-medium" placeholder="ex. McFlurry Oreo" />
+                                        <label htmlFor="name" className="font-medium mb-2">Username</label>
+                                        <input type="text" name="name" id="name" className="w-full border-2 px-4 py-3 font-bold text-neutral-600 rounded-xl placeholder:font-medium" placeholder="john_doe" />
                                     </div>
                                     <div className="form-group flex flex-col">
-                                        <label htmlFor="category" className="font-medium mb-2">Product category</label>
-                                        <select name="category" id="category" className="w-full border-2 rounded-xl py-4 pl-4 font-medium">
-                                            <option value="">Select a category</option>
-                                            <option value="burger">Burger</option>
-                                            <option value="burger">Burger</option>
-                                            <option value="burger">Burger</option>
-                                            <option value="burger">Burger</option>
-                                            <option value="burger">Burger</option>
-                                        </select>
+                                        <label htmlFor="email" className="font-medium mb-2">Email</label>
+                                        <input type="emal" name="email" id="email" className="w-full border-2 px-4 py-3 font-bold text-neutral-600 rounded-xl placeholder:font-medium" placeholder="johndoe@gmail.com" />
                                     </div>
-                                    <div className="form-group flex flex-col">
-                                        <label htmlFor="category" className="font-medium mb-2">Description</label>
-                                        <textarea id="description" name="description" maxLength={200} placeholder="ex. Sweet and cold, Oreo." className="max-h-[120px] w-full border-2 rounded-xl px-4 py-3 font-medium"></textarea>
+                                    <div className="form-group">
+                                        <span>Forgot password? </span>
+                                        <Link>
+                                            <span className="font-medium text-blue-500 hover:underline">Change password</span>
+                                        </Link>
                                     </div>
-                                    <div className="form-group flex flex-col">
-                                        <label htmlFor="category" className="font-medium mb-2">Price</label>
-                                        <input id="price" type="number" name="price" className="w-full border-2 px-4 py-4 rounded-xl placeholder:font-medium font-bold" placeholder="Set the price" />
+                                    <div className="form-action-button mt-auto">
+                                        <button type="submit" className="bg-primary hover:bg-red-400 active:scale-95 w-full py-4 rounded-lg duration-150">
+                                            <span className="font-bold text-white drop-shadow-md">
+                                                Save changes
+                                            </span>
+                                        </button>
                                     </div>
                                 </div>
                                 <div className="right-form flex flex-col justify-between">
@@ -88,13 +76,6 @@ const AdminCreateProduct = ({ handleOpenModal }) => {
                                             <input type="file" name="" id="input-file" hidden className="absolute" />
                                         </div>
                                     </div>
-                                    <div className="form-action-button">
-                                        <button type="submit" className="bg-primary w-full py-4 rounded-lg border-primary">
-                                            <span className="font-bold text-white drop-shadow-md">
-                                                Save new product
-                                            </span>
-                                        </button>
-                                    </div>
                                 </div>
                             </div>
                         </form>
@@ -102,7 +83,7 @@ const AdminCreateProduct = ({ handleOpenModal }) => {
                 </div>
             </main>
         </>
-    );
-};
+    )
+}
 
-export default AdminCreateProduct;
+export default CashierProfileSettings
