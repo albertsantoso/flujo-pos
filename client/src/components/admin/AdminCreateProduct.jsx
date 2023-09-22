@@ -89,7 +89,7 @@ const AdminCreateProduct = ({ handleOpenModal }) => {
                                         </div>
                                     </div>
                                     <div className="form-action-button">
-                                        <button type="submit" className="bg-primary w-full py-4 rounded-lg border-primary">
+                                        <button type="submit" className="bg-primary w-full py-4 rounded-lg">
                                             <span className="font-bold text-white drop-shadow-md">
                                                 Save new product
                                             </span>
