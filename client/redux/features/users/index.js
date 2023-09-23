@@ -37,14 +37,13 @@ export const userSlice = createSlice(
 export const onLoginAsync = ({username, password}) => async(dispatch) => {
     try {
         const {data} = await Instance().post(`users/login`, {username, password})
+        console.log(data);
         localStorage.setItem('accessToken', data.accessToken)
-        setTimeout(() => {
-            dispatch(setId(data.data.id))
-            dispatch(setUsername(data.data.username))
-            dispatch(setProfile_Picture(data.data.profile_picture))
-            dispatch(setRole(data.data.role))
-            dispatch(setEmail(data.data.email))
-        }, 3000)
+        dispatch(setId(data.data.id))
+        dispatch(setUsername(data.data.username))
+        dispatch(setProfile_Picture(data.data.profile_picture))
+        dispatch(setRole(data.data.role))
+        dispatch(setEmail(data.data.email))
     } catch (error) {
         console.log(error);
         return error

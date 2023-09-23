@@ -1,5 +1,6 @@
 import { useState } from "react"
 import CashierOrders from "../../components/cashier/CashierOrders"
+import CashierProducts from "../../components/cashier/CashierProducts"
 import CheckoutPayment from "../../components/cashier/CheckoutPayment"
 import Sidebar from "../../components/common/Sidebar"
 

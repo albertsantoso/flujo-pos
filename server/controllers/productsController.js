@@ -37,7 +37,7 @@ module.exports = {
             const baseQuery = {
                 attributes: selectedAttributes,
                 include: [categoryInclude],
-                limit: 10,
+                limit: 100,
                 order: orderOptions,
             };
 
@@ -63,4 +63,25 @@ module.exports = {
             next(error);
         }
     },
+    createProduct: async (req, res, next) => {
+        try {
+            const image = req.files.image;
+            const data = JSON.parse(req.body.data);
+
+            if (image) {
+                data.product_image = image[0].path;
+            }
+
+            const createProduct = await db.product.create(data);
+
+            res.status(201).send({
+                isError: false,
+                message: "Create product success!",
+                data: createProduct,
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+
 };

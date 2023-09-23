@@ -9,9 +9,8 @@ const upload = require("./../middleware/upload");
 const { validateUserEmail, validateUserPassword, handleValidationErrors } = require('./../middleware/validator');
 const { verify } = require('./../lib/jwt');
 
-Router.get('/list', verify, usersController.allUsers);
-Router.get('/specific', verify, usersController.specificUser);
-Router.post('/register', verify, validateUserEmail, validateUserPassword, handleValidationErrors, usersController.registerCashier);
+Router.get('/', usersController.allUsers);
+Router.post('/register', validateUserEmail, validateUserPassword, handleValidationErrors, usersController.registerCashier);
 Router.post('/login', validateUserPassword, handleValidationErrors, usersController.login);
 Router.post('/recover-password', validateUserEmail, handleValidationErrors, usersController.sendPasswordMail);
 Router.patch("/update", verify, upload, usersController.updateImage);

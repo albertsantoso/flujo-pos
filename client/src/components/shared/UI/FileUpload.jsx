@@ -1,13 +1,21 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import { BsFillCloudArrowUpFill } from "react-icons/bs"
 
-const FileUpload = () => {
+const FileUpload = ({ handleProductImage }) => {
+    const getFileImage = (event) => {
+        const fileImage = event.target.files[0];
+
+        handleProductImage(fileImage)
+    }
+
     return (
         <>
             <div className="file-upload">
                 <div
                     className="form-input-wrapper relative flex justify-center items-center w-[320px] h-[284px] bg-white border-2 border-dashed rounded-xl cursor-pointer"
                     onClick={() =>
-                        document.querySelector("#input-file").click()
+                        document.querySelector("#product_image").click()
                     }
                 >
                     <div className="flex flex-col items-center justify-center h-full pb-4">
@@ -22,7 +30,7 @@ const FileUpload = () => {
                                 <span
                                     onClick={() =>
                                         document
-                                            .querySelector("#input-file")
+                                            .querySelector("#product_image")
                                             .click()
                                     }
                                     className="text-blue-500"
@@ -33,7 +41,9 @@ const FileUpload = () => {
                             </span>
                         </div>
                     </div>
-                    <input type="file" name="" id="input-file" hidden className="absolute" />
+                    <input type="file" name="product_image" id="product_image" hidden className="absolute"
+                        onChange={getFileImage}
+                    />
                 </div>
             </div>
         </>

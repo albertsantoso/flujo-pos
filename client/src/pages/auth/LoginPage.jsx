@@ -16,18 +16,20 @@ const LoginPage = () => {
 	const [inputPassword, setPassword] = useState("");
 
     const id = useSelector((state) => state.users.id);
+	const role = useSelector((state) => state.users.role);
 
 	useEffect(() => {
-        if(id) {
+        if(role == "Cashier") {
             navigate('/')
-        }
-    }, [id])
+        } else if (role == "Admin"){
+			navigate('/Admin')
+		}
+    }, [role])
 	
 	const handleLogin = (e) => {
 		e.preventDefault();
-		console.log(input);
-		console.log(inputPassword);
         dispatch(onLoginAsync({username: input, password: inputPassword}))
+		console.log(role);
 	};
 	return (
 		<>
