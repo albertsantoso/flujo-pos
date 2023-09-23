@@ -1,10 +1,10 @@
 import axios from "axios";
 
-function ApiInstance(authrorization = null) {
+function ApiInstance(authorization = null) {
 	return axios.create({
 		baseURL: import.meta.env.VITE_REACT_APP_URL,
 		headers: {
-			authrorization,
+			authorization,
 		},
 	});
 }

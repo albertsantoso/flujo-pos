@@ -6,6 +6,7 @@ const { deleteFiles } = require("./../helper/deleteFiles");
 const { hash, match } = require('./../helper/hashing');
 const transporter = require('./../helper/transporter');
 const handlebars = require('handlebars');
+const { log } = require("handlebars/runtime");
 
 module.exports = {
     updateImage: async (req, res, next) => {
@@ -29,24 +30,31 @@ module.exports = {
     },
     login: async (req, res, next) => {
         try {
+            console.log(req.body);
             const { username, password } = req.body;
             if (!username || !password) throw { message: "Provided data is not complete" }
-
             const account = await findUsername(username);
+            console.log(account);
             if (!account) throw { message: "Account was not found" }
-
             const hashMatch = await match(password, account.dataValues.password)
-            if (!hashMatch) throw { message: "Incorrect password" }
-
+            console.log(hashMatch);
+            if (!hashMatch) throw { status: 401, message: "Incorrect password" }
             const token = await createJWT({ id: account.dataValues.id, role: account.dataValues.role }, '365d')
             if (account.dataValues.status == 'Disabled') throw { message: "Invalid Login, Account has been disabled, please contact an admin" }
-
             res.status(201).send({
                 isError: false,
                 message: "Account was found",
-                data: token
+                accessToken: token,
+                data: {
+                    id: account.dataValues.id,
+                    username: account.dataValues.username,
+                    profile_picture: account.dataValues.profile_picture,
+                    email: account.dataValues.email,
+                    role: account.dataValues.role
+                }
             })
         } catch (error) {
+            console.log(error.message);
             next(error)
         }
     },
@@ -57,6 +65,7 @@ module.exports = {
             if (!newPassword) throw { message: "please enter a password" }
             const hashedPassword = await hash(newPassword);
             const account = await findUserId(id);
+            console.log(account);
             const hashMatch = await match(newPassword, account.dataValues.password)
             if (hashMatch) throw { message: "The new password cannot be the same as the old one" }
             await passwordUpdate(hashedPassword, id)
@@ -68,6 +77,7 @@ module.exports = {
                 }
             )
         } catch (error) {
+            console.log(error);
             next(error)
         }
     },
@@ -77,7 +87,7 @@ module.exports = {
             if (!email) throw { message: "Please insert a valid email address" };
             const account = await findUserEmail(email);
             const id = account.dataValues.id;
-            const token = await createJWT({ id: id }, '2h');
+            const token = await createJWT({ id: id, apiKey: "Approved" }, '2h');
             const username = account.dataValues.username;
             const readTemplate = await fs.readFile('./public/template.html', 'utf-8');
             const compiledTemplate = await handlebars.compile(readTemplate);
@@ -85,7 +95,7 @@ module.exports = {
             await transporter.sendMail(
                 {
                     from: 'flujo-post',
-                    to: email,
+                    to: "aryosetyotama27@gmail.com",
                     subject: 'password recovery email',
                     html: newTemplate
                 }

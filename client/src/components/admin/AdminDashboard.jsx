@@ -2,6 +2,7 @@ import { GoPersonAdd } from "react-icons/go"
 import { BsThreeDotsVertical } from "react-icons/bs"
 import { FiTrash } from "react-icons/fi"
 import DefaultPFP from './../../assets/default/default_pfp.svg'
+import { useSelector } from "react-redux"
 
 import {
     Menu,
@@ -10,6 +11,7 @@ import {
     MenuItem,
     IconButton,
 } from '@chakra-ui/react'
+
 
 const AdminDashboard = () => {
     return (

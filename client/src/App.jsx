@@ -11,7 +11,17 @@ import AdminPage from './pages/admin/AdminPage';
 import CashierPage from "./pages/cashier/CashierPage";
 import ChangePasswordPage from "./pages/auth/ChangePasswordPage";
 
+import { useDispatch } from "react-redux";
+import { onCheckIsLogin } from "../redux/features/users";
+import { useEffect } from "react";
+
 function App() {
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(onCheckIsLogin())
+	}, []);
+
 	return (
 		<>
 			<Routes>
