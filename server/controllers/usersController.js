@@ -6,6 +6,7 @@ const { deleteFiles } = require("./../helper/deleteFiles");
 const { hash, match } = require('./../helper/hashing');
 const transporter = require('./../helper/transporter');
 const handlebars = require('handlebars');
+const { log } = require("handlebars/runtime");
 
 module.exports = {
     updateImage: async (req, res, next) => {
@@ -46,6 +47,7 @@ module.exports = {
                     id: account.dataValues.id,
                     username: account.dataValues.username,
                     profile_picture: account.dataValues.profile_picture,
+                    email: account.dataValues.email,
                     role: account.dataValues.role
                 }
             })
@@ -60,6 +62,7 @@ module.exports = {
             if(!newPassword) throw { message: "please enter a password" }
             const hashedPassword = await hash(newPassword);
             const account = await findUserId(id);
+            console.log(account);
             const hashMatch = await match(newPassword, account.dataValues.password)
             if(hashMatch) throw { message: "The new password cannot be the same as the old one" }
             await passwordUpdate(hashedPassword, id)
@@ -71,16 +74,18 @@ module.exports = {
                 }
             )
         } catch (error) {
+            console.log(error);
             next(error)
         }
     },
     sendPasswordMail: async (req, res, next) => {
         try {
             const {email} = req.body;
+            console.log(email);
             if (!email) throw { message: "Please insert a valid email address" };
             const account = await findUserEmail(email);
             const id = account.dataValues.id;
-            const token = await createJWT({ id: id }, '2h');
+            const token = await createJWT({ id: id, apiKey: "Approved" }, '2h');
             const username = account.dataValues.username;
             const readTemplate = await fs.readFile('./public/template.html', 'utf-8');
             const compiledTemplate = await handlebars.compile(readTemplate);
@@ -88,7 +93,7 @@ module.exports = {
             await transporter.sendMail(
                 {
                     from: 'flujo-post',
-                    to: email,
+                    to: "aryosetyotama27@gmail.com",
                     subject: 'password recovery email',
                     html: newTemplate
                 }

@@ -16,12 +16,13 @@ const LoginPage = () => {
 	const [inputPassword, setPassword] = useState("");
 
     const id = useSelector((state) => state.users.id);
-    console.log(id);
-    useEffect(() => {
+
+	useEffect(() => {
         if(id) {
             navigate('/')
         }
     }, [id])
+	
 	const handleLogin = (e) => {
 		e.preventDefault();
 		console.log(input);

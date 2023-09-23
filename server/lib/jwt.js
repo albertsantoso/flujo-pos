@@ -20,10 +20,8 @@ module.exports = {
             if(decodeData.apiKey == "Approved") {
                 next()
             } else {
-                console.log(error);
                 throw {message: "User is not approved"}
             }
-            
         } catch (error) {
             next(error)
         }

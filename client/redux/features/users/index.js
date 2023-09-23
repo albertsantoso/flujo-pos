@@ -36,14 +36,14 @@ export const userSlice = createSlice(
 
 export const onLoginAsync = ({username, password}) => async(dispatch) => {
     try {
-        const {data} = await axios.post('http://localhost:5000/users/login', {username, password})
+        const {data} = await Instance().post(`users/login`, {username, password})
         localStorage.setItem('accessToken', data.accessToken)
         setTimeout(() => {
             dispatch(setId(data.data.id))
             dispatch(setUsername(data.data.username))
             dispatch(setProfile_Picture(data.data.profile_picture))
             dispatch(setRole(data.data.role))
-            dispatch(setEmail(Data.data.email))
+            dispatch(setEmail(data.data.email))
         }, 3000)
     } catch (error) {
         console.log(error);
@@ -54,7 +54,6 @@ export const onLoginAsync = ({username, password}) => async(dispatch) => {
 export const onCheckIsLogin = () => async(dispatch) => {
     try {
         const accessToken = localStorage.getItem('accessToken')
-        //const {data} = await axios.get(`http://localhost:5000/users/specific/${accessToken}`)
         const {data} = await Instance(accessToken).get(`users/specific`)
         dispatch(setId(data.data.id));
         dispatch(setUsername(data.data.username));

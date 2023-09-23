@@ -5,15 +5,19 @@ import DefaultPFP from "./../../assets/default/default_pfp.svg";
 import { Button, Menu, MenuButton, MenuGroup, MenuItem, MenuList, useSlider } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { onLogout } from "../../../redux/features/users";
+import { useNavigate } from "react-router-dom";
 
 const CashierAccountDropdown = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     const username = useSelector((state) => state.users.username)
     const role = useSelector((state) => state.users.role)
     const email = useSelector((state) => state.users.email)
 
     const handleLogout = async() => {
-        dispatch(onLogout)
+        await dispatch(onLogout())
+        await navigate('/login')
     }
 
     return (
@@ -43,7 +47,7 @@ const CashierAccountDropdown = () => {
                     </div>
                 </div>
                 <MenuList className="bg-neutral-100 border-2 mt-[24px] -mr-[26px] py-2 rounded-lg drop-shadow-md" minWidth={"336px"}>
-                    <MenuGroup title={`${email}`} className="px-4 py-2 font-semibold">
+                    <MenuGroup title={email} className="px-4 py-2 font-semibold">
                         <MenuItem className="px-4 py-2 hover:bg-neutral-300">
                             <span className="font-bold flex justify-between w-full">
                                 Profile Settings
