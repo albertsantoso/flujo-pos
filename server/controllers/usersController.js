@@ -199,8 +199,8 @@ module.exports = {
             const { username, newStatus } = req.body;
             console.log(username, newStatus);
             const account = await findUsername(username);
-            console.log(account);
-            if (!account) throw { message: "account not found" };
+            if(!account) throw { message: "account not found" };
+            if(account.role == "Admin") throw {message: "Not authorized to perform this action"}
             await db.user.update(
                 {
                     status: newStatus,

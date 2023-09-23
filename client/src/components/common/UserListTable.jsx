@@ -59,7 +59,7 @@ const UserListTable = ({ dataUsers }) => {
                                             window.location.reload();
                                         }
                                     } catch (error) {
-                                        console.log(error);
+                                        alert(error.response.data.message);
                                     }
                                 }
                                 return (
