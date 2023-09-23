@@ -5,8 +5,6 @@ const upload = async (req, res, next) => {
     const result = multerUpload.fields([{ name: "image", maxCount: 1 }]);
     result(req, res, function (err) {
         try {
-            console.log("MASUK UPLOAD");
-
             if (err) throw err;
 
             if (!req.files.image) return next();

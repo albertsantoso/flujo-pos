@@ -12,7 +12,6 @@ module.exports = {
     },
     verify: (req, res, next) => {
         try {
-            console.log("MASUK VERIFY");
             const { authorization } = req.headers;
             if (!authorization) throw { message: "token was not found" };
             const decodeData = jwt.verify(authorization, "abc123");
