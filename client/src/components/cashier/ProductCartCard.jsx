@@ -1,12 +1,13 @@
 /* eslint-disable react/prop-types */
 import { FaMinus, FaPlus } from "react-icons/fa";
 import { TbTrashX } from "react-icons/tb";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { changeQuantity, deleteOrder } from "../../../redux/features/carts";
 
 const ProductCartCard = ({ dataOrder }) => {
 	const dispatch = useDispatch();
 	const { id, quantity, product } = dataOrder;
+	const userId = useSelector((state) => state.users.id);
 
 	return (
 		<>
@@ -14,7 +15,15 @@ const ProductCartCard = ({ dataOrder }) => {
 				<div className="orders-card-container max-h-[100px]">
 					<div className="grid-wrapper flex items-center w-full max-h-[100px] gap-2">
 						<div className="product-image max-w-[80px]">
-							<img src={`http://localhost:5000/${product.id <= 18 ? product.product_image : product.product_image.substring(7)}`} alt="" className="m-auto" />
+							<img
+								src={`http://localhost:5000/${
+									product.id <= 18
+										? product.product_image
+										: product.product_image.substring(7)
+								}`}
+								alt=""
+								className="m-auto"
+							/>
 						</div>
 						<div className="product-detail w-full grid grid-cols-6 grid-rows-2">
 							<div className="product-title col-span-4 line-clamp-2">
@@ -25,7 +34,7 @@ const ProductCartCard = ({ dataOrder }) => {
 							<div className="cancel-product flex justify-end col-span-2">
 								<button
 									className="bg-primary p-2 rounded-lg w-[36px] h-[36px] flex justify-center items-center"
-									onClick={() => dispatch(deleteOrder(1, id))} //userId
+									onClick={() => dispatch(deleteOrder(userId, id))} //userId
 								>
 									<span>
 										<TbTrashX size={20} className="text-white" />
@@ -47,7 +56,7 @@ const ProductCartCard = ({ dataOrder }) => {
 							<div className="quantity-actions flex items-center justify-end">
 								<button
 									className="bg-secondary p-2 rounded-lg drop-shadow-md"
-									onClick={() => dispatch(changeQuantity(1, id, "subtract"))} //userId
+									onClick={() => dispatch(changeQuantity(userId, id, "subtract"))} //userId
 								>
 									<span>
 										<FaMinus color="#fff" className="drop-shadow-sm" />
@@ -58,7 +67,7 @@ const ProductCartCard = ({ dataOrder }) => {
 								</span>
 								<button
 									className="bg-secondary p-2 rounded-lg drop-shadow-md"
-									onClick={() => dispatch(changeQuantity(1, id, "add"))} //userId
+									onClick={() => dispatch(changeQuantity(userId, id, "add"))} //userId
 								>
 									<span>
 										<FaPlus color="#fff" className="drop-shadow-sm" />

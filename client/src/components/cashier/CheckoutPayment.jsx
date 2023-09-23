@@ -21,6 +21,7 @@ const CheckoutPayment = ({ handleOpenModal }) => {
 	const subtotal = useSelector((state) => state.carts.subtotal);
 	const tax = useSelector((state) => state.carts.tax);
 	const totalAmount = useSelector((state) => state.carts.totalAmount);
+	const userId = useSelector((state) => state.users.id);
 
 	const onPay = async (userId) => {
 		try {
@@ -46,8 +47,8 @@ const CheckoutPayment = ({ handleOpenModal }) => {
 				products: arrayProduct,
 			};
 			const orderSummaryJSON = JSON.stringify(orderSummary);
-
-			await Instance().post(`transactions`, orderSummaryJSON, {
+			const accessToken = localStorage.getItem("accessToken");
+			await Instance(accessToken).post(`transactions`, orderSummaryJSON, {
 				headers: { "Content-Type": "application/json" },
 			});
 
@@ -192,7 +193,7 @@ const CheckoutPayment = ({ handleOpenModal }) => {
 									<div className="pay flex items-center justify-between gap-4">
 										<button
 											className="flex bg-primary hover:bg-red-400 active:scale-95 px-14 py-2 rounded-lg"
-											onClick={() => onPay(1)}
+											onClick={() => onPay(userId)}
 										>
 											<span className="font-bold text-white drop-shadow-md">
 												Pay
