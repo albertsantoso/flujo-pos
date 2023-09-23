@@ -7,11 +7,23 @@ import FileUpload from "../shared/UI/FileUpload";
 
 import { useFormik } from 'formik'
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Instance } from '../../api/instance';
 
 const AdminCreateProduct = ({ handleOpenModal }) => {
     const [productImage, setProductImage] = useState(null)
+    const [categories, setCategories] = useState([]);
+
+    const fetchCategories = async () => {
+        try {
+            const accessToken = localStorage.getItem("accessToken");
+            const { data } = await Instance(accessToken).get(`categories`);
+
+            setCategories(data.data);
+        } catch (err) {
+            console.log(err);
+        }
+    };
 
     const onGettingProductImageFromProps = (image) => {
         setProductImage(image)
@@ -56,7 +68,9 @@ const AdminCreateProduct = ({ handleOpenModal }) => {
                 fd.append('image', productImage);
             }
 
-            const createProduct = await Instance().post('products', fd);
+            const accessToken = localStorage.getItem("accessToken")
+
+            const createProduct = await Instance(accessToken).post('products', fd);
 
             if (createProduct.status === 201) {
                 toast.success('Product created successfully');
@@ -78,6 +92,10 @@ const AdminCreateProduct = ({ handleOpenModal }) => {
         const { target } = event
         formik.setFieldValue(target.name, target.value)
     }
+
+    useEffect(() => {
+        fetchCategories()
+    }, [])
 
     return (
         <>
@@ -108,13 +126,15 @@ const AdminCreateProduct = ({ handleOpenModal }) => {
                                     </div>
                                     <div className="form-group flex flex-col">
                                         <label htmlFor="categoryId" className="font-medium mb-2">Product category</label>
-                                        <select name="categoryId" id="categoryId" className="w-full border-2 rounded-xl py-4 pl-4 font-medium">
-                                            <option value="">Select a category</option>
-                                            <option value="burger">Burger</option>
-                                            <option value="burger">Burger</option>
-                                            <option value="burger">Burger</option>
-                                            <option value="burger">Burger</option>
-                                            <option value="burger">Burger</option>
+                                        <select className="custom-select font-semibold text-neutral-600 bg-white border-2 rounded-xl px-4 min-w-[120px] h-[60px] flex items-center justify-center" name='categoryId' id='categoryId' onChange={handleFormInput}>
+                                            <option value="" selected disabled>Select category</option>
+                                            {categories?.map((category) => {
+                                                return (
+                                                    <>
+                                                        <option value={category.id}>{category.category_name}</option>
+                                                    </>
+                                                )
+                                            })}
                                         </select>
                                     </div>
                                     <div className="form-group flex flex-col">

@@ -10,7 +10,6 @@ module.exports = {
             next(error);
         }
     },
-
     verify: (req, res, next) => {
         try {
             const { authorization } = req.headers;
