@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import Ticket from "./../../assets/ticket.svg";
 import "./CashierOrders.css";
-import OrderCard from "./ProductCartCard";
+import ProductCartCard from "./ProductCartCard";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchCartAsync, setOrderSummary } from "../../../redux/features/carts";
@@ -26,7 +26,7 @@ const CashierOrders = ({ handleOpenModal }) => {
 	return (
 		<>
 			<div className="cashier-orders bg-white shadow-lg h-screen">
-				<div className="orders-container bg-white w-[368px] p-4 h-full">
+				<div className="orders-container bg-white w-[376px] p-4 h-full">
 					<div className="orders-wrapper flex flex-col h-full">
 						<div className="orders-head mb-6 z-10">
 							<CashierAccountBadge />
@@ -39,7 +39,7 @@ const CashierOrders = ({ handleOpenModal }) => {
 								{carts?.map((order) => {
 									return (
 										<>
-											<OrderCard key={order.id} dataOrder={order} />
+											<ProductCartCard key={order.id} dataOrder={order} />
 										</>
 									);
 								})}
@@ -58,19 +58,37 @@ const CashierOrders = ({ handleOpenModal }) => {
 										<div className="pre-receipt-item font-medium text-neutral-500">
 											Subtotal
 										</div>
-										<div className="font-bold">Rp. {subtotal}</div>
+										<div className="font-bold">
+											{subtotal.toLocaleString("id-ID", {
+												style: "currency",
+												currency: "IDR",
+												minimumFractionDigits: 0,
+											})}
+										</div>
 									</div>
 									<div className="tax flex items-center justify-between">
 										<div className="pre-receipt-item font-medium text-neutral-500">
 											Tax
 										</div>
-										<div className="font-bold">Rp. {tax}</div>
+										<div className="font-bold">
+											{tax.toLocaleString("id-ID", {
+												style: "currency",
+												currency: "IDR",
+												minimumFractionDigits: 0,
+											})}
+										</div>
 									</div>
 									<div className="total-payment flex items-center justify-between mt-auto text-xl">
 										<div className="pre-receipt-item font-medium text-neutral-800">
 											Total
 										</div>
-										<div className="font-bold">Rp. {totalAmount}</div>
+										<div className="font-bold">
+											{totalAmount.toLocaleString("id-ID", {
+												style: "currency",
+												currency: "IDR",
+												minimumFractionDigits: 0,
+											})}
+										</div>
 									</div>
 								</div>
 								<img src={Ticket} alt="" className="w-full drop-shadow-md" />

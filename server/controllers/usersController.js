@@ -1,6 +1,6 @@
 const db = require("./../models");
 const fs = require('fs').promises;
-const {findUsername, findUserId, findUserEmail, findAllUsers, passwordUpdate} = require('./../services/userService');
+const { findUsername, findUserId, findUserEmail, findAllUsers, passwordUpdate } = require('./../services/userService');
 const { createJWT } = require('./../lib/jwt');
 const { deleteFiles } = require("./../helper/deleteFiles");
 const { hash, match } = require('./../helper/hashing');
@@ -9,10 +9,10 @@ const handlebars = require('handlebars');
 
 module.exports = {
     updateImage: async (req, res, next) => {
-        const {id} = req.query;
+        const { id } = req.query;
         try {
             const dataImage = await db.user.findOne({
-                where: {id},
+                where: { id },
             });
             const path = req.files.images[0].path;
             await db.user.update({ profile_picture: path }, { where: { id } });
@@ -29,15 +29,18 @@ module.exports = {
     },
     login: async (req, res, next) => {
         try {
-            const {username, password} = req.body;
-            if(!username || !password) throw {message: "Provided data is not complete"}
+            const { username, password } = req.body;
+            if (!username || !password) throw { message: "Provided data is not complete" }
+
             const account = await findUsername(username);
-            console.log(account);
-            if(!account) throw {message: "Account was not found"}
+            if (!account) throw { message: "Account was not found" }
+
             const hashMatch = await match(password, account.dataValues.password)
             if (!hashMatch) throw { message: "Incorrect password" }
+
             const token = await createJWT({ id: account.dataValues.id, role: account.dataValues.role }, '365d')
-            if(account.dataValues.status == 'Disabled') throw {message: "Invalid Login, Account has been disabled, please contact an admin"}
+            if (account.dataValues.status == 'Disabled') throw { message: "Invalid Login, Account has been disabled, please contact an admin" }
+
             res.status(201).send({
                 isError: false,
                 message: "Account was found",
@@ -49,13 +52,13 @@ module.exports = {
     },
     resetPassword: async (req, res, next) => {
         try {
-            const {id} = req.dataToken;
+            const { id } = req.dataToken;
             const newPassword = req.body.password;
-            if(!newPassword) throw { message: "please enter a password" }
+            if (!newPassword) throw { message: "please enter a password" }
             const hashedPassword = await hash(newPassword);
             const account = await findUserId(id);
             const hashMatch = await match(newPassword, account.dataValues.password)
-            if(hashMatch) throw { message: "The new password cannot be the same as the old one" }
+            if (hashMatch) throw { message: "The new password cannot be the same as the old one" }
             await passwordUpdate(hashedPassword, id)
             res.status(201).send(
                 {
@@ -70,7 +73,7 @@ module.exports = {
     },
     sendPasswordMail: async (req, res, next) => {
         try {
-            const {email} = req.body;
+            const { email } = req.body;
             if (!email) throw { message: "Please insert a valid email address" };
             const account = await findUserEmail(email);
             const id = account.dataValues.id;
@@ -98,7 +101,7 @@ module.exports = {
             next(error)
         }
     },
-    allUsers: async(req, res, next) => {
+    allUsers: async (req, res, next) => {
         try {
             const data = await findAllUsers()
             res.status(201).send({
@@ -110,16 +113,16 @@ module.exports = {
             next(error)
         }
     },
-    registerCashier: async(req, res, next) => {
+    registerCashier: async (req, res, next) => {
         try {
-            const {username, email, password} = req.body;
-            if(!username || !email || !password) throw {message: "data provided is incomplete"};
+            const { username, email, password } = req.body;
+            if (!username || !email || !password) throw { message: "data provided is incomplete" };
             const existingUsername = await findUsername();
             const existingEmail = await findUserEmail();
-            if(existingUsername) throw {message: "username has already been registered"}
-            if(existingEmail) throw {message: "email has already been registered"}
+            if (existingUsername) throw { message: "username has already been registered" }
+            if (existingEmail) throw { message: "email has already been registered" }
             const hashedPassword = await hash(password);
-            const account = await db.user.create({username, email, password: hashedPassword}); // ganti ke services
+            const account = await db.user.create({ username, email, password: hashedPassword }); // ganti ke services
             res.status(201).send({
                 isError: false,
                 message: "Cashier succesfully registered",
@@ -129,19 +132,19 @@ module.exports = {
             next(error)
         }
     },
-    updateStatus: async(req, res, next) => {
+    updateStatus: async (req, res, next) => {
         try {
-            const {id} = req.dataToken;
+            const { id } = req.dataToken;
             const newStatus = req.body;
-            if(!id) throw {message: "error, missing an input ID"};
+            if (!id) throw { message: "error, missing an input ID" };
             const account = await findUserId(id);
-            if(!account) throw {message: "account not found"};
+            if (!account) throw { message: "account not found" };
             await db.user.update(
                 {
                     status: newStatus
                 },
                 {
-                    where: {id}
+                    where: { id }
                 }
             )
         } catch (error) {

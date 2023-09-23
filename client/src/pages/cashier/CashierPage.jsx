@@ -1,5 +1,6 @@
 import { useState } from "react"
 import CashierOrders from "../../components/cashier/CashierOrders"
+import CashierProducts from "../../components/cashier/CashierProducts"
 import CheckoutPayment from "../../components/cashier/CheckoutPayment"
 import Sidebar from "../../components/common/Sidebar"
 
@@ -18,7 +19,7 @@ const CashierPage = () => {
                     <Sidebar />
                 </aside>
                 <main className='content grow px-12 py-8 overflow-auto'>
-                    {/* <CashierProducts /> */}
+                    <CashierProducts />
                     <CashierProfileSettings />
                     <div className="checkout-payment-modal">
                         <div className={`z-20 ${openModal ? "block" : "hidden"} absolute top-0 right-0 bottom-0 left-0 h-full`}>

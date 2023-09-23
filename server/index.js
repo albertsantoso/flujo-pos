@@ -18,12 +18,14 @@ const {
     productsRouter,
     transactionsRouter,
     cartsRouter,
+    categoriesRouter,
 } = require("./routers");
 
 app.use("/users", usersRouter);
 app.use("/products", productsRouter);
 app.use("/transactions", transactionsRouter);
 app.use("/carts", cartsRouter);
+app.use("/categories", categoriesRouter);
 
 app.use((err, req, res, next) => {
     const statusCode = err.status || 500;

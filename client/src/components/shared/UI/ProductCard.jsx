@@ -1,21 +1,21 @@
 /* eslint-disable react/prop-types */
 import { FaPlus } from "react-icons/fa";
-import BigMac from "./../../../assets/product-images/bigmac.png";
 import "./ProductCard.css";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../../../redux/features/carts";
 
 const ProductCard = ({ dataProducts }) => {
-	const { id, product_name, product_description, product_price } = dataProducts;
+	const { id, product_name, product_description, product_image, product_price } = dataProducts;
+
 	const dispatch = useDispatch();
 
 	return (
 		<>
-			<div className="product-card w-[324px] h-[426px] rounded-xl bg-white">
+			<div className="product-card w-[322px] h-[426px] rounded-xl bg-white">
 				<div className="card-container p-0 inline-flex w-full h-full relative">
 					<div className="card-wrapper p-8 w-full flex flex-col h-full">
 						<div className="product-image mb-4 mx-auto">
-							<img src={BigMac} alt="" className="max-h-44" />
+							<img src={`http://localhost:5000/${id <= 18 ? product_image : product_image.substring(7)}`} alt="" className="max-h-44" />
 						</div>
 						<div className="product-title">
 							<h4 className="font-bold text-[22px] mb-2"> {product_name} </h4>

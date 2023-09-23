@@ -19,7 +19,10 @@ module.exports = (sequelize, DataTypes) => {
     username: DataTypes.STRING,
     email: DataTypes.STRING,
     password: DataTypes.STRING,
-    profile_picture: DataTypes.STRING,
+    profile_picture: {
+      type: DataTypes.STRING,
+      defaultValue: "public/default/default_pfp.png"
+    },
     status: {
       type: DataTypes.ENUM("Active", "Disabled"),
       defaultValue: "Active"
