@@ -67,6 +67,7 @@ const CashierProducts = () => {
 	const clearFilter = () => {
 		navigate(`/`);
 		dispatch(onClear());
+		window.location.reload()
 	};
 
 	useEffect(() => {

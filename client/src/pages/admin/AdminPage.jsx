@@ -1,5 +1,5 @@
 import AdminProducts from '../../components/admin/AdminProducts';
-// import AdminDashboard from '../../components/admin/AdminDashboard';
+import AdminDashboard from '../../components/admin/AdminDashboard';
 // import AdminUsers from '../../components/admin/AdminUsers';
 import Sidebar from '../../components/common/Sidebar';
 
@@ -11,7 +11,7 @@ const AdminPage = () => {
                     <Sidebar />
                 </aside>
                 <main className='content grow px-12 py-8 overflow-auto'>
-                    {/* <AdminDashboard /> */}
+                    <AdminDashboard />
                     <AdminProducts />
                     {/* <AdminUsers /> */}
                 </main >

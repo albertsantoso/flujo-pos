@@ -96,6 +96,8 @@ export const onSearch = (search) => async (dispatchEvent) => {
 export const onCategory = (category) => async (dispatchEvent) => {
 	try {
 		dispatchEvent(setCategory(category));
+		dispatchEvent(resetPage());
+		dispatchEvent(resetOffset());
 	} catch (error) {
 		console.log(error);
 	}

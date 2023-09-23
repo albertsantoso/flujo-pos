@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
-import { FaPlus } from "react-icons/fa";
+import { MdEdit } from "react-icons/md";
+
 import "./ProductCard.css";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../../../redux/features/carts";
@@ -38,10 +39,10 @@ const ProductCard = ({ dataProducts }) => {
 							<button
 								type="button"
 								className="bg-secondary rounded-full w-[90px] h-[90px] drop-shadow-md"
-								onClick={() => dispatch(addToCart(1, id))} //userId
+							// onClick={ } //userId
 							>
 								<span className="flex justify-center items-center">
-									<FaPlus color="#fff" className="drop-shadow-md" size={30} />
+									<MdEdit color="#fff" className="drop-shadow-md" size={30} />
 								</span>
 							</button>
 						</div>
