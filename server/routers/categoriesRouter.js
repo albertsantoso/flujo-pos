@@ -5,8 +5,8 @@ const Router = express.Router();
 const { categoriesController } = require("../controllers"); // otomatis baca index.js
 
 //* Import Middleware
-// kosong
+const { verify } = require("./../lib/jwt");
 
-Router.get("/", categoriesController.getAllCategories);
+Router.get("/", verify, categoriesController.getAllCategories);
 
 module.exports = Router; // pake module.exports karena ga ada librarynya, bawaan dari js

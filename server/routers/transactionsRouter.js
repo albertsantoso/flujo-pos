@@ -5,8 +5,8 @@ const Router = express.Router();
 const { transactionsController } = require("../controllers"); // otomatis baca index.js
 
 //* Import Middleware
-// kosong
+const { verify } = require("./../lib/jwt");
 
-Router.post("/", transactionsController.createTransaction);
+Router.post("/", verify, transactionsController.createTransaction);
 
 module.exports = Router; // pake module.exports karena ga ada librarynya, bawaan dari js
