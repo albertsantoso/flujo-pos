@@ -21,7 +21,7 @@ module.exports = {
                     transactionId: createTransaction.id,
                 };
             });
-            console.log(data_products);
+
             await db.transaction_detail.bulkCreate(data_products, {
                 transaction: t,
             });

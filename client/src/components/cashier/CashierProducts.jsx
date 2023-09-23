@@ -9,6 +9,7 @@ import "./CashierProducts.css";
 
 const CashierProducts = () => {
 	const [products, setProducts] = useState([]);
+	const [categories, setCategories] = useState([]);
 
 	const fetchProduct = async () => {
 		try {
@@ -19,8 +20,20 @@ const CashierProducts = () => {
 		}
 	};
 
+	const fetchCategories = async () => {
+		try {
+			const { data } = await Instance().get(`categories`);
+
+			setCategories(data.data);
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
+
 	useEffect(() => {
 		fetchProduct();
+		fetchCategories();
 	}, []);
 
 	return (
@@ -41,16 +54,15 @@ const CashierProducts = () => {
 						</div>
 						<div className="main-content">
 							<div className="product-category h-[80px] flex w-full overflow-auto gap-2 mb-4">
-								<CategoryChip />
-								<CategoryChip />
-								<CategoryChip />
-								<CategoryChip />
-								<CategoryChip />
-								<CategoryChip />
-								<CategoryChip />
-								<CategoryChip />
-								<CategoryChip />
-								<CategoryChip />
+								{
+									categories?.map((category) => {
+										return (
+											<>
+												<CategoryChip dataCategory={category} />
+											</>
+										)
+									})
+								}
 							</div>
 							<div className="products">
 								<div className="product-list relative flex flex-wrap -mx-[8px]">

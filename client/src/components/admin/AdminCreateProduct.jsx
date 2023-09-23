@@ -1,12 +1,86 @@
 /* eslint-disable react/prop-types */
-import { BsFillCloudArrowUpFill } from "react-icons/bs";
 import { AiFillCloseCircle } from 'react-icons/ai'
+import toast, { Toaster } from 'react-hot-toast'
 
 import './AdminCreateProduct.css'
+import FileUpload from "../shared/UI/FileUpload";
+
+import { useFormik } from 'formik'
+
+import { useState } from 'react';
+import { Instance } from '../../api/instance';
 
 const AdminCreateProduct = ({ handleOpenModal }) => {
+    const [productImage, setProductImage] = useState(null)
+
+    const onGettingProductImageFromProps = (image) => {
+        setProductImage(image)
+    }
+
+    const formik = useFormik({
+        initialValues: {
+            product_name: "",
+            product_description: "",
+            product_price: 0,
+            categoryId: null,
+        },
+        onSubmit: async (values) => {
+            onCreateProduct(values)
+        }
+    })
+
+    const onCreateProduct = async (values) => {
+        try {
+            const { product_name, product_description, product_price, categoryId } = values;
+
+            if (!product_name || !product_description || !product_price) {
+                toast.error('Please fill in all form fields');
+                return; // Stop further execution
+            }
+
+            const newProductData = {
+                product_name,
+                product_description,
+                product_price,
+                categoryId,
+            }
+
+            const newProductDataJSON = JSON.stringify(newProductData)
+
+            const fd = new FormData();
+            fd.append('data', newProductDataJSON);
+            if (!productImage) {
+                fd.append('image', null);
+            } else {
+                fd.append('image', productImage);
+            }
+
+            const createProduct = await Instance().post('products', fd);
+
+            if (createProduct.status === 201) {
+                toast.success('Product created successfully');
+
+                setTimeout(() => {
+                    window.location.reload(false);
+                }, 1500);
+            } else {
+                toast.error('Error creating product');
+            }
+
+            return createProduct;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const handleFormInput = (event) => {
+        const { target } = event
+        formik.setFieldValue(target.name, target.value)
+    }
+
     return (
         <>
+            <Toaster />
             <main className="admin-create-product w-[692px] h-full m-auto flex justify-center items-center">
                 <div className="admin-create-product-container w-full bg-white p-8 border-2 rounded-xl">
                     <div className="main-heaading mb-8 flex justify-between">
@@ -24,16 +98,16 @@ const AdminCreateProduct = ({ handleOpenModal }) => {
                         </div>
                     </div>
                     <div className="main-content">
-                        <form>
+                        <form onSubmit={formik.handleSubmit}>
                             <div className="form-container flex w-full justify-between">
                                 <div className="left-form mr-8 flex flex-col gap-4">
                                     <div className="form-group flex flex-col">
-                                        <label htmlFor="name" className="font-medium mb-2">Product name</label>
-                                        <input type="text" name="name" id="name" className="w-full border-2 px-4 py-3 font-bold text-neutral-600 rounded-xl placeholder:font-medium" placeholder="ex. McFlurry Oreo" />
+                                        <label htmlFor="product_name" className="font-medium mb-2">Product name</label>
+                                        <input type="text" name="product_name" id="product_name" className="w-full border-2 px-4 py-3 font-bold text-neutral-600 rounded-xl placeholder:font-medium" placeholder="ex. McFlurry Oreo" onChange={handleFormInput} />
                                     </div>
                                     <div className="form-group flex flex-col">
-                                        <label htmlFor="category" className="font-medium mb-2">Product category</label>
-                                        <select name="category" id="category" className="w-full border-2 rounded-xl py-4 pl-4 font-medium">
+                                        <label htmlFor="categoryId" className="font-medium mb-2">Product category</label>
+                                        <select name="categoryId" id="categoryId" className="w-full border-2 rounded-xl py-4 pl-4 font-medium">
                                             <option value="">Select a category</option>
                                             <option value="burger">Burger</option>
                                             <option value="burger">Burger</option>
@@ -43,12 +117,12 @@ const AdminCreateProduct = ({ handleOpenModal }) => {
                                         </select>
                                     </div>
                                     <div className="form-group flex flex-col">
-                                        <label htmlFor="category" className="font-medium mb-2">Description</label>
-                                        <textarea id="description" name="description" maxLength={200} placeholder="ex. Sweet and cold, Oreo." className="max-h-[120px] w-full border-2 rounded-xl px-4 py-3 font-medium"></textarea>
+                                        <label htmlFor="product_description" className="font-medium mb-2">Description</label>
+                                        <textarea id="product_description" name="product_description" maxLength={200} placeholder="ex. Sweet and cold, Oreo." className="max-h-[120px] w-full border-2 rounded-xl px-4 py-3 font-medium" onChange={handleFormInput}></textarea>
                                     </div>
                                     <div className="form-group flex flex-col">
-                                        <label htmlFor="category" className="font-medium mb-2">Price</label>
-                                        <input id="price" type="number" name="price" className="w-full border-2 px-4 py-4 rounded-xl placeholder:font-medium font-bold" placeholder="Set the price" />
+                                        <label htmlFor="product_price" className="font-medium mb-2">Price</label>
+                                        <input id="product_price" type="number" name="product_price" className="w-full border-2 px-4 py-4 rounded-xl placeholder:font-medium font-bold" placeholder="Set the price" onChange={handleFormInput} />
                                     </div>
                                 </div>
                                 <div className="right-form flex flex-col justify-between">
@@ -56,42 +130,12 @@ const AdminCreateProduct = ({ handleOpenModal }) => {
                                         <div className="form-group-title mb-2">
                                             <h2 className="font-medium">Picture</h2>
                                         </div>
-                                        <div
-                                            className="form-input-wrapper relative flex justify-center items-center w-[320px] h-[284px] bg-white border-2 border-dashed rounded-xl cursor-pointer"
-                                            onClick={() =>
-                                                document.querySelector("#input-file").click()
-                                            }
-                                        >
-                                            <div className="flex flex-col items-center justify-center h-full pb-4">
-                                                <BsFillCloudArrowUpFill
-                                                    size={70}
-                                                    className="text-neutral-300"
-                                                />
-                                                <div className="file-input-instruction flex flex-col items-center font-medium">
-                                                    <span>Drag and drop upload</span>
-                                                    <span>
-                                                        or{" "}
-                                                        <span
-                                                            onClick={() =>
-                                                                document
-                                                                    .querySelector("#input-file")
-                                                                    .click()
-                                                            }
-                                                            className="text-blue-500"
-                                                        >
-                                                            browse
-                                                        </span>{" "}
-                                                        to choose a file
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <input type="file" name="" id="input-file" hidden className="absolute" />
-                                        </div>
+                                        <FileUpload handleProductImage={onGettingProductImageFromProps} />
                                     </div>
                                     <div className="form-action-button">
                                         <button type="submit" className="bg-primary w-full py-4 rounded-lg">
                                             <span className="font-bold text-white drop-shadow-md">
-                                                Save new product
+                                                Add new product
                                             </span>
                                         </button>
                                     </div>

@@ -1,15 +1,13 @@
-import { PiHamburger } from "react-icons/pi";
+/* eslint-disable react/prop-types */
+const CategoryChip = ({ dataCategory }) => {
+    const { category_name } = dataCategory
 
-const CategoryChip = () => {
     return (
         <>
             <div className="category-chip bg-primary py-4 max-h-[62px] min-w-[180px] rounded-xl drop-shadow-md flex items-center justify-center">
                 <div className="category-chip-wrapper flex items-center justify-center gap-2 text-white">
-                    <div className="category-icon">
-                        <PiHamburger size={30} />
-                    </div>
-                    <div className="category-name">
-                        <span className="font-semibold text-lg">Burger</span>
+                    <div className="category-name flex justify-center">
+                        <span className="font-semibold text-lg text-center">{category_name}</span>
                     </div>
                 </div>
             </div>

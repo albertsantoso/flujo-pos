@@ -35,7 +35,7 @@ const AdminProducts = () => {
                     <div className="wrapper">
                         <div className="main-heading mb-8 flex justify-between items-center">
                             <div className="greetings">
-                                <h1 className="font-bold text-4xl text-neutral-800">Products</h1>
+                                <h1 className="font-bold text-4xl text-neutral-800">Manage Products</h1>
                             </div>
                             <div className="search-filter flex gap-2 items-center z-10">
                                 <SearchBar />

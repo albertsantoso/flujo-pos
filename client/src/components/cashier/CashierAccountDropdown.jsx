@@ -2,7 +2,7 @@ import { LuSettings } from "react-icons/lu";
 import { MdLogout } from 'react-icons/md'
 import { TbUserEdit } from 'react-icons/tb'
 import DefaultPFP from "./../../assets/default/default_pfp.svg";
-import { Button, Menu, MenuButton, MenuGroup, MenuItem, MenuList } from "@chakra-ui/react";
+import { Menu, MenuButton, MenuGroup, MenuItem, MenuList } from "@chakra-ui/react";
 
 const CashierAccountDropdown = () => {
     return (
@@ -19,7 +19,7 @@ const CashierAccountDropdown = () => {
                                 Cashier
                             </p>
                         </div>
-                        <MenuButton as={Button} className="ml-auto">
+                        <MenuButton className="ml-auto" colorScheme="none">
                             <div className="cashier-account-badge-settings ml-auto">
                                 <div>
                                     <LuSettings
@@ -32,7 +32,7 @@ const CashierAccountDropdown = () => {
                     </div>
                 </div>
                 <MenuList className="bg-neutral-100 border-2 mt-[24px] -mr-[26px] py-2 rounded-lg drop-shadow-md" minWidth={"336px"}>
-                    <MenuGroup title={"johndoe@gmail.com"} className="px-4 py-2 font-semibold">
+                    <MenuGroup title={"johndoe@gmail.com"} fontSize={"16px"} color={"#4a4a4a"}>
                         <MenuItem className="px-4 py-2 hover:bg-neutral-300">
                             <span className="font-bold flex justify-between w-full">
                                 Profile Settings

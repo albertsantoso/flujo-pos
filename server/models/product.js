@@ -14,28 +14,33 @@ module.exports = (sequelize, DataTypes) => {
             this.hasMany(transaction_detail, { foreignKey: "productId" });
         }
     }
-    product.init(
-        {
-            product_name: DataTypes.STRING,
-            product_description: DataTypes.TEXT,
-            product_image: DataTypes.STRING,
-            product_price: DataTypes.INTEGER,
-            product_discount: DataTypes.INTEGER,
-            status: {
-                type: DataTypes.ENUM("Active", "Deactive"),
-                defaultValue: "Active",
-            },
-            createdAt: {
-                allowNull: false,
-                type: DataTypes.DATE,
-                defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
-            },
-            updatedAt: {
-                allowNull: false,
-                type: DataTypes.DATE,
-                defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
-            },
+    product.init({
+        product_name: DataTypes.STRING,
+        product_description: DataTypes.TEXT,
+        product_image: {
+            type: DataTypes.STRING,
+            defaultValue: "public/default/flujo.png"
         },
+        product_price: DataTypes.INTEGER,
+        product_discount: {
+            type: DataTypes.INTEGER,
+            defaultValue: 0
+        },
+        status: {
+            type: DataTypes.ENUM("Active", "Deactive"),
+            defaultValue: "Active",
+        },
+        createdAt: {
+            allowNull: false,
+            type: DataTypes.DATE,
+            defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
+        },
+        updatedAt: {
+            allowNull: false,
+            type: DataTypes.DATE,
+            defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
+        },
+    },
         {
             sequelize,
             modelName: "product",
