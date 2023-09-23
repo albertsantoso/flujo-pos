@@ -1,25 +1,35 @@
 /* eslint-disable react/prop-types */
 import "./CashierProductCard.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../../../redux/features/carts";
 import { FaPlus } from "react-icons/fa";
+import { useEffect } from "react";
+import { onCheckIsLogin } from "../../../../redux/features/users";
 
 const CashierProductCard = ({ dataProducts }) => {
 	const { id, product_name, product_description, product_image, product_price } = dataProducts;
+	const userId = useSelector((state) => state.users.id);
 
 	const dispatch = useDispatch();
 
+	useEffect(() => {
+		// dispatch(onCheckIsLogin());
+	}, []);
 	return (
 		<>
 			<div
 				className="cashier-product-card w-full h-[326px] rounded-xl bg-white relative"
-				onClick={() => dispatch(addToCart(1, id))}
+				// onClick={() => dispatch(addToCart(userId, id))}
 			>
-
 				<div className="card-container p-0 inline-flex w-full h-full relative">
 					<div className="card-wrapper p-4 w-full flex flex-col h-full">
 						<div className="product-image mb-4 mx-auto">
-							<img src={`http://localhost:5000/${id <= 18 ? product_image : product_image.substring(7)}`} alt="" />
+							<img
+								src={`http://localhost:5000/${
+									id <= 18 ? product_image : product_image.substring(7)
+								}`}
+								alt=""
+							/>
 						</div>
 						<div className="product-title">
 							<h4 className="font-bold text-[18px] mb-2"> {product_name} </h4>
@@ -42,7 +52,7 @@ const CashierProductCard = ({ dataProducts }) => {
 							<button
 								type="button"
 								className="bg-secondary rounded-full w-[78px] h-[78px] drop-shadow-md"
-								onClick={() => dispatch(addToCart(1, id))} //userId
+								onClick={() => dispatch(addToCart(userId, id))} //userId
 							>
 								<span className="flex justify-center items-center">
 									<FaPlus color="#fff" className="drop-shadow-md" size={30} />
@@ -51,7 +61,7 @@ const CashierProductCard = ({ dataProducts }) => {
 						</div>
 					</div>
 				</div>
-			</div >
+			</div>
 		</>
 	);
 };

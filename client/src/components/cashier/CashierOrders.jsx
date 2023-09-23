@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchCartAsync, setOrderSummary } from "../../../redux/features/carts";
 import CashierAccountBadge from "./CashierAccountDropdown";
+import { onCheckIsLogin } from "../../../redux/features/users";
 
 const CashierOrders = ({ handleOpenModal }) => {
 	const carts = useSelector((state) => state.carts.carts);
@@ -13,14 +14,22 @@ const CashierOrders = ({ handleOpenModal }) => {
 	const subtotal = useSelector((state) => state.carts.subtotal);
 	const tax = useSelector((state) => state.carts.tax);
 	const totalAmount = useSelector((state) => state.carts.totalAmount);
+	const userId = useSelector((state) => state.users.id);
 	const dispatch = useDispatch();
 
+	const onStartUp = async () => {
+		await dispatch(onCheckIsLogin());
+	};
 	useEffect(() => {
-		dispatch(fetchCartAsync(1)); //userId masukin
+		onStartUp();
 	}, []);
 
 	useEffect(() => {
-		dispatch(setOrderSummary(1)); //userId
+		dispatch(fetchCartAsync(userId));
+	}, [userId]);
+
+	useEffect(() => {
+		dispatch(setOrderSummary(userId)); //userId
 	}, [carts]);
 
 	return (

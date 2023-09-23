@@ -9,18 +9,19 @@ const AdminCreateUser = ({ handleOpenModal }) => {
     const username = useRef();
     const email = useRef();
     const password = useRef();
-
-    const handleCreate = async () => {
+    const accessToken = localStorage.getItem("accessToken");
+    const handleCreate = async() => {
         try {
             const dataToSend = {
                 username: username.current.value,
                 email: email.current.value,
                 password: password.current.value,
             }
-            const response = await Instance().post('users/register', {username: username.current.value, email: email.current.value, password: password.current.value})
+            const response = await Instance(accessToken).post('users/register', {username: username.current.value, email: email.current.value, password: password.current.value})
             console.log(response);
             if(response) {
                 alert('new cashier succesfully created')
+                window.location.reload();
             }
         } catch (error) {
             console.log(error);
