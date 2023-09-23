@@ -10,6 +10,7 @@ const { validateUserEmail, validateUserPassword, handleValidationErrors } = requ
 const { verify } = require('./../lib/jwt');
 
 Router.get('/', usersController.allUsers);
+Router.get('/data', verify, usersController.userData);
 Router.post('/register', validateUserEmail, validateUserPassword, handleValidationErrors, usersController.registerCashier);
 Router.post('/login', validateUserPassword, handleValidationErrors, usersController.login);
 Router.post('/recover-password', validateUserEmail, handleValidationErrors, usersController.sendPasswordMail);

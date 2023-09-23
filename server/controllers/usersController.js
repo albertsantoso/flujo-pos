@@ -126,17 +126,18 @@ module.exports = {
     registerCashier: async (req, res, next) => {
         try {
             const { username, email, password } = req.body;
+            console.log(username, email, password);
             if (!username || !email || !password) throw { message: "data provided is incomplete" };
-            const existingUsername = await findUsername();
-            const existingEmail = await findUserEmail();
+            const existingUsername = await findUsername(username);
+            const existingEmail = await findUserEmail(email);
             if (existingUsername) throw { message: "username has already been registered" }
             if (existingEmail) throw { message: "email has already been registered" }
             const hashedPassword = await hash(password);
-            const account = await db.user.create({ username, email, password: hashedPassword }); // ganti ke services
+            const account = await db.user.create({ username, email, password: hashedPassword });
             res.status(201).send({
                 isError: false,
                 message: "Cashier succesfully registered",
-                data: token
+                data: null
             })
         } catch (error) {
             next(error)
@@ -157,6 +158,25 @@ module.exports = {
                     where: { id }
                 }
             )
+        } catch (error) {
+            next(error);
+        }
+    },
+    userData: async (req, res, next) => {
+        try {
+            const { id } = req.dataToken;
+            const account = await findUserId(id);
+            res.status(201).send({
+                isError: false,
+                message: "user account found",
+                data: {
+                    id: account.dataValues.id,
+                    username: account.dataValues.username,
+                    profile_picture: account.dataValues.profile_picture,
+                    role: account.dataValues.role,
+                    email: account.dataValues.email
+                }
+            })
         } catch (error) {
             next(error);
         }
