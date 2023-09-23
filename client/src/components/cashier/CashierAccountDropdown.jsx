@@ -1,7 +1,6 @@
 import { LuSettings } from "react-icons/lu";
 import { MdLogout } from 'react-icons/md'
 import { TbUserEdit } from 'react-icons/tb'
-import DefaultPFP from "./../../assets/default/default_pfp.svg";
 import { Menu, MenuButton, MenuGroup, MenuItem, MenuList } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
