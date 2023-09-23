@@ -33,7 +33,8 @@ export const cartsSlice = createSlice({
 
 export const fetchCartAsync = (userId) => async (dispatchEvent) => {
 	try {
-		const { data } = await Instance().get(`carts/${userId}`);
+		const accessToken = localStorage.getItem("accessToken");
+		const { data } = await Instance(accessToken).get(`carts/${userId}`);
 		dispatchEvent(setCarts(data.data));
 	} catch (error) {
 		console.log(error);
@@ -44,7 +45,8 @@ export const setOrderSummary = (userId) => async (dispatchEvent) => {
 		let totalItems = 0;
 		let subtotal = 0;
 		let tax = 0;
-		const { data } = await Instance().get(`carts/${userId}`);
+		const accessToken = localStorage.getItem("accessToken");
+		const { data } = await Instance(accessToken).get(`carts/${userId}`);
 		const carts = data.data;
 		carts.map((v) => {
 			totalItems += Number(v.quantity);
@@ -63,8 +65,9 @@ export const setOrderSummary = (userId) => async (dispatchEvent) => {
 
 export const changeQuantity = (userId, id, change) => async (dispatchEvent) => {
 	try {
-		await Instance().patch(`carts/${id}?change=${change}`);
-		const { data } = await Instance().get(`carts/${userId}`);
+		const accessToken = localStorage.getItem("accessToken");
+		await Instance(accessToken).patch(`carts/${id}?change=${change}`);
+		const { data } = await Instance(accessToken).get(`carts/${userId}`);
 		dispatchEvent(setCarts(data.data));
 	} catch (error) {
 		console.log(error);
@@ -72,8 +75,9 @@ export const changeQuantity = (userId, id, change) => async (dispatchEvent) => {
 };
 export const deleteOrder = (userId, id) => async (dispatchEvent) => {
 	try {
-		await Instance().delete(`carts/${id}`);
-		const { data } = await Instance().get(`carts/${userId}`);
+		const accessToken = localStorage.getItem("accessToken");
+		await Instance(accessToken).delete(`carts/${id}`);
+		const { data } = await Instance(accessToken).get(`carts/${userId}`);
 		dispatchEvent(setCarts(data.data));
 	} catch (error) {
 		console.log(error);
@@ -82,13 +86,16 @@ export const deleteOrder = (userId, id) => async (dispatchEvent) => {
 
 export const addToCart = (userId, productId) => async (dispatchEvent) => {
 	try {
+		const accessToken = localStorage.getItem("accessToken");
 		const dataToSend = {
 			productId: Number(productId),
 			quantity: 1,
-			userId: 1,
+			userId: userId,
 		};
-		await Instance().post(`carts`, dataToSend);
-		const { data } = await Instance().get(`carts/${userId}`);
+
+		await Instance(accessToken).post(`carts`, dataToSend);
+		const { data } = await Instance(accessToken).get(`carts/${userId}`);
+
 		dispatchEvent(setCarts(data.data));
 	} catch (error) {
 		console.log(error);

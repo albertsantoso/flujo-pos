@@ -9,26 +9,26 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const [passwordVisible, setPasswordVisible] = useState(false);
 	const [input, setInput] = useState("");
 	const [inputPassword, setPassword] = useState("");
 
-    const id = useSelector((state) => state.users.id);
+	const id = useSelector((state) => state.users.id);
 	const role = useSelector((state) => state.users.role);
 
 	useEffect(() => {
-        if(role == "Cashier") {
-            navigate('/')
-        } else if (role == "Admin"){
-			navigate('/Admin')
+		if (role == "Cashier") {
+			navigate('/')
+		} else if (role == "Admin") {
+			navigate('/admin')
 		}
-    }, [role])
-	
+	}, [role])
+
 	const handleLogin = (e) => {
 		e.preventDefault();
-        dispatch(onLoginAsync({username: input, password: inputPassword}))
+		dispatch(onLoginAsync({ username: input, password: inputPassword }))
 		console.log(role);
 	};
 	return (

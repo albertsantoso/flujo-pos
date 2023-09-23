@@ -4,27 +4,41 @@ import SortButton from "../shared/UI/SortButton";
 import CategoryChip from "../shared/UI/CategoryChip";
 import { Instance } from "../../api/instance";
 
-import { PiCaretRightBold, PiCaretLeftBold } from 'react-icons/pi'
+import { PiCaretRightBold, PiCaretLeftBold } from "react-icons/pi";
 
 import "./CashierProducts.css";
 import CashierProductCard from "../shared/UI/CashierProductCard";
+import { useDispatch, useSelector } from "react-redux";
+import {
+	fetchProductAsync,
+	onCategory,
+	onClear,
+	onNextPage,
+	onPreviousPage,
+	onSort,
+	setPagination,
+} from "../../../redux/features/products";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const CashierProducts = () => {
-	const [products, setProducts] = useState([]);
 	const [categories, setCategories] = useState([]);
 
-	const fetchProduct = async () => {
-		try {
-			const { data } = await Instance().get(`products/all`);
-			setProducts(data.data);
-		} catch (err) {
-			console.log(err);
-		}
-	};
+	const products = useSelector((state) => state.products.products);
+	const orderField = useSelector((state) => state.products.orderField);
+	const orderDirection = useSelector((state) => state.products.orderDirection);
+	const search = useSelector((state) => state.products.search);
+	const page = useSelector((state) => state.products.page);
+	const offset = useSelector((state) => state.products.offset);
+	const category = useSelector((state) => state.products.category);
+
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
+	const location = useLocation();
 
 	const fetchCategories = async () => {
 		try {
-			const { data } = await Instance().get(`categories`);
+			const accessToken = localStorage.getItem("accessToken");
+			const { data } = await Instance(accessToken).get(`categories`);
 
 			setCategories(data.data);
 		} catch (err) {
@@ -32,11 +46,45 @@ const CashierProducts = () => {
 		}
 	};
 
+	const takeFromQuery = () => {
+		const queryParams = new URLSearchParams(location.search);
+		const selectedCategory = queryParams.get("category");
+		const selectedOrderField = queryParams.get("orderField");
+		const selectedOrderDirection = queryParams.get("orderDirection");
+		const selectedOffset = queryParams.get("offset");
+		if (selectedCategory) {
+			dispatch(onCategory(selectedCategory));
+		}
+		if (selectedOrderDirection && selectedOrderField) {
+			dispatch(onSort(selectedOrderField, selectedOrderDirection));
+		}
+		if (selectedOffset) {
+			const selectedPage = Number(selectedOffset) / 10 + 1;
+			dispatch(setPagination(selectedPage, selectedOffset));
+		}
+	};
+
+	const clearFilter = () => {
+		navigate(`/`);
+		dispatch(onClear());
+	};
 
 	useEffect(() => {
-		fetchProduct();
+		dispatch(fetchProductAsync());
 		fetchCategories();
+		takeFromQuery();
 	}, []);
+
+	useEffect(() => {
+		navigate(
+			`/?search=${search}&category=${category}&orderField=${orderField}&orderDirection=${orderDirection}&offset=${offset}`,
+		);
+		dispatch(
+			fetchProductAsync(
+				`?search=${search}&category=${category}&orderField=${orderField}&orderDirection=${orderDirection}&offset=${offset}`,
+			),
+		);
+	}, [orderField, orderDirection, search, page, category]);
 
 	return (
 		<>
@@ -52,9 +100,33 @@ const CashierProducts = () => {
 							<div className="search-filter flex gap-2 items-center z-10">
 								<div className="pagination-wrapper mr-4">
 									<div className="pagination-container flex items-center">
-										<button className="bg-neutral-400 rounded-lg p-2"><PiCaretLeftBold color="white" /></button>
-										<span className="w-[20px] mx-2 text-center font-medium bg-neutral-100 rounded-md">{"1"}</span>
-										<button className="bg-neutral-400 rounded-lg p-2"><PiCaretRightBold color="white" /></button>
+										<button
+											className="bg-neutral-400 rounded-lg p-2"
+											onClick={() => {
+												clearFilter();
+											}}
+										>
+											<div>CLEAR FILTER</div>
+										</button>
+										<button
+											className="bg-neutral-400 rounded-lg p-2"
+											onClick={() => {
+												dispatch(onPreviousPage());
+											}}
+										>
+											<PiCaretLeftBold color="white" />
+										</button>
+										<span className="w-[20px] mx-2 text-center font-medium bg-neutral-100 rounded-md">
+											{page}
+										</span>
+										<button
+											className="bg-neutral-400 rounded-lg p-2"
+											onClick={() => {
+												dispatch(onNextPage());
+											}}
+										>
+											<PiCaretRightBold color="white" />
+										</button>
 									</div>
 								</div>
 								<SearchBar />
@@ -63,15 +135,13 @@ const CashierProducts = () => {
 						</div>
 						<div className="main-content mb-6">
 							<div className="product-category h-[80px] flex w-full overflow-auto gap-2 mb-4">
-								{
-									categories?.map((category) => {
-										return (
-											<>
-												<CategoryChip dataCategory={category} />
-											</>
-										)
-									})
-								}
+								{categories?.map((category) => {
+									return (
+										<>
+											<CategoryChip dataCategory={category} />
+										</>
+									);
+								})}
 							</div>
 							<div className="products">
 								{/* <div className="product-list relative flex flex-wrap -mx-[8px]"> */}

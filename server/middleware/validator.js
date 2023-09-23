@@ -1,4 +1,4 @@
-const {query, body, validationResult } = require('express-validator');
+const { query, body, validationResult } = require('express-validator');
 
 const validateUserPassword = [
     body('password').isLength({ min: 6 }).withMessage("Password does not meet the minimum required character")
@@ -8,10 +8,10 @@ const validateUserEmail = [
 ]
 const handleValidationErrors = (req, res, next) => {
     const error = validationResult(req)
-    if(!error.isEmpty()) {
+    if (!error.isEmpty()) {
         console.log(error.errors[0].msg);
         return res.status(401).send(
-            {message: error.errors[0].msg}
+            { message: error.errors[0].msg }
         )
     }
     next()

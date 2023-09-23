@@ -5,12 +5,12 @@ const Router = express.Router();
 const { cartsController } = require("../controllers"); // otomatis baca index.js
 
 //* Import Middleware
-// kosong
+const { verify } = require("./../lib/jwt");
 
-Router.post("/", cartsController.createCart);
-Router.delete("/:id", cartsController.deleteCart);
-Router.delete("/all/:userId", cartsController.deleteAllCart);
-Router.get("/:userId", cartsController.getCart);
-Router.patch("/:id", cartsController.updateCart);
+Router.post("/", verify, cartsController.createCart);
+Router.delete("/:id", verify, cartsController.deleteCart);
+Router.delete("/all/:userId", verify, cartsController.deleteAllCart);
+Router.get("/:userId", verify, cartsController.getCart);
+Router.patch("/:id", verify, cartsController.updateCart);
 
 module.exports = Router; // pake module.exports karena ga ada librarynya, bawaan dari js

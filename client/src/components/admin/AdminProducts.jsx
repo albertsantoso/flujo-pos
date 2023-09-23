@@ -5,28 +5,23 @@ import SortButton from "../shared/UI/SortButton";
 import SelectCategory from "../shared/UI/SelectCategory";
 import { FaPlus } from "react-icons/fa";
 import AdminCreateProduct from './AdminCreateProduct'
-import { Instance } from "../../api/instance";
 import { PiCaretLeftBold, PiCaretRightBold } from "react-icons/pi";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProductAsync } from "../../../redux/features/products";
 
 const AdminProducts = () => {
-    const [products, setProducts] = useState([])
     const [openModal, setOpenModal] = useState(false)
 
-    const fetchProduct = async () => {
-        try {
-            const { data } = await Instance().get(`products/all`);
-            setProducts(data.data);
-        } catch (err) {
-            console.log(err);
-        }
-    };
+    const products = useSelector((state) => state.products.products);
+
+    const dispatch = useDispatch()
 
     const onOpenModal = () => {
         setOpenModal(!openModal);
     }
 
     useEffect(() => {
-        fetchProduct()
+        dispatch(fetchProductAsync())
     }, [])
 
     return (
