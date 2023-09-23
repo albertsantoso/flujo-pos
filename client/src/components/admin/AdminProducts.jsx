@@ -6,6 +6,7 @@ import SelectCategory from "../shared/UI/SelectCategory";
 import { FaPlus } from "react-icons/fa";
 import AdminCreateProduct from './AdminCreateProduct'
 import { Instance } from "../../api/instance";
+import { PiCaretLeftBold, PiCaretRightBold } from "react-icons/pi";
 
 const AdminProducts = () => {
     const [products, setProducts] = useState([])
@@ -38,6 +39,13 @@ const AdminProducts = () => {
                                 <h1 className="font-bold text-4xl text-neutral-800">Manage Products</h1>
                             </div>
                             <div className="search-filter flex gap-2 items-center z-10">
+                                <div className="pagination-wrapper mr-4">
+                                    <div className="pagination-container flex items-center">
+                                        <button className="bg-neutral-400 rounded-lg p-2"><PiCaretLeftBold color="white" /></button>
+                                        <span className="w-[20px] mx-2 text-center font-medium bg-neutral-100 rounded-md">{"1"}</span>
+                                        <button className="bg-neutral-400 rounded-lg p-2"><PiCaretRightBold color="white" /></button>
+                                    </div>
+                                </div>
                                 <SearchBar />
                                 <SelectCategory />
                                 <SortButton />

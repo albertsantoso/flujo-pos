@@ -1,24 +1,28 @@
 /* eslint-disable react/prop-types */
-import { FaPlus } from "react-icons/fa";
-import "./ProductCard.css";
+import "./CashierProductCard.css";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../../../redux/features/carts";
+import { FaPlus } from "react-icons/fa";
 
-const ProductCard = ({ dataProducts }) => {
+const CashierProductCard = ({ dataProducts }) => {
 	const { id, product_name, product_description, product_image, product_price } = dataProducts;
 
 	const dispatch = useDispatch();
 
 	return (
 		<>
-			<div className="product-card w-[322px] h-[426px] rounded-xl bg-white">
+			<div
+				className="cashier-product-card w-full h-[326px] rounded-xl bg-white relative"
+				onClick={() => dispatch(addToCart(1, id))}
+			>
+
 				<div className="card-container p-0 inline-flex w-full h-full relative">
-					<div className="card-wrapper p-8 w-full flex flex-col h-full">
+					<div className="card-wrapper p-4 w-full flex flex-col h-full">
 						<div className="product-image mb-4 mx-auto">
 							<img src={`http://localhost:5000/${id <= 18 ? product_image : product_image.substring(7)}`} alt="" />
 						</div>
 						<div className="product-title">
-							<h4 className="font-bold text-[22px] mb-2"> {product_name} </h4>
+							<h4 className="font-bold text-[18px] mb-2"> {product_name} </h4>
 						</div>
 						<div className="product-description mt-auto mb-2 w-[60%]">
 							<p className="font-medium text-sm text-neutral-500 line-clamp-2">
@@ -26,7 +30,7 @@ const ProductCard = ({ dataProducts }) => {
 							</p>
 						</div>
 						<div className="product-price">
-							<span className="font-bold text-[28px] text-primary">
+							<span className="font-bold text-[24px] text-primary">
 								{product_price.toLocaleString("id-ID", {
 									style: "currency",
 									currency: "IDR",
@@ -34,10 +38,10 @@ const ProductCard = ({ dataProducts }) => {
 								})}
 							</span>
 						</div>
-						<div className="absolute bottom-8 right-6">
+						<div className="absolute bottom-4 right-4">
 							<button
 								type="button"
-								className="bg-secondary rounded-full w-[90px] h-[90px] drop-shadow-md"
+								className="bg-secondary rounded-full w-[78px] h-[78px] drop-shadow-md"
 								onClick={() => dispatch(addToCart(1, id))} //userId
 							>
 								<span className="flex justify-center items-center">
@@ -47,9 +51,9 @@ const ProductCard = ({ dataProducts }) => {
 						</div>
 					</div>
 				</div>
-			</div>
+			</div >
 		</>
 	);
 };
 
-export default ProductCard;
+export default CashierProductCard;
