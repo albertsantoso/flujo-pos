@@ -1,7 +1,6 @@
 import { LuSettings } from "react-icons/lu";
 import { MdLogout } from 'react-icons/md'
 import { TbUserEdit } from 'react-icons/tb'
-import DefaultPFP from "./../../assets/default/default_pfp.svg";
 import { Menu, MenuButton, MenuGroup, MenuItem, MenuList } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -14,9 +13,9 @@ const CashierAccountDropdown = () => {
     const username = useSelector((state) => state.users.username)
     const role = useSelector((state) => state.users.role)
     const email = useSelector((state) => state.users.email)
+    const profile_picture = useSelector((state) => state.users.profile_picture)
 
-    const handleLogout = async() => {
-        console.log('logout');
+    const handleLogout = async () => {
         await dispatch(onLogout())
         await navigate('/login')
     }
@@ -27,7 +26,7 @@ const CashierAccountDropdown = () => {
                 <div className="cashier-account-badge bg-neutral-50 rounded-xl h-[80px] border-2 flex items-center px-6">
                     <div className="cashier-account-badge-wrapper flex items-center gap-4 w-full">
                         <div className="cashier-account-badge-pfp max-w-[50px]">
-                            <img src={DefaultPFP} alt="" />
+                            <img src={`http://localhost:5000/${profile_picture.substring(7)}`} alt="" />
                         </div>
                         <div className="cashier-account-badge-detail">
                             <h3 className="text-lg font-semibold">{username}</h3>
@@ -56,7 +55,7 @@ const CashierAccountDropdown = () => {
                             </span>
                         </MenuItem>
                         <MenuItem className="px-4 py-2 hover:bg-neutral-300">
-                            <span onClick={handleLogout} className="text-red-500 font-bold flex justify-between w-full">
+                            <span onClick={() => handleLogout()} className="text-red-500 font-bold flex justify-between w-full">
                                 Logout
                                 <MdLogout size={20} />
                             </span>

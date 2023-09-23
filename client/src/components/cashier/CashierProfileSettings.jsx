@@ -1,9 +1,7 @@
 import { useState } from "react";
 import FileUpload from "../shared/UI/FileUpload";
-import DefaultPFP from "./../../assets/default/default_pfp.svg";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { useSelector } from "react-redux";
-import axios from "axios";
 import { Instance } from "../../api/instance";
 
 const CashierProfileSettings = () => {
@@ -11,7 +9,13 @@ const CashierProfileSettings = () => {
 	const [requestResetPassword, setRequestResetPassword] = useState(false);
 	const username = useSelector((state) => state.users.username);
 	const email = useSelector((state) => state.users.email);
-	const updated_picture = useSelector((state) => state.users.updated_picture);
+	const profile_picture = useSelector((state) => state.users.profile_picture)
+
+	const [profileImage, setProfileImage] = useState(null)
+
+	const onGettingProductImageFromProps = (image) => {
+		setProfileImage(image)
+	}
 
 	const onOpenModal = () => {
 		setOpenModal(!openModal);
@@ -20,9 +24,7 @@ const CashierProfileSettings = () => {
 	const onRequestResetPassword = async () => {
 		try {
 			setRequestResetPassword(true);
-			console.log(email);
-			const response = await Instance().post("users/recover-password", { email });
-			console.log(response);
+			await Instance().post("users/recover-password", { email });
 			alert("Email succesfully sent, please check your inbox");
 		} catch (error) {
 			console.log(error);
@@ -31,11 +33,14 @@ const CashierProfileSettings = () => {
 
 	const onSavePicture = async () => {
 		try {
+			const accessTKN = localStorage.getItem("accessToken")
+
 			const fd = new FormData();
-			fd.append("images", updated_picture);
-			await Instance().patch(`users/update`, fd);
+			fd.append("image", profileImage);
+			await Instance(accessTKN).patch(`users/update`, fd);
 
 			alert("Picture updated!");
+			window.location.reload()
 		} catch (error) {
 			alert(error.message);
 		}
@@ -55,7 +60,7 @@ const CashierProfileSettings = () => {
 					<div className="main-content flex">
 						<div className="left-side flex flex-col items-center mr-14">
 							<div className="profile-picture w-[160px] mb-2">
-								<img src={DefaultPFP} alt="" />
+								<img src={`http://localhost:5000/${profile_picture.substring(7)}`} alt="" />
 							</div>
 							<span
 								className="font-medium text-blue-600 hover:underline hover:cursor-pointer"
@@ -93,9 +98,8 @@ const CashierProfileSettings = () => {
 				</div>
 				<div className="create-product-modal z-50">
 					<div
-						className={`z-20 ${
-							openModal ? "block" : "hidden"
-						} absolute top-0 right-0 bottom-0 left-0 flex justify-center items-center`}
+						className={`z-20 ${openModal ? "block" : "hidden"
+							} absolute top-0 right-0 bottom-0 left-0 flex justify-center items-center`}
 					>
 						<div className="file-upload-container p-8 rounded-xl bg-white flex flex-col items-center">
 							<div className="section-heading mb-4 font-bold text-lg flex w-full justify-center">
@@ -112,7 +116,7 @@ const CashierProfileSettings = () => {
 								</div>
 							</div>
 							<div className="wrapper mb-4">
-								<FileUpload />
+								<FileUpload handleProductImage={onGettingProductImageFromProps} />
 							</div>
 							<button
 								className="bg-primary hover:bg-red-400 active:scale-95 duration-150 w-full py-2 rounded-lg"
@@ -127,9 +131,8 @@ const CashierProfileSettings = () => {
 						</div>
 					</div>
 					<div
-						className={`absolute top-0 right-0 left-0 bottom-0 bg-neutral-800 bg-opacity-70 backdrop-blur-sm flex justify-center items-center z-10 ${
-							openModal ? "block" : "hidden"
-						}`}
+						className={`absolute top-0 right-0 left-0 bottom-0 bg-neutral-800 bg-opacity-70 backdrop-blur-sm flex justify-center items-center z-10 ${openModal ? "block" : "hidden"
+							}`}
 					></div>
 				</div>
 			</main>

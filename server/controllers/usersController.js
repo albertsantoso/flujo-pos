@@ -22,9 +22,14 @@ module.exports = {
             const dataImage = await db.user.findOne({
                 where: { id },
             });
-            const path = req.files.images[0].path;
+
+            const path = req.files.image[0].path;
             await db.user.update({ profile_picture: path }, { where: { id } });
-            deleteFiles({ images: [{ path: dataImage.profile_picture }] });
+
+            if (dataImage.profile_picture != "public/default/default_pfp.png") {
+                deleteFiles({ image: [{ path: dataImage.dataValues.profile_picture }] });
+            }
+
             res.status(200).send({
                 isError: false,
                 message: "Update Image Success",

@@ -5,7 +5,6 @@ const initialState = {
 	id: 0,
 	username: "",
 	profile_picture: "",
-	updated_picture: null,
 	role: "",
 	email: "",
 };
@@ -29,29 +28,26 @@ export const userSlice = createSlice({
 		setEmail: (initialState, { payload }) => {
 			initialState.email = payload;
 		},
-		setUpdatedPicture: (initialState, { payload }) => {
-			initialState.updated_picture = payload;
-		},
 	},
 });
 
 export const onLoginAsync =
 	({ username, password }) =>
-	async (dispatch) => {
-		try {
-			const { data } = await Instance().post(`users/login`, { username, password });
-			console.log(data);
-			localStorage.setItem("accessToken", data.accessToken);
-			dispatch(setId(data.data.id));
-			dispatch(setUsername(data.data.username));
-			dispatch(setProfile_Picture(data.data.profile_picture));
-			dispatch(setRole(data.data.role));
-			dispatch(setEmail(data.data.email));
-		} catch (error) {
-			console.log(error);
-			return error;
-		}
-	};
+		async (dispatch) => {
+			try {
+				const { data } = await Instance().post(`users/login`, { username, password });
+				console.log(data);
+				localStorage.setItem("accessToken", data.accessToken);
+				dispatch(setId(data.data.id));
+				dispatch(setUsername(data.data.username));
+				dispatch(setProfile_Picture(data.data.profile_picture));
+				dispatch(setRole(data.data.role));
+				dispatch(setEmail(data.data.email));
+			} catch (error) {
+				console.log(error);
+				return error;
+			}
+		};
 
 export const onCheckIsLogin = () => async (dispatch) => {
 	try {
@@ -81,6 +77,5 @@ export const onLogout = () => async (dispatch) => {
 	}
 };
 
-export const { setUsername, setId, setRole, setProfile_Picture, setEmail, setUpdatedPicture } =
-	userSlice.actions;
+export const { setUsername, setId, setRole, setProfile_Picture, setEmail } = userSlice.actions;
 export default userSlice.reducer;

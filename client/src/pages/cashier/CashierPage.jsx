@@ -8,7 +8,7 @@ import "./CashierPage.css";
 import { useDispatch } from "react-redux";
 import { onCheckIsLogin } from "../../../redux/features/users";
 
-// import CashierProfileSettings from "../../components/cashier/CashierProfileSettings"
+import CashierProfileSettings from "../../components/cashier/CashierProfileSettings"
 
 const CashierPage = () => {
 	const [openModal, setOpenModal] = useState(false);
@@ -28,19 +28,17 @@ const CashierPage = () => {
 				</aside>
 				<main className="content grow px-12 py-8 overflow-auto">
 					<CashierProducts />
-					{/* <CashierProfileSettings /> */}
+					<CashierProfileSettings />
 					<div className="checkout-payment-modal z-50">
 						<div
-							className={`z-20 ${
-								openModal ? "block" : "hidden"
-							} absolute top-0 right-0 bottom-0 left-0 h-full`}
+							className={`z-20 ${openModal ? "block" : "hidden"
+								} absolute top-0 right-0 bottom-0 left-0 h-full`}
 						>
 							<CheckoutPayment handleOpenModal={onOpenModal} />
 						</div>
 						<div
-							className={`absolute top-0 right-0 left-0 bottom-0 bg-neutral-800 bg-opacity-70 backdrop-blur-sm flex justify-center items-center z-10 ${
-								openModal ? "block" : "hidden"
-							}`}
+							className={`absolute top-0 right-0 left-0 bottom-0 bg-neutral-800 bg-opacity-70 backdrop-blur-sm flex justify-center items-center z-10 ${openModal ? "block" : "hidden"
+								}`}
 							onClick={onOpenModal}
 						></div>
 					</div>

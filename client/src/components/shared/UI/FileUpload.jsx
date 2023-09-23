@@ -1,31 +1,12 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { BsFillCloudArrowUpFill } from "react-icons/bs";
-import { useDispatch, useSelector } from "react-redux";
-import { setUpdatedPicture } from "../../../../redux/features/users";
 
 const FileUpload = ({ handleProductImage }) => {
-	const updated_picture = useSelector((state) => state.users.updated_picture);
-	const dispatch = useDispatch();
-
 	const getFileImage = (event) => {
 		const fileImage = event.target.files[0];
 
 		handleProductImage(fileImage);
-	};
-
-	const onUpload = (event) => {
-		try {
-			const new_pic = event.target.files[0];
-			if (new_pic.size > 1000000 || new_pic.type.split("/")[0] !== "image") {
-				throw {
-					message: "max size is 1 mb and file must by image",
-				};
-			}
-			dispatch(setUpdatedPicture(new_pic));
-		} catch (error) {
-			alert(error.message);
-		}
 	};
 
 	return (
@@ -58,7 +39,7 @@ const FileUpload = ({ handleProductImage }) => {
 						hidden
 						accept=".jpg, .jpeg, .png, .pdf"
 						className="absolute"
-						onChange={onUpload}
+						onChange={getFileImage}
 					/>
 				</div>
 			</div>

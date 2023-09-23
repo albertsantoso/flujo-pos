@@ -49,6 +49,7 @@ const AdminCreateProduct = ({ handleOpenModal }) => {
 
             const fd = new FormData();
             fd.append('data', newProductDataJSON);
+
             if (!productImage) {
                 fd.append('image', null);
             } else {

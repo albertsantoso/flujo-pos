@@ -8,8 +8,6 @@ module.exports = {
             const { search, category, orderField, orderDirection, offset } =
                 req.query;
 
-            console.log(req.query);
-
             const selectedAttributes = [
                 "id",
                 "product_name",
@@ -21,12 +19,12 @@ module.exports = {
 
             const categoryInclude = {
                 model: db.category,
-                attributes: ["category_name"],
+                attributes: ["category_name", "id"],
             };
 
             if (category) {
                 categoryInclude.where = {
-                    category_name: category,
+                    id: category,
                 };
             }
 
