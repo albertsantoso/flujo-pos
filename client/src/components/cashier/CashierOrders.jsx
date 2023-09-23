@@ -28,7 +28,7 @@ const CashierOrders = ({ handleOpenModal }) => {
 			<div className="cashier-orders bg-white shadow-lg h-screen">
 				<div className="orders-container bg-white w-[376px] p-4 h-full">
 					<div className="orders-wrapper flex flex-col h-full">
-						<div className="orders-head mb-6 z-10">
+						<div className="orders-head mb-6">
 							<CashierAccountBadge />
 						</div>
 						<div className="orders-content">

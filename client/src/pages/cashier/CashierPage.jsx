@@ -5,7 +5,7 @@ import CheckoutPayment from "../../components/cashier/CheckoutPayment"
 import Sidebar from "../../components/common/Sidebar"
 
 import './CashierPage.css'
-import CashierProfileSettings from "../../components/cashier/CashierProfileSettings"
+// import CashierProfileSettings from "../../components/cashier/CashierProfileSettings"
 
 const CashierPage = () => {
     const [openModal, setOpenModal] = useState(false)
@@ -20,8 +20,8 @@ const CashierPage = () => {
                 </aside>
                 <main className='content grow px-12 py-8 overflow-auto'>
                     <CashierProducts />
-                    <CashierProfileSettings />
-                    <div className="checkout-payment-modal">
+                    {/* <CashierProfileSettings /> */}
+                    <div className="checkout-payment-modal z-50">
                         <div className={`z-20 ${openModal ? "block" : "hidden"} absolute top-0 right-0 bottom-0 left-0 h-full`}>
                             <CheckoutPayment handleOpenModal={onOpenModal} />
                         </div>

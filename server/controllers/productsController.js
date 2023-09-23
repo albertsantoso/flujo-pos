@@ -37,7 +37,7 @@ module.exports = {
             const baseQuery = {
                 attributes: selectedAttributes,
                 include: [categoryInclude],
-                limit: 100,
+                limit: 10,
                 order: orderOptions,
             };
 
