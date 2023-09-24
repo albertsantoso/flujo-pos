@@ -132,7 +132,7 @@ module.exports = {
             const newTemplate = compiledTemplate({ username, token });
             await transporter.sendMail({
                 from: "flujo-post",
-                to: "aryosetyotama27@gmail.com",
+                to: email,
                 subject: "password recovery email",
                 html: newTemplate,
             });
