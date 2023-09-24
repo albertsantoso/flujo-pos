@@ -62,7 +62,6 @@ module.exports = {
                 }
             )
         } catch (error) {
-            console.log(`from password update in service`, error);
             return error
         }
     }

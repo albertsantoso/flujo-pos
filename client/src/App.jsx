@@ -14,6 +14,7 @@ import ChangePasswordPage from "./pages/auth/ChangePasswordPage";
 import { useDispatch } from "react-redux";
 import { onCheckIsLogin } from "../redux/features/users";
 import { useEffect } from "react";
+import { Toaster } from "react-hot-toast";
 
 function App() {
 	const dispatch = useDispatch();
@@ -24,6 +25,7 @@ function App() {
 
 	return (
 		<>
+			<Toaster />
 			<Routes>
 				<Route path="/login" element={<LoginPage />} />
 				<Route path="/admin" element={<AdminPage />} />

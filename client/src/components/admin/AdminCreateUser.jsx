@@ -1,9 +1,32 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { AiFillCloseCircle, AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
+import { Instance } from "../../api/instance";
+import toast from "react-hot-toast";
 
 const AdminCreateUser = ({ handleOpenModal }) => {
     const [passwordVisible, setPasswordVisible] = useState(false)
+
+    const username = useRef();
+    const email = useRef();
+    const password = useRef();
+    const accessToken = localStorage.getItem("accessToken");
+    const handleCreate = async() => {
+        try {
+            const dataToSend = {
+                username: username.current.value,
+                email: email.current.value,
+                password: password.current.value,
+            }
+            const response = await Instance(accessToken).post('users/register', {username: username.current.value, email: email.current.value, password: password.current.value})
+            if(response) {
+                toast.success('new cashier succesfully created')
+                window.location.reload();
+            }
+        } catch (error) {
+            toast.error(error.response.data.message);
+        }
+    }
 
     return (
         <>
@@ -29,16 +52,16 @@ const AdminCreateUser = ({ handleOpenModal }) => {
                                 <div className="flex flex-col gap-4">
                                     <div className="form-group flex flex-col">
                                         <label htmlFor="username" className="font-semibold mb-2">Username</label>
-                                        <input type="text" name="username" id="username" className="w-full border-2 px-4 py-3 font-bold text-neutral-600 rounded-xl placeholder:font-semibold" placeholder="johndoe" />
+                                        <input ref={username} type="text" name="username" id="username" className="w-full border-2 px-4 py-3 font-bold text-neutral-600 rounded-xl placeholder:font-semibold" placeholder="johndoe" />
                                     </div>
                                     <div className="form-group flex flex-col">
                                         <label htmlFor="email" className="font-semibold mb-2">Email</label>
-                                        <input type="email" name="email" id="email" className="w-full border-2 px-4 py-3 font-bold text-neutral-600 rounded-xl placeholder:font-semibold" placeholder="johndoe@gmail.com" />
+                                        <input ref={email} type="email" name="email" id="email" className="w-full border-2 px-4 py-3 font-bold text-neutral-600 rounded-xl placeholder:font-semibold" placeholder="johndoe@gmail.com" />
                                     </div>
                                     <div className="form-group flex flex-col">
                                         <label htmlFor="name" className="font-semibold mb-2">Password</label>
                                         <div className="form-controller relative flex items-center">
-                                            <input type={passwordVisible ? "text" : "password"} id='password' name='password' placeholder="Password" className='w-full border-2 px-4 py-3 font-bold text-neutral-600 rounded-xl placeholder:font-semibold' />
+                                            <input ref={password} type={passwordVisible ? "text" : "password"} id='password' name='password' placeholder="Password" className='w-full border-2 px-4 py-3 font-bold text-neutral-600 rounded-xl placeholder:font-semibold' />
                                             <button type='button' onClick={() => setPasswordVisible(!passwordVisible)} className='absolute right-2 p-2 rounded-md cursor-pointer hover:bg-neutral-100 duration-150'>
                                                 {
                                                     passwordVisible ? (
@@ -51,7 +74,7 @@ const AdminCreateUser = ({ handleOpenModal }) => {
                                         </div>
                                     </div>
                                     <div className="form-action-button">
-                                        <button type="button" className="bg-primary hover:bg-red-400 active:scale-95 duration-150 w-full py-4 rounded-lg">
+                                        <button onClick={handleCreate} type="button" className="bg-primary hover:bg-red-400 active:scale-95 duration-150 w-full py-4 rounded-lg">
                                             <span className="font-bold text-white drop-shadow-md">
                                                 Add new cashier
                                             </span>

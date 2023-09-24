@@ -17,6 +17,7 @@ Router.get("/", usersController.allUsers);
 Router.get("/one", verify, usersController.getUser);
 Router.post(
     "/register",
+    verify,
     validateUserEmail,
     validateUserPassword,
     handleValidationErrors,
@@ -42,6 +43,6 @@ Router.patch(
     verify,
     usersController.resetPassword
 );
-Router.patch("/update-role", verify, usersController.updateStatus);
+Router.patch("/change-status", verify, usersController.updateStatus);
 
 module.exports = Router;
