@@ -37,44 +37,44 @@ module.exports = {
       {
         username: "albert_santoso",
         email: "albert@example.com",
-        password: "abc123",
+        password: "$2b$10$avjF7uoUqlvP6KYObWSRJOw4xtWpimzkYR75Ea9SaKpEccdE9L9Re",
         status: "active",
-        role: "Admin"
+        role: "Cashier"
       },
       {
-        username: "rafel_tp",
+        username: "rafael_tp",
         email: "rafaeltp@example.com",
-        password: "abc123",
+        password: "$2b$10$avjF7uoUqlvP6KYObWSRJOw4xtWpimzkYR75Ea9SaKpEccdE9L9Re",
         status: "active",
-        role: "Admin"
+        role: "Cashier"
       },
       {
         username: "aryo_stm",
         email: "aryostm@example.com",
-        password: "abc123",
+        password: "$2b$10$avjF7uoUqlvP6KYObWSRJOw4xtWpimzkYR75Ea9SaKpEccdE9L9Re",
+        status: "active",
+        role: "Cashier"
+      },
+      {
+        username: "Admin1",
+        email: "alvin@example.com",
+        password: "$2b$10$avjF7uoUqlvP6KYObWSRJOw4xtWpimzkYR75Ea9SaKpEccdE9L9Re",
         status: "active",
         role: "Admin"
       },
       {
-        username: "alvin",
-        email: "alvin@example.com",
-        password: "abc123",
-        status: "active",
-        role: "cashier"
-      },
-      {
-        username: "joe",
+        username: "Admin2",
         email: "joe@example.com",
-        password: "abc123",
+        password: "$2b$10$avjF7uoUqlvP6KYObWSRJOw4xtWpimzkYR75Ea9SaKpEccdE9L9Re",
         status: "disabled",
-        role: "cashier"
+        role: "Admin"
       },
       {
-        username: "rico",
+        username: "Admin3",
         email: "rico@example.com",
-        password: "abc123",
+        password: "$2b$10$avjF7uoUqlvP6KYObWSRJOw4xtWpimzkYR75Ea9SaKpEccdE9L9Re",
         status: "disabled",
-        role: "cashier"
+        role: "Admin"
       },
     ])
   },

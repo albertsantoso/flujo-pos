@@ -8,6 +8,7 @@ const initialState = {
 	profile_picture: "",
 	role: "",
 	email: "",
+	onProfilePage: false
 };
 
 export const userSlice = createSlice({
@@ -28,6 +29,9 @@ export const userSlice = createSlice({
 		},
 		setEmail: (initialState, { payload }) => {
 			initialState.email = payload;
+		},
+		setOnProfilePage: (initialState, { payload }) => {
+			initialState.onProfilePage = payload;
 		},
 	},
 });
@@ -76,5 +80,13 @@ export const onLogout = () => async (dispatch) => {
 	}
 };
 
-export const { setUsername, setId, setRole, setProfile_Picture, setEmail } = userSlice.actions;
+export const onSetProfilePage = (status) => async (dispatch) => {
+	try {
+		dispatch(setOnProfilePage(status))
+	} catch (error) {
+		console.log(error);
+	}
+}
+
+export const { setUsername, setId, setRole, setProfile_Picture, setEmail, setOnProfilePage } = userSlice.actions;
 export default userSlice.reducer;

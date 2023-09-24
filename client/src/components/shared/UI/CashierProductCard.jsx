@@ -3,8 +3,6 @@ import "./CashierProductCard.css";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../../../redux/features/carts";
 import { FaPlus } from "react-icons/fa";
-import { useEffect } from "react";
-import { onCheckIsLogin } from "../../../../redux/features/users";
 
 const CashierProductCard = ({ dataProducts }) => {
 	const { id, product_name, product_description, product_image, product_price } = dataProducts;
@@ -12,22 +10,16 @@ const CashierProductCard = ({ dataProducts }) => {
 
 	const dispatch = useDispatch();
 
-	useEffect(() => {
-		// dispatch(onCheckIsLogin());
-	}, []);
 	return (
 		<>
 			<div
 				className="cashier-product-card w-full h-[326px] rounded-xl bg-white relative"
-				// onClick={() => dispatch(addToCart(userId, id))}
 			>
 				<div className="card-container p-0 inline-flex w-full h-full relative">
 					<div className="card-wrapper p-4 w-full flex flex-col h-full">
 						<div className="product-image mb-4 mx-auto">
 							<img
-								src={`http://localhost:5000/${
-									id <= 18 ? product_image : product_image.substring(7)
-								}`}
+								src={`http://localhost:5000/${product_image.substring(7)}`}
 								alt=""
 							/>
 						</div>

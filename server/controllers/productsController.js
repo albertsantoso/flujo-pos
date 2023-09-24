@@ -1,3 +1,4 @@
+const deleteFiles = require("../helper/deleteFiles");
 const db = require("./../models");
 const { sequelize } = require("./../models");
 const { Op } = require("sequelize");
@@ -5,7 +6,7 @@ const { Op } = require("sequelize");
 module.exports = {
     getAllProducts: async (req, res, next) => {
         try {
-            const { search, category, orderField, orderDirection, offset } =
+            const { search, category, orderField, orderDirection, offset, status } =
                 req.query;
 
             const selectedAttributes = [
@@ -53,6 +54,21 @@ module.exports = {
                 baseQuery.offset = Number(offset);
             }
 
+            if (status) {
+                baseQuery.where = {
+                    status: status
+                }
+            }
+
+            if (search && status) {
+                baseQuery.where = {
+                    product_name: {
+                        [Op.like]: `%${search}%`,
+                    },
+                    status: status
+                }
+            }
+
             const findProducts = await db.product.findAll(baseQuery);
             res.status(200).send({
                 isError: false,
@@ -61,6 +77,22 @@ module.exports = {
             });
         } catch (error) {
             next(error);
+        }
+    },
+    getProduct: async (req, res, next) => {
+        try {
+            const { productId } = req.params;
+
+            const product = await db.product.findOne({ where: { id: productId } })
+
+            res.status(200).send({
+                isError: false,
+                message: "Get one product success",
+                data: product,
+            })
+        } catch (error) {
+            console.log(error);
+            next(error)
         }
     },
     createProduct: async (req, res, next) => {
@@ -73,6 +105,40 @@ module.exports = {
             }
 
             const createProduct = await db.product.create(data);
+
+            res.status(201).send({
+                isError: false,
+                message: "Create product success!",
+                data: createProduct,
+            });
+        } catch (error) {
+            next(error);
+        }
+    },
+    updateProduct: async (req, res, next) => {
+        try {
+            const { productId } = req.params;
+
+            const image = req.files.image;
+            const data = JSON.parse(req.body.data);
+
+            if (image) {
+                const dataImage = await db.product.findOne(
+                    {
+                        attributes: ["product_image"],
+                        where: { id: productId }
+                    }
+                );
+
+                data.product_image = image[0].path;
+                deleteFiles({
+                    image: {
+                        path: dataImage.dataValues.product_image
+                    }
+                });
+            }
+
+            const createProduct = await db.product.update(data, { where: { id: productId } });
 
             res.status(201).send({
                 isError: false,

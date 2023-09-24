@@ -10,10 +10,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchProductAsync, onCategory, onClear, onNextPage, onPreviousPage, onSort, setPagination } from "../../../redux/features/products";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Instance } from "../../api/instance";
+import AdminUpdateProduct from "./AdminUpdateProduct";
 
 const AdminProducts = () => {
-    const [openModal, setOpenModal] = useState(false)
+    const [openCreateProductModal, setOpenCreateProductModal] = useState(false)
+    const [openUpdateProductModal, setOpenUpdateProductModal] = useState(false)
     const [categories, setCategories] = useState([]);
+    const [productId, setProductId] = useState(null)
 
     const products = useSelector((state) => state.products.products);
     const orderField = useSelector((state) => state.products.orderField);
@@ -27,8 +30,13 @@ const AdminProducts = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const onOpenModal = () => {
-        setOpenModal(!openModal);
+    const onOpenCreateProductModal = () => {
+        setOpenCreateProductModal(!openCreateProductModal);
+    }
+
+    const onOpenUpdateProductModal = (_productId) => {
+        setOpenUpdateProductModal(!openUpdateProductModal);
+        setProductId(_productId)
     }
 
     const fetchCategories = async () => {
@@ -56,7 +64,7 @@ const AdminProducts = () => {
         }
         if (selectedOffset) {
             const selectedPage = Number(selectedOffset) / 10 + 1;
-            dispatch(setPagination(selectedPage, selectedOffset));
+            dispatch(setPagination(selectedPage, Number(selectedOffset)));
         }
     };
 
@@ -139,7 +147,7 @@ const AdminProducts = () => {
                                         return (
                                             <>
                                                 <div className="flex px-[8px] pb-[16px]">
-                                                    <ProductCard key={product.id} dataProducts={product} />
+                                                    <ProductCard key={product.id} dataProducts={product} handleOpenUpdateProductModal={onOpenUpdateProductModal} />
                                                 </div>
                                             </>
                                         )
@@ -148,7 +156,7 @@ const AdminProducts = () => {
                             </div>
                         </div>
                         <div className="absolute bottom-20 right-20">
-                            <button type="submit" className="bg-primary hover:bg-red-400 active:scale-95 shadow-lg flex items-center p-6 rounded-2xl duration-150" onClick={onOpenModal}>
+                            <button type="submit" className="bg-primary hover:bg-red-400 active:scale-95 shadow-lg flex items-center p-6 rounded-2xl duration-150" onClick={onOpenCreateProductModal}>
                                 <span className="flex flex-col justify-center items-center mr-2">
                                     <FaPlus color='#fff' className='drop-shadow-md' size={24} />
                                 </span>
@@ -158,10 +166,17 @@ const AdminProducts = () => {
                     </div>
                 </div>
                 <div className="create-product-modal z-50">
-                    <div className={`z-20 ${openModal ? "block" : "hidden"} absolute top-0 right-0 bottom-0 left-0 h-full`}>
-                        <AdminCreateProduct handleOpenModal={onOpenModal} />
+                    <div className={`z-20 ${openCreateProductModal ? "block" : "hidden"} absolute top-0 right-0 bottom-0 left-0 h-full`}>
+                        <AdminCreateProduct handleOpenModal={onOpenCreateProductModal} />
                     </div>
-                    <div className={`absolute top-0 right-0 left-0 bottom-0 bg-neutral-800 bg-opacity-70 backdrop-blur-sm flex justify-center items-center z-10 ${openModal ? "block" : "hidden"}`} onClick={onOpenModal}>
+                    <div className={`absolute top-0 right-0 left-0 bottom-0 bg-neutral-800 bg-opacity-70 backdrop-blur-sm flex justify-center items-center z-10 ${openCreateProductModal ? "block" : "hidden"}`} onClick={onOpenCreateProductModal}>
+                    </div>
+                </div>
+                <div className="update-product-modal z-50">
+                    <div className={`z-20 ${openUpdateProductModal ? "block" : "hidden"} absolute top-0 right-0 bottom-0 left-0 h-full`}>
+                        <AdminUpdateProduct handleOpenModal={onOpenUpdateProductModal} productId={productId} />
+                    </div>
+                    <div className={`absolute top-0 right-0 left-0 bottom-0 bg-neutral-800 bg-opacity-70 backdrop-blur-sm flex justify-center items-center z-10 ${openUpdateProductModal ? "block" : "hidden"}`} >
                     </div>
                 </div>
             </div>

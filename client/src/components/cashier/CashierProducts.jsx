@@ -30,6 +30,7 @@ const CashierProducts = () => {
 	const page = useSelector((state) => state.products.page);
 	const offset = useSelector((state) => state.products.offset);
 	const category = useSelector((state) => state.products.category);
+	const username = useSelector((state) => state.users.username)
 
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -60,7 +61,7 @@ const CashierProducts = () => {
 		}
 		if (selectedOffset) {
 			const selectedPage = Number(selectedOffset) / 10 + 1;
-			dispatch(setPagination(selectedPage, selectedOffset));
+			dispatch(setPagination(selectedPage, Number(selectedOffset)));
 		}
 	};
 
@@ -71,7 +72,7 @@ const CashierProducts = () => {
 	};
 
 	useEffect(() => {
-		dispatch(fetchProductAsync());
+		dispatch(fetchProductAsync(`?status=Active`));
 		fetchCategories();
 		takeFromQuery();
 	}, []);
@@ -82,7 +83,7 @@ const CashierProducts = () => {
 		);
 		dispatch(
 			fetchProductAsync(
-				`?search=${search}&category=${category}&orderField=${orderField}&orderDirection=${orderDirection}&offset=${offset}`,
+				`?status=Active&search=${search}&category=${category}&orderField=${orderField}&orderDirection=${orderDirection}&offset=${offset}`,
 			),
 		);
 	}, [orderField, orderDirection, search, page, category]);
@@ -95,7 +96,7 @@ const CashierProducts = () => {
 						<div className="main-heading mb-8 flex justify-between items-center">
 							<div className="greetings">
 								<h1 className="font-bold text-4xl text-neutral-800">
-									Good morning, John!
+									Hello, {username}!
 								</h1>
 							</div>
 							<div className="search-filter flex gap-2 items-center z-10">
