@@ -29,7 +29,6 @@ const LoginPage = () => {
 	const handleLogin = (e) => {
 		e.preventDefault();
 		dispatch(onLoginAsync({ username: input, password: inputPassword }))
-		console.log(role);
 	};
 	return (
 		<>

@@ -36,16 +36,15 @@ export const onLoginAsync =
 		async (dispatch) => {
 			try {
 				const { data } = await Instance().post(`users/login`, { username, password });
-				console.log(data);
 				localStorage.setItem("accessToken", data.accessToken);
 				dispatch(setId(data.data.id));
 				dispatch(setUsername(data.data.username));
 				dispatch(setProfile_Picture(data.data.profile_picture));
 				dispatch(setRole(data.data.role));
 				dispatch(setEmail(data.data.email));
+                alert('Login success')
 			} catch (error) {
-				console.log(error);
-				return error;
+				alert(error.response.data.message);
 			}
 		};
 
@@ -59,7 +58,7 @@ export const onCheckIsLogin = () => async (dispatch) => {
 		dispatch(setRole(data.data.role));
 		dispatch(setEmail(data.data.email));
 	} catch (error) {
-		console.log(error);
+		alert.log(error.response.data.message);
 	}
 };
 

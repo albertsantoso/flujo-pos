@@ -9,6 +9,7 @@ const ChangePassword = () => {
 
     const handleChangePassword = async() => {
         try {
+            console.log('ChangePassword');
             const token = localStorage.getItem('accessToken')
             if(!newPassword || !confirm) throw {message: "Please fill in both forms"}
             if(newPassword !== confirm) throw {message: "new password and confirm password must match each other"}
