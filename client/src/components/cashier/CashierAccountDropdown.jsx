@@ -4,7 +4,7 @@ import { TbUserEdit } from 'react-icons/tb'
 import { Menu, MenuButton, MenuGroup, MenuItem, MenuList } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { onLogout } from "../../../redux/features/users";
+import { onLogout, onSetProfilePage } from "../../../redux/features/users";
 
 const CashierAccountDropdown = () => {
     const dispatch = useDispatch();
@@ -48,7 +48,7 @@ const CashierAccountDropdown = () => {
                 </div>
                 <MenuList className="bg-neutral-100 border-2 mt-[24px] -mr-[26px] py-2 rounded-lg drop-shadow-md" minWidth={"336px"}>
                     <MenuGroup title={email} fontSize={"16px"} color={"#4a4a4a"}>
-                        <MenuItem className="px-4 py-2 hover:bg-neutral-300">
+                        <MenuItem className="px-4 py-2 hover:bg-neutral-300" onClick={() => dispatch(onSetProfilePage(true))}>
                             <span className="font-bold flex justify-between w-full">
                                 Profile Settings
                                 <TbUserEdit size={24} />
