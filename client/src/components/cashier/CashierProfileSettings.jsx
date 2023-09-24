@@ -3,8 +3,10 @@ import FileUpload from "../shared/UI/FileUpload";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { Instance } from "../../api/instance";
-import { onSetProfilePage } from "../../../redux/features/users";
 import toast from "react-hot-toast";
+
+import { IoMdArrowRoundBack } from 'react-icons/io'
+import { onSetProfilePage } from "../../../redux/features/users";
 
 const CashierProfileSettings = () => {
 	const [openModal, setOpenModal] = useState(false);
@@ -52,20 +54,23 @@ const CashierProfileSettings = () => {
 
 	return (
 		<>
-			<div className="greetings mb-10">
+			<div className="greetings mb-10 flex items-center gap-4">
+				<button onClick={() => dispatch(onSetProfilePage(false))} className="bg-neutral-200 hover:bg-neutral-100 duration-100 w-10 h-10 flex justify-center items-center rounded-lg">
+					<IoMdArrowRoundBack size={20} />
+				</button>
 				<h1 className="font-bold text-4xl text-neutral-800">
 					Hello, {username}!
 				</h1>
-			</div>
+			</div >
 			<main className="cashier-profile-settings w-[692px] flex">
 				<div className="cashier-profile-settings-modal-container w-full bg-white p-8 border-2 rounded-xl">
 					<div className="main-heaading mb-12 flex justify-between">
 						<div className="heading-title">
-							<button className="bg-neutral-200" onClick={() => dispatch(onSetProfilePage(false))}>
+							{/* <button className="bg-neutral-200" onClick={() => dispatch(onSetProfilePage(false))}>
 								<span>
 									Go to cashier
 								</span>
-							</button>
+							</button> */}
 							<h1 className="font-bold text-4xl text-neutral-800">
 								Profile Settings
 							</h1>

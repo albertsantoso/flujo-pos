@@ -18,14 +18,14 @@ const UserListTable = ({ dataUsers }) => {
 
     return (
         <>
-            <TableContainer minWidth={"50%"} fontFamily={"Inter"} className='bg-neutral-50 p-4 rounded-xl border-2 border-neutral-200'>
+            <TableContainer minWidth={"60%"} fontFamily={"Inter"} className='bg-white p-4 rounded-xl border-2 border-neutral-200'>
                 <Table variant='unstyled' size={"md"}>
                     <Thead color={"#bababa"}>
                         <Tr>
                             <Th width={""}>
                                 <span className='font-bold text-[14px] text-neutral-500'>Username</span>
                             </Th>
-                            <Th width={"16%"}>
+                            <Th width={""}>
                                 <span className='font-bold text-[14px] text-neutral-500'>Email</span>
                             </Th>
                             <Th width={"3%"} textAlign={"center"}>
@@ -46,16 +46,16 @@ const UserListTable = ({ dataUsers }) => {
                                 const accessToken = localStorage.getItem("accessToken");
                                 const changeStatus = async () => {
                                     try {
-                                        if(user.status == "Active") {
+                                        if (user.status == "Active") {
                                             const newStatus = "Disabled"
                                             console.log(`the button will change ${user.username}'s status from ${user.status} into ${newStatus}`);
-                                            const response = await Instance(accessToken).patch('users/change-status', {username: user.username, newStatus})
+                                            const response = await Instance(accessToken).patch('users/change-status', { username: user.username, newStatus })
                                             toast.success(response.data.message);
                                             window.location.reload();
                                         } else if (user.status == "Disabled") {
                                             const newStatus = "Active"
                                             console.log(`the button will change ${user.status} into ${newStatus}`);
-                                            const response = await Instance(accessToken).patch('users/change-status', {username: user.username ,newStatus})
+                                            const response = await Instance(accessToken).patch('users/change-status', { username: user.username, newStatus })
                                             toast.success(response.data.message);
                                             window.location.reload();
                                         }

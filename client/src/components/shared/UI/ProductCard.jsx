@@ -11,8 +11,8 @@ const ProductCard = ({ dataProducts, handleOpenUpdateProductModal }) => {
 			<div className="product-card w-[322px] h-[426px] rounded-xl bg-white">
 				<div className="card-container p-0 inline-flex w-full h-full relative">
 					<div className="card-wrapper p-8 w-full flex flex-col h-full">
-						<div className="product-image mb-4 mx-auto">
-							<img src={`http://localhost:5000/${product_image.substring(7)}`} alt="" />
+						<div className="product-image mb-4 mx-auto w-full h-[153px]">
+							<img src={`http://localhost:5000/${product_image.substring(7)}`} alt="" className="w-full h-full object-cover rounded-lg" />
 						</div>
 						<div className="product-title">
 							<h4 className="font-bold text-[22px] mb-2"> {product_name} </h4>
@@ -23,7 +23,7 @@ const ProductCard = ({ dataProducts, handleOpenUpdateProductModal }) => {
 							</p>
 						</div>
 						<div className="product-price">
-							<span className="font-bold text-[28px] text-primary">
+							<span className="font-bold text-[24px] text-primary">
 								{product_price.toLocaleString("id-ID", {
 									style: "currency",
 									currency: "IDR",

@@ -20,7 +20,7 @@ module.exports = {
         category_name: "Burgers"
       },
       {
-        category_name: "Chicken & Fish Sandwiches"
+        category_name: "Chicken & Fish"
       },
       {
         category_name: "McNuggets®"

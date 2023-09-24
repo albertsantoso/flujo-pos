@@ -3,17 +3,19 @@ import { AiFillCloseCircle } from 'react-icons/ai'
 import toast, { Toaster } from 'react-hot-toast'
 
 import './AdminCreateProduct.css'
-import FileUpload from "../shared/UI/FileUpload";
 
 import { useFormik } from 'formik'
 
 import { useEffect, useState } from 'react';
 import { Instance } from '../../api/instance';
+import FileUploadUpdate from '../shared/UI/FileUploadUpdate';
 
 const AdminUpdateProduct = ({ handleOpenModal, productId }) => {
-    const [productImage, setProductImage] = useState(null)
+    const [productImageUpdate, setProductImageUpdate] = useState(null)
     const [categories, setCategories] = useState([]);
     const [thisProduct, setThisProduct] = useState(null)
+    const [changeProductPicture, setChangeProductPicture] = useState(false)
+    const [preview, setPreview] = useState(null);
 
     const fetchCategories = async () => {
         try {
@@ -26,8 +28,13 @@ const AdminUpdateProduct = ({ handleOpenModal, productId }) => {
         }
     };
 
-    const onGettingProductImageFromProps = (image) => {
-        setProductImage(image)
+    const onGettingProductImageFromPropsUpdate = (image) => {
+        console.log("JALAN");
+        setProductImageUpdate(image)
+        console.log("BELOM");
+        setChangeProductPicture(false)
+        console.log("UDAH");
+        setPreview(URL.createObjectURL(image))
     }
 
     const fetchThisProduct = async () => {
@@ -95,18 +102,18 @@ const AdminUpdateProduct = ({ handleOpenModal, productId }) => {
             const fd = new FormData();
             fd.append('data', newProductDataJSON);
 
-            if (!productImage) {
+            if (!productImageUpdate) {
                 fd.append('image', null);
             } else {
-                fd.append('image', productImage);
+                fd.append('image', productImageUpdate);
             }
 
             const accessToken = localStorage.getItem("accessToken")
 
-            const createProduct = await Instance(accessToken).post('products', fd);
+            const updateProduct = await Instance(accessToken).patch(`products/${productId}`, fd);
 
-            if (createProduct.status === 201) {
-                toast.success('Product created successfully');
+            if (updateProduct.status === 201) {
+                toast.success('Product updated successfully');
 
                 setTimeout(() => {
                     window.location.reload(false);
@@ -115,7 +122,7 @@ const AdminUpdateProduct = ({ handleOpenModal, productId }) => {
                 toast.error('Error creating product');
             }
 
-            return createProduct;
+            return updateProduct;
         } catch (error) {
             console.log(error);
         }
@@ -196,12 +203,28 @@ const AdminUpdateProduct = ({ handleOpenModal, productId }) => {
                                 </div>
                                 <div className="right-form flex flex-col justify-between w-[320px]">
                                     <div className="form-group">
-                                        <div className="form-group-title mb-2">
+                                        <div className="form-group-title mb-2 flex">
                                             <h2 className="font-medium">Picture</h2>
                                         </div>
-                                        <div className="image-wrapper border-2 flex flex-col rounded-xl">
-                                            {/* <img src={`http://localhost:5000/${thisProduct?.product_image.substring(7)}`} alt="" className='rounded-xl' /> */}
-                                            <FileUpload handleProductImage={onGettingProductImageFromProps} previousImage={`http://localhost:5000/${thisProduct?.product_image.substring(7)}`} />
+                                        <div className="image-wrapper">
+                                            {
+                                                !changeProductPicture ? (
+                                                    <>
+                                                        <div className="img-wrapper border-2 rounded-xl w-[320px] h-[284px] flex justify-center items-center mb-2">
+                                                            {
+                                                                preview ? (
+                                                                    <img src={preview} alt="" className='rounded-xl w-full h-full object-cover' />
+                                                                ) : (
+                                                                    <img src={`http://localhost:5000/${thisProduct?.product_image.substring(7)}`} alt="" className='rounded-xl w-full h-full object-cover' />
+                                                                )
+                                                            }
+                                                        </div>
+                                                        <button className='font-medium text-blue-500' onClick={() => setChangeProductPicture(true)}>Change product picture</button>
+                                                    </>
+                                                ) : (
+                                                    <FileUploadUpdate handleProductImageUpdate={onGettingProductImageFromPropsUpdate} />
+                                                )
+                                            }
                                         </div>
                                     </div>
                                     <div className="form-group flex flex-col">

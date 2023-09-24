@@ -69,7 +69,7 @@ const AdminProducts = () => {
     };
 
     const clearFilter = () => {
-        navigate(`/admin`);
+        navigate(`/admin/products`);
         dispatch(onClear());
         window.location.reload()
     };
@@ -82,7 +82,7 @@ const AdminProducts = () => {
 
     useEffect(() => {
         navigate(
-            `/admin/?search=${search}&category=${category}&orderField=${orderField}&orderDirection=${orderDirection}&offset=${offset}`,
+            `/admin/products?search=${search}&category=${category}&orderField=${orderField}&orderDirection=${orderDirection}&offset=${offset}`,
         );
         dispatch(
             fetchProductAsync(
@@ -97,51 +97,60 @@ const AdminProducts = () => {
 
     return (
         <>
-            <div className="admin-products">
+            <div className="admin-products" id="admin-products-section">
                 <div className="admin-products-container">
                     <div className="wrapper">
                         <div className="main-heading mb-8 flex justify-between items-center">
-                            <div className="greetings">
-                                <h1 className="font-bold text-4xl text-neutral-800">Manage Products</h1>
+                            <div className="left-heading flex items-center">
+                                <div className="greetings mr-8">
+                                    <h1 className="font-bold text-4xl text-neutral-800">Manage Products</h1>
+                                </div>
+                                <div className="add-new-product-button">
+                                    <button type="submit" className="bg-primary hover:bg-red-400 active:scale-95 duration-150 px-4 py-2 rounded-lg flex items-center" onClick={onOpenCreateProductModal}>
+                                        <span className="add-icon flex flex-col justify-center items-center mr-2">
+                                            <FaPlus color='#fff' className='drop-shadow-md' />
+                                        </span>
+                                        <span className="font-medium flex items-center gap-2 text-white drop-shadow-md">Add new product</span>
+                                    </button>
+                                </div>
                             </div>
                             <div className="search-filter flex gap-2 items-center z-10">
-                                <div className="pagination-wrapper mr-4">
+                                <div className="pagination-wrapper mr-4 flex items-center">
                                     <button
-                                        className="bg-neutral-400 rounded-lg p-2"
+                                        className="bg-white border-2 rounded-lg p-2"
                                         onClick={() => {
                                             dispatch(onPreviousPage());
                                         }}
                                     >
-                                        <PiCaretLeftBold color="white" />
+                                        <PiCaretLeftBold color="black" />
                                     </button>
-                                    <span className="w-[20px] mx-2 text-center font-medium bg-neutral-100 rounded-md">
+                                    <span className="w-[22px] mx-2 text-center font-bold bg-neutral-100 rounded-md">
                                         {page}
                                     </span>
                                     <button
-                                        className="bg-neutral-400 rounded-lg p-2"
+                                        className="bg-white border-2 rounded-lg p-2"
                                         onClick={() => {
                                             dispatch(onNextPage());
                                         }}
                                     >
-                                        <PiCaretRightBold color="white" />
+                                        <PiCaretRightBold color="black" />
                                     </button>
                                 </div>
+                                <SearchBar />
+                                <SelectCategory dataCategories={categories} />
+                                <SortButton />
                                 <button
-                                    className="bg-neutral-400 rounded-lg p-2"
+                                    className="bg-white border-2 rounded-xl px-4 h-[60px] flex items-center justify-center"
                                     onClick={() => {
                                         clearFilter();
                                     }}
                                 >
-                                    <div>CLEAR FILTER</div>
+                                    <div className="font-medium">Clear Filter</div>
                                 </button>
-                                <SearchBar />
-                                <SelectCategory dataCategories={categories} />
-                                <SortButton />
                             </div>
                         </div>
                         <div className="main-content">
-                            <div className="product-list flex flex-wrap -mx-[8px]">
-                                {/* <div className="product-list grid grid-cols-5 justify-items-center gap-y-4"> */}
+                            <div className="product-list grid grid-cols-5">
                                 {
                                     products?.map((product) => {
                                         return (
@@ -155,16 +164,8 @@ const AdminProducts = () => {
                                 }
                             </div>
                         </div>
-                        <div className="absolute bottom-20 right-20">
-                            <button type="submit" className="bg-primary hover:bg-red-400 active:scale-95 shadow-lg flex items-center p-6 rounded-2xl duration-150" onClick={onOpenCreateProductModal}>
-                                <span className="flex flex-col justify-center items-center mr-2">
-                                    <FaPlus color='#fff' className='drop-shadow-md' size={24} />
-                                </span>
-                                <span className="font-bold text-lg text-white drop-shadow-md">Add new product</span>
-                            </button>
-                        </div>
                     </div>
-                </div>
+                </div >
                 <div className="create-product-modal z-50">
                     <div className={`z-20 ${openCreateProductModal ? "block" : "hidden"} absolute top-0 right-0 bottom-0 left-0 h-full`}>
                         <AdminCreateProduct handleOpenModal={onOpenCreateProductModal} />
@@ -179,7 +180,7 @@ const AdminProducts = () => {
                     <div className={`absolute top-0 right-0 left-0 bottom-0 bg-neutral-800 bg-opacity-70 backdrop-blur-sm flex justify-center items-center z-10 ${openUpdateProductModal ? "block" : "hidden"}`} >
                     </div>
                 </div>
-            </div>
+            </div >
         </>
     );
 };

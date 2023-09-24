@@ -29,7 +29,7 @@ const CashierPage = () => {
 					<>
 						<div className="cashier-page h-screen bg-neutral-50 flex">
 							<aside className="sidebar">
-								<Sidebar />
+								<Sidebar page={"cashier"} />
 							</aside>
 							<main className="content grow px-12 py-8 overflow-auto">
 								<CashierProducts />
@@ -56,7 +56,7 @@ const CashierPage = () => {
 					<>
 						<div className="cashier-page h-screen bg-neutral-50 flex">
 							<aside className="sidebar">
-								<Sidebar />
+								<Sidebar page={"cashier"} />
 							</aside>
 							<main className="content grow px-12 py-8 overflow-auto">
 								<CashierProfileSettings />

@@ -38,7 +38,7 @@ const AdminUsers = () => {
                         <div className="main-heading mb-8 flex justify-between items-center">
                             <div className="greetings flex items-center">
                                 <h1 className="font-bold text-4xl text-neutral-800 mr-8">Manage Users</h1>
-                                <button className="bg-primary hover:bg-red-400 active:scale-95 duration-150 px-4 py-2 rounded-lg hover:" onClick={onOpenModal}>
+                                <button className="bg-primary hover:bg-red-400 active:scale-95 duration-150 px-4 py-2 rounded-lg" onClick={onOpenModal}>
                                     <span className="font-medium flex items-center gap-2 text-white drop-shadow-md">
                                         <FaPlus />
                                         Add new user

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { BsFillCloudArrowUpFill } from "react-icons/bs";
 
-const FileUpload = ({ handleProductImage }) => {
+const FileUploadUpdate = ({ handleProductImageUpdate }) => {
 	const [preview, setPreview] = useState(null)
 
 	const getFileImage = (event) => {
@@ -11,7 +11,7 @@ const FileUpload = ({ handleProductImage }) => {
 
 		if (event.target.files && event.target.files.length > 0) {
 
-			handleProductImage(fileImage);
+			handleProductImageUpdate(fileImage);
 			setPreview(URL.createObjectURL(fileImage))
 		}
 	};
@@ -22,10 +22,10 @@ const FileUpload = ({ handleProductImage }) => {
 
 	return (
 		<>
-			<div className="file-upload">
+			<div className="file-upload-update">
 				<div
 					className="form-input-wrapper relative flex justify-center items-center w-[320px] h-[284px] bg-white border-2 border-dashed rounded-xl cursor-pointer"
-					onClick={() => document.querySelector("#product_image").click()}
+					onClick={() => document.querySelector("#product_image_update").click()}
 				>
 					{
 						preview ? (
@@ -44,9 +44,9 @@ const FileUpload = ({ handleProductImage }) => {
 					}
 					<input
 						type="file"
-						name="product_image"
+						name="product_image_update"
 						accept="image/jpeg, image/png, image/gif"
-						id="product_image"
+						id="product_image_update"
 						hidden
 						className="absolute"
 						onChange={getFileImage}
@@ -57,4 +57,4 @@ const FileUpload = ({ handleProductImage }) => {
 	);
 };
 
-export default FileUpload;
+export default FileUploadUpdate;
