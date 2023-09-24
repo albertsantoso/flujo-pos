@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Instance } from "../../api/instance";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const ChangePassword = () => {
     const [newPassword, setNewPassword] = useState("");
@@ -9,16 +10,23 @@ const ChangePassword = () => {
 
     const handleChangePassword = async() => {
         try {
+            console.log('ChangePassword');
             const token = localStorage.getItem('accessToken')
+            console.log(newPassword, confirm);
             if(!newPassword || !confirm) throw {message: "Please fill in both forms"}
             if(newPassword !== confirm) throw {message: "new password and confirm password must match each other"}
             const response = await Instance(token).patch('users/change-password', {password: newPassword})
-            alert('Password has been changed, redirecting you back to homepage')
+            toast.success('Password has been changed, redirecting you back to homepage')
             setTimeout(() => {
                 navigate('/')
             }, 3000)
         } catch (error) {
-            alert(error.message)
+            if(error.response) {
+                toast.error(error.response.data.message);
+            } else {
+                toast.error(error.message);
+            }
+            
         }
     }
     return (

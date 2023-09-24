@@ -49,6 +49,7 @@ module.exports = {
             const account = await findUsername(username);
             console.log(account);
             if (!account) throw { message: "Account was not found" };
+            if(account.dataValues.role == "Disabled") throw {message: "Login failed because the account has been disabled, please contact an Admin"}
             const hashMatch = await match(
                 password,
                 account.dataValues.password
@@ -131,7 +132,7 @@ module.exports = {
             const newTemplate = compiledTemplate({ username, token });
             await transporter.sendMail({
                 from: "flujo-post",
-                to: "aryosetyotama27@gmail.com",
+                to: email,
                 subject: "password recovery email",
                 html: newTemplate,
             });
@@ -161,7 +162,7 @@ module.exports = {
             const { id } = req.dataToken;
 
             const data = await db.user.findOne({
-                attributes: ["id", "username", "email", "profile_picture"],
+                attributes: ["id", "username", "email", "profile_picture", "role"],
                 where: { id },
             });
 
@@ -177,44 +178,42 @@ module.exports = {
     registerCashier: async (req, res, next) => {
         try {
             const { username, email, password } = req.body;
-            if (!username || !email || !password)
-                throw { message: "data provided is incomplete" };
-            const existingUsername = await findUsername();
-            const existingEmail = await findUserEmail();
-            if (existingUsername)
-                throw { message: "username has already been registered" };
-            if (existingEmail)
-                throw { message: "email has already been registered" };
+            if (!username || !email || !password) throw { message: "data provided is incomplete" };
+            const existingUsername = await findUsername(username);
+            const existingEmail = await findUserEmail(email);
+            if (existingUsername) throw { message: "username has already been registered" }
+            if (existingEmail) throw { message: "email has already been registered" }
             const hashedPassword = await hash(password);
-            const account = await db.user.create({
-                username,
-                email,
-                password: hashedPassword,
-            }); // ganti ke services
+            const account = await db.user.create({ username, email, password: hashedPassword });
             res.status(201).send({
                 isError: false,
                 message: "Cashier succesfully registered",
-                data: token,
-            });
+                data: null
+            })
         } catch (error) {
             next(error);
         }
     },
     updateStatus: async (req, res, next) => {
         try {
-            const { id } = req.dataToken;
-            const newStatus = req.body;
-            if (!id) throw { message: "error, missing an input ID" };
-            const account = await findUserId(id);
-            if (!account) throw { message: "account not found" };
+            const { username, newStatus } = req.body;
+            console.log(username, newStatus);
+            const account = await findUsername(username);
+            if(!account) throw { message: "account not found" };
+            if(account.role == "Admin") throw {message: "Not authorized to perform this action"}
             await db.user.update(
                 {
                     status: newStatus,
                 },
                 {
-                    where: { id },
+                    where: { username },
                 }
             );
+            res.status(201).send({
+                isError: false,
+                message: "Update success",
+                data: null
+            })
         } catch (error) {
             next(error);
         }

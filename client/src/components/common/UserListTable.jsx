@@ -10,6 +10,8 @@ import {
 } from '@chakra-ui/react'
 
 import DefaultPFP from "./../../assets/default/default_pfp.svg";
+import { Instance } from '../../api/instance';
+import toast from 'react-hot-toast';
 
 const UserListTable = ({ dataUsers }) => {
     const users = dataUsers
@@ -39,7 +41,28 @@ const UserListTable = ({ dataUsers }) => {
                     </Thead>
                     <Tbody fontWeight={700}>
                         {
-                            users.map((user) => {
+                            users.map((user, index) => {
+                                const id = index + 1
+                                const accessToken = localStorage.getItem("accessToken");
+                                const changeStatus = async () => {
+                                    try {
+                                        if(user.status == "Active") {
+                                            const newStatus = "Disabled"
+                                            console.log(`the button will change ${user.username}'s status from ${user.status} into ${newStatus}`);
+                                            const response = await Instance(accessToken).patch('users/change-status', {username: user.username, newStatus})
+                                            toast.success(response.data.message);
+                                            window.location.reload();
+                                        } else if (user.status == "Disabled") {
+                                            const newStatus = "Active"
+                                            console.log(`the button will change ${user.status} into ${newStatus}`);
+                                            const response = await Instance(accessToken).patch('users/change-status', {username: user.username ,newStatus})
+                                            toast.success(response.data.message);
+                                            window.location.reload();
+                                        }
+                                    } catch (error) {
+                                        toast.error(error.response.data.message);
+                                    }
+                                }
                                 return (
                                     <>
                                         <Tr>
@@ -63,7 +86,7 @@ const UserListTable = ({ dataUsers }) => {
                                                 </div>
                                             </Td>
                                             <Td>
-                                                <button className='bg-primary py-2 px-4 rounded-lg'>
+                                                <button onClick={changeStatus} className='bg-primary py-2 px-4 rounded-lg'>
                                                     <span className='text-white drop-shadow-md'>Delete</span>
                                                 </button>
                                             </Td>

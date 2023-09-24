@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import { Instance } from "../../../src/api/instance";
 import { createSlice } from "@reduxjs/toolkit";
 
@@ -40,7 +41,6 @@ export const onLoginAsync =
 		async (dispatch) => {
 			try {
 				const { data } = await Instance().post(`users/login`, { username, password });
-				console.log(data);
 				localStorage.setItem("accessToken", data.accessToken);
 				dispatch(setId(data.data.id));
 				dispatch(setUsername(data.data.username));
@@ -48,8 +48,7 @@ export const onLoginAsync =
 				dispatch(setRole(data.data.role));
 				dispatch(setEmail(data.data.email));
 			} catch (error) {
-				console.log(error);
-				return error;
+				toast.error(error.response.data.message);
 			}
 		};
 
@@ -63,7 +62,7 @@ export const onCheckIsLogin = () => async (dispatch) => {
 		dispatch(setRole(data.data.role));
 		dispatch(setEmail(data.data.email));
 	} catch (error) {
-		console.log(error);
+		console.log(error.response.data.message);
 	}
 };
 

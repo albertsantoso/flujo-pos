@@ -4,6 +4,7 @@ import { AiFillCloseCircle } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { Instance } from "../../api/instance";
 import { onSetProfilePage } from "../../../redux/features/users";
+import toast from "react-hot-toast";
 
 const CashierProfileSettings = () => {
 	const [openModal, setOpenModal] = useState(false);
@@ -26,7 +27,7 @@ const CashierProfileSettings = () => {
 		try {
 			setRequestResetPassword(true);
 			await Instance().post("users/recover-password", { email });
-			alert("Email succesfully sent, please check your inbox");
+			toast.success("Email succesfully sent, please check your inbox");
 		} catch (error) {
 			console.log(error);
 		}

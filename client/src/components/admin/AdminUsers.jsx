@@ -26,6 +26,10 @@ const AdminUsers = () => {
         fetchUsers()
     }, [])
 
+    const handleCreate = async () => {
+        await console.log('creating');
+    }
+
     return (
         <>
             <div className="admin-users">
