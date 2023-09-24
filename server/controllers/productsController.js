@@ -117,8 +117,6 @@ module.exports = {
     },
     updateProduct: async (req, res, next) => {
         try {
-            console.log("MASUK CONTROLLER");
-
             const { productId } = req.params;
 
             const image = req.files.image;
@@ -134,13 +132,11 @@ module.exports = {
 
                 data.product_image = image[0].path;
 
-                console.log("MASUK IF PERTAMA");
                 await deleteFiles({
                     image: [{
                         path: dataImage.dataValues.product_image
                     }]
                 });
-                console.log("KELUAR IF PERTAMA");
             }
 
             const updateProduct = await db.product.update(data, { where: { id: productId } });

@@ -11,6 +11,7 @@ import { fetchProductAsync, onCategory, onClear, onNextPage, onPreviousPage, onS
 import { useLocation, useNavigate } from "react-router-dom";
 import { Instance } from "../../api/instance";
 import AdminUpdateProduct from "./AdminUpdateProduct";
+import AdminProductCategory from "./AdminProductCategory";
 
 const AdminProducts = () => {
     const [openCreateProductModal, setOpenCreateProductModal] = useState(false)
@@ -149,8 +150,11 @@ const AdminProducts = () => {
                                 </button>
                             </div>
                         </div>
-                        <div className="main-content">
-                            <div className="product-list grid grid-cols-5">
+                        <div className="main-content flex ">
+                            <div className="product-category w-[440px]">
+                                <AdminProductCategory />
+                            </div>
+                            <div className="product-list grid grid-cols-4">
                                 {
                                     products?.map((product) => {
                                         return (

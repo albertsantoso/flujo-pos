@@ -2,8 +2,6 @@ const { multerUpload } = require("./../lib/multer");
 const { deleteFiles } = require("./../helper/deleteFiles");
 
 const upload = async (req, res, next) => {
-    console.log("MASUK UPLOAD");
-
     const result = multerUpload.fields([{ name: "image", maxCount: 1 }]);
     result(req, res, function (err) {
         try {
