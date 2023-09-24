@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import { Instance } from "../../../src/api/instance";
 import { createSlice } from "@reduxjs/toolkit";
 
@@ -42,9 +43,8 @@ export const onLoginAsync =
 				dispatch(setProfile_Picture(data.data.profile_picture));
 				dispatch(setRole(data.data.role));
 				dispatch(setEmail(data.data.email));
-                alert('Login success')
 			} catch (error) {
-				alert(error.response.data.message);
+				toast.error(error.response.data.message);
 			}
 		};
 
@@ -58,7 +58,7 @@ export const onCheckIsLogin = () => async (dispatch) => {
 		dispatch(setRole(data.data.role));
 		dispatch(setEmail(data.data.email));
 	} catch (error) {
-		alert.log(error.response.data.message);
+		console.log(error.response.data.message);
 	}
 };
 

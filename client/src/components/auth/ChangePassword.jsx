@@ -11,6 +11,7 @@ const ChangePassword = () => {
         try {
             console.log('ChangePassword');
             const token = localStorage.getItem('accessToken')
+            console.log(newPassword, confirm);
             if(!newPassword || !confirm) throw {message: "Please fill in both forms"}
             if(newPassword !== confirm) throw {message: "new password and confirm password must match each other"}
             const response = await Instance(token).patch('users/change-password', {password: newPassword})
@@ -19,7 +20,12 @@ const ChangePassword = () => {
                 navigate('/')
             }, 3000)
         } catch (error) {
-            alert(error.message)
+            if(error.response) {
+                alert(error.response.data.message);
+            } else {
+                alert(error.message);
+            }
+            
         }
     }
     return (

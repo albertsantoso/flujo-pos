@@ -178,11 +178,9 @@ module.exports = {
     registerCashier: async (req, res, next) => {
         try {
             const { username, email, password } = req.body;
-            console.log(username, email, password);
             if (!username || !email || !password) throw { message: "data provided is incomplete" };
             const existingUsername = await findUsername(username);
             const existingEmail = await findUserEmail(email);
-            console.log(existingEmail);
             if (existingUsername) throw { message: "username has already been registered" }
             if (existingEmail) throw { message: "email has already been registered" }
             const hashedPassword = await hash(password);

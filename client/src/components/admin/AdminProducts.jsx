@@ -7,18 +7,81 @@ import { FaPlus } from "react-icons/fa";
 import AdminCreateProduct from './AdminCreateProduct'
 import { PiCaretLeftBold, PiCaretRightBold } from "react-icons/pi";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProductAsync } from "../../../redux/features/products";
+import { fetchProductAsync, onCategory, onClear, onNextPage, onPreviousPage, onSort, setPagination } from "../../../redux/features/products";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Instance } from "../../api/instance";
 
 const AdminProducts = () => {
     const [openModal, setOpenModal] = useState(false)
+    const [categories, setCategories] = useState([]);
 
     const products = useSelector((state) => state.products.products);
+    const orderField = useSelector((state) => state.products.orderField);
+    const orderDirection = useSelector((state) => state.products.orderDirection);
+    const search = useSelector((state) => state.products.search);
+    const page = useSelector((state) => state.products.page);
+    const offset = useSelector((state) => state.products.offset);
+    const category = useSelector((state) => state.products.category);
 
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const location = useLocation();
 
     const onOpenModal = () => {
         setOpenModal(!openModal);
     }
+
+    const fetchCategories = async () => {
+        try {
+            const accessToken = localStorage.getItem("accessToken");
+            const { data } = await Instance(accessToken).get(`categories`);
+
+            setCategories(data.data);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    const takeFromQuery = () => {
+        const queryParams = new URLSearchParams(location.search);
+        const selectedCategory = queryParams.get("category");
+        const selectedOrderField = queryParams.get("orderField");
+        const selectedOrderDirection = queryParams.get("orderDirection");
+        const selectedOffset = queryParams.get("offset");
+        if (selectedCategory) {
+            dispatch(onCategory(selectedCategory));
+        }
+        if (selectedOrderDirection && selectedOrderField) {
+            dispatch(onSort(selectedOrderField, selectedOrderDirection));
+        }
+        if (selectedOffset) {
+            const selectedPage = Number(selectedOffset) / 10 + 1;
+            dispatch(setPagination(selectedPage, selectedOffset));
+        }
+    };
+
+    const clearFilter = () => {
+        navigate(`/admin`);
+        dispatch(onClear());
+        window.location.reload()
+    };
+
+    useEffect(() => {
+        dispatch(fetchProductAsync());
+        fetchCategories();
+        takeFromQuery();
+    }, []);
+
+    useEffect(() => {
+        navigate(
+            `/admin/?search=${search}&category=${category}&orderField=${orderField}&orderDirection=${orderDirection}&offset=${offset}`,
+        );
+        dispatch(
+            fetchProductAsync(
+                `?search=${search}&category=${category}&orderField=${orderField}&orderDirection=${orderDirection}&offset=${offset}`,
+            ),
+        );
+    }, [orderField, orderDirection, search, page, category]);
 
     useEffect(() => {
         dispatch(fetchProductAsync())
@@ -35,14 +98,36 @@ const AdminProducts = () => {
                             </div>
                             <div className="search-filter flex gap-2 items-center z-10">
                                 <div className="pagination-wrapper mr-4">
-                                    <div className="pagination-container flex items-center">
-                                        <button className="bg-neutral-400 rounded-lg p-2"><PiCaretLeftBold color="white" /></button>
-                                        <span className="w-[20px] mx-2 text-center font-medium bg-neutral-100 rounded-md">{"1"}</span>
-                                        <button className="bg-neutral-400 rounded-lg p-2"><PiCaretRightBold color="white" /></button>
-                                    </div>
+                                    <button
+                                        className="bg-neutral-400 rounded-lg p-2"
+                                        onClick={() => {
+                                            dispatch(onPreviousPage());
+                                        }}
+                                    >
+                                        <PiCaretLeftBold color="white" />
+                                    </button>
+                                    <span className="w-[20px] mx-2 text-center font-medium bg-neutral-100 rounded-md">
+                                        {page}
+                                    </span>
+                                    <button
+                                        className="bg-neutral-400 rounded-lg p-2"
+                                        onClick={() => {
+                                            dispatch(onNextPage());
+                                        }}
+                                    >
+                                        <PiCaretRightBold color="white" />
+                                    </button>
                                 </div>
+                                <button
+                                    className="bg-neutral-400 rounded-lg p-2"
+                                    onClick={() => {
+                                        clearFilter();
+                                    }}
+                                >
+                                    <div>CLEAR FILTER</div>
+                                </button>
                                 <SearchBar />
-                                <SelectCategory />
+                                <SelectCategory dataCategories={categories} />
                                 <SortButton />
                             </div>
                         </div>

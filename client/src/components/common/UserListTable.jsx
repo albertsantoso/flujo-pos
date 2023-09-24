@@ -11,6 +11,7 @@ import {
 
 import DefaultPFP from "./../../assets/default/default_pfp.svg";
 import { Instance } from '../../api/instance';
+import toast from 'react-hot-toast';
 
 const UserListTable = ({ dataUsers }) => {
     const users = dataUsers
@@ -49,17 +50,17 @@ const UserListTable = ({ dataUsers }) => {
                                             const newStatus = "Disabled"
                                             console.log(`the button will change ${user.username}'s status from ${user.status} into ${newStatus}`);
                                             const response = await Instance(accessToken).patch('users/change-status', {username: user.username, newStatus})
-                                            alert(response.data.message);
+                                            toast.success(response.data.message);
                                             window.location.reload();
                                         } else if (user.status == "Disabled") {
                                             const newStatus = "Active"
                                             console.log(`the button will change ${user.status} into ${newStatus}`);
                                             const response = await Instance(accessToken).patch('users/change-status', {username: user.username ,newStatus})
-                                            alert(response.data.message);
+                                            toast.success(response.data.message);
                                             window.location.reload();
                                         }
                                     } catch (error) {
-                                        alert(error.response.data.message);
+                                        toast.error(error.response.data.message);
                                     }
                                 }
                                 return (

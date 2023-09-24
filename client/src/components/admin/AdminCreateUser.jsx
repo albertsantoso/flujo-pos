@@ -2,6 +2,7 @@
 import { useState, useRef } from "react"
 import { AiFillCloseCircle, AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
 import { Instance } from "../../api/instance";
+import toast from "react-hot-toast";
 
 const AdminCreateUser = ({ handleOpenModal }) => {
     const [passwordVisible, setPasswordVisible] = useState(false)
@@ -18,13 +19,12 @@ const AdminCreateUser = ({ handleOpenModal }) => {
                 password: password.current.value,
             }
             const response = await Instance(accessToken).post('users/register', {username: username.current.value, email: email.current.value, password: password.current.value})
-            console.log(response);
             if(response) {
-                alert('new cashier succesfully created')
+                toast.success('new cashier succesfully created')
                 window.location.reload();
             }
         } catch (error) {
-            alert(error.response.data.message);
+            toast.error(error.response.data.message);
         }
     }
 
