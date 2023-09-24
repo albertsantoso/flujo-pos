@@ -16,9 +16,6 @@ const FileUploadUpdate = ({ handleProductImageUpdate }) => {
 		}
 	};
 
-	useEffect(() => {
-		console.log(preview);
-	}, [preview])
 
 	return (
 		<>

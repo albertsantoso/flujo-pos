@@ -1,5 +1,7 @@
+import { useState } from "react";
 import AdminProducts from "../../components/admin/AdminProducts"
 import Sidebar from "../../components/common/Sidebar"
+import { Instance } from "../../api/instance";
 
 const AdminProductsPage = () => {
     return (

@@ -29,11 +29,8 @@ const AdminUpdateProduct = ({ handleOpenModal, productId }) => {
     };
 
     const onGettingProductImageFromPropsUpdate = (image) => {
-        console.log("JALAN");
         setProductImageUpdate(image)
-        console.log("BELOM");
         setChangeProductPicture(false)
-        console.log("UDAH");
         setPreview(URL.createObjectURL(image))
     }
 
@@ -41,7 +38,6 @@ const AdminUpdateProduct = ({ handleOpenModal, productId }) => {
         try {
             const { data } = await Instance().get(`products/${productId}`);
 
-            console.log("🚀 ~ file: AdminUpdateProduct.jsx:32 ~ fetchThisProduct ~ data:", data)
             setThisProduct(data.data)
         } catch (error) {
             console.log(error);

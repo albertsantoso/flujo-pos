@@ -8,5 +8,8 @@ const { categoriesController } = require("../controllers"); // otomatis baca ind
 const { verify } = require("./../lib/jwt");
 
 Router.get("/", verify, categoriesController.getAllCategories);
+Router.post("/", categoriesController.addCategory);
+Router.delete("/:categoryId", verify, categoriesController.deleteCategory);
+Router.patch("/:categoryId", verify, categoriesController.updateCategory);
 
 module.exports = Router; // pake module.exports karena ga ada librarynya, bawaan dari js

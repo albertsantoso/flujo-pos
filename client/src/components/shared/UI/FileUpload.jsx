@@ -16,10 +16,6 @@ const FileUpload = ({ handleProductImage }) => {
 		}
 	};
 
-	useEffect(() => {
-		console.log(preview);
-	}, [preview])
-
 	return (
 		<>
 			<div className="file-upload">
