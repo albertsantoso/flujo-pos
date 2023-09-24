@@ -17,10 +17,11 @@ const CashierProductCard = ({ dataProducts }) => {
 			>
 				<div className="card-container p-0 inline-flex w-full h-full relative">
 					<div className="card-wrapper p-4 w-full flex flex-col h-full">
-						<div className="product-image mb-4 mx-auto">
+						<div className="product-image mb-4 mx-auto max-h-[123px] w-full">
 							<img
 								src={`http://localhost:5000/${product_image.substring(7)}`}
 								alt=""
+								className="w-full h-full rounded-lg object-cover"
 							/>
 						</div>
 						<div className="product-title">

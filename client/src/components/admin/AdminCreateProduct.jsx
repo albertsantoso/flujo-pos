@@ -97,6 +97,10 @@ const AdminCreateProduct = ({ handleOpenModal }) => {
         fetchCategories()
     }, [])
 
+    useEffect(() => {
+        console.log("<<<", productImage);
+    }, [productImage])
+
     return (
         <>
             <Toaster />

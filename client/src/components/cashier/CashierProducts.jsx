@@ -100,39 +100,37 @@ const CashierProducts = () => {
 								</h1>
 							</div>
 							<div className="search-filter flex gap-2 items-center z-10">
-								<div className="pagination-wrapper mr-4">
-									<div className="pagination-container flex items-center">
-										<button
-											className="bg-neutral-400 rounded-lg p-2"
-											onClick={() => {
-												clearFilter();
-											}}
-										>
-											<div>CLEAR FILTER</div>
-										</button>
-										<button
-											className="bg-neutral-400 rounded-lg p-2"
-											onClick={() => {
-												dispatch(onPreviousPage());
-											}}
-										>
-											<PiCaretLeftBold color="white" />
-										</button>
-										<span className="w-[20px] mx-2 text-center font-medium bg-neutral-100 rounded-md">
-											{page}
-										</span>
-										<button
-											className="bg-neutral-400 rounded-lg p-2"
-											onClick={() => {
-												dispatch(onNextPage());
-											}}
-										>
-											<PiCaretRightBold color="white" />
-										</button>
-									</div>
+								<div className="pagination-wrapper mr-4 flex items-center">
+									<button
+										className="bg-white border-2 rounded-lg p-2"
+										onClick={() => {
+											dispatch(onPreviousPage());
+										}}
+									>
+										<PiCaretLeftBold color="black" />
+									</button>
+									<span className="w-[22px] mx-2 text-center font-bold bg-neutral-100 rounded-md">
+										{page}
+									</span>
+									<button
+										className="bg-white border-2 rounded-lg p-2"
+										onClick={() => {
+											dispatch(onNextPage());
+										}}
+									>
+										<PiCaretRightBold color="black" />
+									</button>
 								</div>
 								<SearchBar />
 								<SortButton />
+								<button
+									className="bg-white border-2 rounded-xl px-4 h-[60px] flex items-center justify-center"
+									onClick={() => {
+										clearFilter();
+									}}
+								>
+									<div className="font-medium">Clear Filter</div>
+								</button>
 							</div>
 						</div>
 						<div className="main-content mb-6">

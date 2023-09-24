@@ -1,4 +1,4 @@
-const deleteFiles = require("../helper/deleteFiles");
+const { deleteFiles } = require("../helper/deleteFiles");
 const db = require("./../models");
 const { sequelize } = require("./../models");
 const { Op } = require("sequelize");
@@ -117,6 +117,8 @@ module.exports = {
     },
     updateProduct: async (req, res, next) => {
         try {
+            console.log("MASUK CONTROLLER");
+
             const { productId } = req.params;
 
             const image = req.files.image;
@@ -131,19 +133,22 @@ module.exports = {
                 );
 
                 data.product_image = image[0].path;
-                deleteFiles({
-                    image: {
+
+                console.log("MASUK IF PERTAMA");
+                await deleteFiles({
+                    image: [{
                         path: dataImage.dataValues.product_image
-                    }
+                    }]
                 });
+                console.log("KELUAR IF PERTAMA");
             }
 
-            const createProduct = await db.product.update(data, { where: { id: productId } });
+            const updateProduct = await db.product.update(data, { where: { id: productId } });
 
             res.status(201).send({
                 isError: false,
-                message: "Create product success!",
-                data: createProduct,
+                message: "Update product success!",
+                data: updateProduct,
             });
         } catch (error) {
             next(error);

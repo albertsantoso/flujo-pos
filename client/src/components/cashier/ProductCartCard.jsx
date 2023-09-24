@@ -14,15 +14,9 @@ const ProductCartCard = ({ dataOrder }) => {
 			<div className="order-card py-4">
 				<div className="orders-card-container max-h-[100px]">
 					<div className="grid-wrapper flex items-center w-full max-h-[100px] gap-2">
-						<div className="product-image max-w-[80px]">
+						<div className="product-image max-w-[80px] h-[100px]">
 							<img
-								src={`http://localhost:5000/${
-									product.id <= 18
-										? product.product_image
-										: product.product_image.substring(7)
-								}`}
-								alt=""
-								className="m-auto"
+								src={`http://localhost:5000/${product.product_image.substring(7)}`} alt="" className="mx-auto w-[80%] h-[80%] object-cover"
 							/>
 						</div>
 						<div className="product-detail w-full grid grid-cols-6 grid-rows-2">
@@ -42,7 +36,7 @@ const ProductCartCard = ({ dataOrder }) => {
 								</button>
 							</div>
 							<div className="product-price col-span-5">
-								<div className="font-bold text-primary text-[20px] mt-4">
+								<div className="font-bold text-primary text-[18px] mt-4">
 									{Number(product?.product_price * quantity).toLocaleString(
 										"id-ID",
 										{
@@ -62,7 +56,7 @@ const ProductCartCard = ({ dataOrder }) => {
 										<FaMinus color="#fff" className="drop-shadow-sm" />
 									</span>
 								</button>
-								<span className="mx-4 font-bold min-w-[19px] text-center">
+								<span className="mx-4 font-bold min-w-[24px] text-center">
 									{quantity}
 								</span>
 								<button

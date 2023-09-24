@@ -1,18 +1,19 @@
 import { GoPersonAdd } from "react-icons/go"
-import DefaultPFP from './../../assets/default/default_pfp.svg'
-import { IconButton, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react"
 import { BsThreeDotsVertical } from "react-icons/bs"
 import { FiTrash } from "react-icons/fi"
+import DefaultPFP from './../../assets/default/default_pfp.svg'
 
-const AdminDashboard = () => {
+import { Menu, MenuButton, MenuList, MenuItem, IconButton } from '@chakra-ui/react'
+
+const AdminOverview = () => {
     return (
         <>
-            <div className='admin-dashboard'>
-                <div className="dashboard-container">
+            <div className='admin-overview'>
+                <div className="overview-container">
                     <div className="wrapper">
                         <div className="main-heading mb-8">
                             <div className="greetings mr-8">
-                                <h1 className="font-bold text-4xl text-neutral-800">Dashboard</h1>
+                                <h1 className="font-bold text-4xl text-neutral-800">Overview</h1>
                             </div>
                         </div>
                         <div className="main-content">
@@ -96,4 +97,4 @@ const AdminDashboard = () => {
     )
 }
 
-export default AdminDashboard
+export default AdminOverview
