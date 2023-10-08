@@ -56,6 +56,7 @@ export const onCheckIsLogin = () => async (dispatch) => {
 	try {
 		const accessToken = localStorage.getItem("accessToken");
 		const { data } = await Instance(accessToken).get(`users/one`);
+
 		dispatch(setId(data.data.id));
 		dispatch(setUsername(data.data.username));
 		dispatch(setProfile_Picture(data.data.profile_picture));

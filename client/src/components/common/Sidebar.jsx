@@ -24,8 +24,10 @@ const Sidebar = ({ page }) => {
                 <div className="wrapper h-full py-4 flex flex-col">
                     <div className="sidebar-head mb-10">
                         <div className="sidebar-logo flex justify-center mx-auto py-6 px-4">
-                            <Link>
-                                <img src={FlujoLogo} alt="" className='drop-shadow-lg w-[50px]' />
+                            <Link to={"/"}>
+                                <button onClick={() => window.location.reload()}>
+                                    <img src={FlujoLogo} alt="" className='drop-shadow-lg w-[50px]' />
+                                </button>
                             </Link>
                         </div>
                     </div>
