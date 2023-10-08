@@ -8,7 +8,7 @@ const { categoriesController } = require("../controllers"); // otomatis baca ind
 const { verify } = require("./../lib/jwt");
 
 Router.get("/", verify, categoriesController.getAllCategories);
-Router.post("/", categoriesController.addCategory);
+Router.post("/", verify, categoriesController.addCategory);
 Router.delete("/:categoryId", verify, categoriesController.deleteCategory);
 Router.patch("/:categoryId", verify, categoriesController.updateCategory);
 

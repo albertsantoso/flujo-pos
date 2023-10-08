@@ -10,7 +10,6 @@ const AdminProductCategory = () => {
     const [onEdit, setOnEdit] = useState(false)
     const [editCategoryId, setEditCategoryId] = useState(null);
     const [onAdd, setOnAdd] = useState(false)
-    const [newCategoryName, setNewCategoryName] = useState("");
 
     const formik = useFormik({
         initialValues: {
